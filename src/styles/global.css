@@ -1,0 +1,13 @@
+/* global.css */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Add your custom global styles here */
+body {
+	/* Example: Set a global font family */
+	font-family: 'Helvetica', sans-serif;
+}
+
+/* Add more global styles as needed */
