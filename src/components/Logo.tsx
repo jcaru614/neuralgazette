@@ -1,13 +1,6 @@
 import Image from 'next/image';
-import profile from '@/public/images/profile.png';
+import logo from '@/public/images/logo.png';
 
-const Logo = () => (
-	<Image
-		src={profile} // Route of the image file
-		height={144} // Desired size with correct aspect ratio
-		width={144} // Desired size with correct aspect ratio
-		alt='Your Name'
-	/>
-);
+const Logo = () => <Image src={logo} height={44} width={44} alt='Your Name' />;
 
 export default Logo;

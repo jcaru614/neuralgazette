@@ -1,14 +1,57 @@
 import Layout from '@/components/Layout';
-import Link from 'next/link';
+import { GetStaticProps } from 'next';
+import prisma from '@/lib/prisma';
+import Button from '@/components/Button';
 
-export default function Home() {
-	return (
-		<Layout>
-			<main className='flex min-h-screen flex-col items-center justify-between p-24'>
-				<p className='fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30'>
-					<Link href='/posts/firstPost'>AINN this page!</Link>
-				</p>
-			</main>
-		</Layout>
-	);
+interface News {
+  id: string;
+  title: string;
+  content: string;
+  published: boolean;
 }
+
+interface HomeProps {
+  news: News[];
+}
+
+export default function Home({ news }: HomeProps) {
+  console.log('posts!!!!!! ', news);
+  return (
+    <Layout>
+      <main className="flex flex-col items-center justify-center min-h-screen p-24">
+        <div>
+          <h1 className="text-4xl font-bold text-neural-network">
+            Neural News!!!!
+          </h1>
+          <div className="mt-4">
+            {news.map((item) => (
+              <div
+                key={item.id}
+                className="bg-deep-blue text-off-white p-4 my-2 rounded-lg shadow"
+              >
+                <h2 className="text-xl font-semibold">{item.title}</h2>
+                <p className="mt-2">{item.content}</p>
+                <Button
+                  text="Read More"
+                  href={`/newsPiece/${item.id}`}
+                  link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    </Layout>
+  );
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const news = await prisma.news.findMany();
+  console.log('news', news);
+  return {
+    props: { news },
+    revalidate: 10,
+  };
+};
