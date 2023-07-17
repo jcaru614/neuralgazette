@@ -1,6 +1,5 @@
 import Layout from '@/components/Layout';
 import { GetStaticProps } from 'next';
-import prisma from '@/lib/prisma';
 import Button from '@/components/Button';
 
 interface News {
@@ -15,7 +14,9 @@ interface HomeProps {
 }
 
 export default function Home({ news }: HomeProps) {
-  console.log('posts!!!!!! ', news);
+  if (!news) {
+    return <div>Loading...</div>;
+  }
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
@@ -48,7 +49,8 @@ export default function Home({ news }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const news = await prisma.news.findMany();
+  const res = await fetch(`${process.env.BASE_URL}/api/getNews`);
+  const news = await res.json();
   console.log('news', news);
   return {
     props: { news },

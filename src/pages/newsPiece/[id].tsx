@@ -10,10 +10,14 @@ interface NewsPost {
 }
 
 interface PostPageProps {
-  post: NewsPost;
+  post: NewsPost | null;
 }
 
 const PostPage: React.FC<PostPageProps> = ({ post }) => {
+  if (!post) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
@@ -31,12 +35,25 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const post = await prisma.news.findUnique({
-    where: {
-      id: String(params?.id),
-    },
-  });
+export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
+  params,
+}) => {
+  const { id }: any = params;
+  let post = null;
+
+  try {
+    const response = await fetch(
+      `${process.env.BASE_URL}/api/getNewsArticle/${id}`,
+    );
+    if (response.ok) {
+      post = await response.json();
+      console.log('res ', response);
+    } else {
+      throw new Error('Failed to fetch post');
+    }
+  } catch (error) {
+    console.error('Error retrieving post:', error);
+  }
 
   return {
     props: {
