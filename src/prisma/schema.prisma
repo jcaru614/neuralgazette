@@ -13,12 +13,11 @@ datasource db {
 }
 
 model News {
-  id        String     @default(cuid()) @id
-  title     String
-  content   String?
-  published Boolean @default(true)
-  // author    User?   @relation(fields: [authorId], references: [id])
-  // authorId  String?
+  id            String @default(cuid()) @id
+  headline      String
+  summary       String
+  published     Boolean @default(true)
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
 }
 
 // model User {
@@ -27,6 +26,6 @@ model News {
 //   email         String?   @unique
 //   createdAt     DateTime  @default(now()) @map(name: "created_at")
 //   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-//   posts         Post[]
+//   favorites     News[]
 //   @@map(name: "users")
 // }

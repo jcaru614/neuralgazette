@@ -4,8 +4,8 @@ import Button from '@/components/Button';
 
 interface News {
   id: string;
-  title: string;
-  content: string;
+  headline: string;
+  summary: string;
   published: boolean;
 }
 
@@ -19,19 +19,25 @@ export default function Home({ news }: HomeProps) {
   }
   return (
     <Layout>
-      <main className="flex flex-col items-center justify-center min-h-screen p-24">
+      <main className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8 lg:p-16">
         <div>
-          <h1 className="text-4xl font-bold text-neural-network">
+          <h1 className="text-4xl font-bold text-deep-blue text-center mb-8 md:text-left">
             Neural News!!!!
           </h1>
-          <div className="mt-4">
+          <Button onClick={handleGetTopNews} text="Get Top Headlines" />
+
+          <div className="space-y-4">
             {news.map((item) => (
               <div
                 key={item.id}
-                className="bg-deep-blue text-off-white p-4 my-2 rounded-lg shadow"
+                className="bg-white text-tungsten p-4 my-2 rounded-lg shadow-lg"
               >
-                <h2 className="text-xl font-semibold">{item.title}</h2>
-                <p className="mt-2">{item.content}</p>
+                <h2 className="text-xl text-deep-blue font-semibold py-2 px-4 rounded">
+                  {item.headline}
+                </h2>
+                <p className="mt-2 text-deep-blue py-2 px-4 rounded">
+                  {item.summary}
+                </p>
                 <Button
                   text="Read More"
                   href={`/newsPiece/${item.id}`}
@@ -49,11 +55,19 @@ export default function Home({ news }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(`${process.env.BASE_URL}/api/getNews`);
+  const res = await fetch(
+    `${process.env.BASE_URL}/api/newsArticles/getAllNews`,
+  );
   const news = await res.json();
   console.log('news', news);
   return {
     props: { news },
     revalidate: 10,
   };
+};
+
+export const handleGetTopNews = async () => {
+  const res = await fetch(`/api/newsArticles/getTopHeadlines`);
+  const news = await res.json();
+  console.log('Button clicked!', news);
 };

@@ -39,10 +39,10 @@ Commands
 
 npx prisma db push
 
-<!-- opens up the gui -->
-
-npx prisma studio
-
 <!-- Because Prisma Client is tailored to your own schema, you need to update it every time your Prisma schema file is changing by running the following command: -->
 
 npx prisma generate
+
+<!-- opens up the gui -->
+
+npx prisma studio

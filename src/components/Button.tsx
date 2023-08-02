@@ -8,6 +8,7 @@ interface ButtonProps {
   href?: string;
   target?: string;
   rel?: string;
+  className?: string; 
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -17,17 +18,12 @@ const Button: React.FC<ButtonProps> = ({
   href,
   target,
   rel,
+  className, 
 }) => {
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
-    }
-  };
-
   return link ? (
     <Link
       href={href || '#'}
-      className="text-neural-network hover:text-tungsten"
+      className={`text-neural-network hover:text-tungsten ${className}`}
       target={target}
       rel={rel}
     >
@@ -35,8 +31,8 @@ const Button: React.FC<ButtonProps> = ({
     </Link>
   ) : (
     <button
-      className="bg-deep-blue hover:bg-tungsten text-white font-semibold py-2 px-4 rounded"
-      onClick={handleClick}
+      className={`bg-deep-blue hover:bg-tungsten text-white font-semibold py-2 px-4 rounded ${className}`}
+      onClick={onClick}
     >
       {text}
     </button>

@@ -6,7 +6,11 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const result = await prisma.news.findMany();
+    const result = await prisma.news.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
     res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching news:', error);
