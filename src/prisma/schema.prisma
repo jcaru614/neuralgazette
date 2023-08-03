@@ -13,19 +13,18 @@ datasource db {
 }
 
 model News {
-  id            String @default(cuid()) @id
+  id            String    @default(cuid()) @id
   headline      String
   summary       String
-  published     Boolean @default(true)
+  published     Boolean   @default(true)
   createdAt     DateTime  @default(now()) @map(name: "created_at")
 }
 
-// model User {
-//   id            String       @default(cuid()) @id
-//   name          String?
-//   email         String?   @unique
-//   createdAt     DateTime  @default(now()) @map(name: "created_at")
-//   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-//   favorites     News[]
-//   @@map(name: "users")
-// }
+model User {
+  id            String    @default(cuid()) @id
+  email         String    @unique
+  password      String
+  name          String
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+}

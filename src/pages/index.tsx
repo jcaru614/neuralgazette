@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout';
 import { GetStaticProps } from 'next';
 import Button from '@/components/Button';
-
+import prisma from '@/lib/prisma';
 interface News {
   id: string;
   headline: string;
@@ -17,12 +17,17 @@ export default function Home({ news }: HomeProps) {
   if (!news) {
     return <div>Loading...</div>;
   }
+  const handleGetTopNews = async () => {
+    const res = await fetch(`/api/newsArticles/getTopHeadlines`);
+    const news = await res.json();
+    console.log('Button clicked!', news);
+  };
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8 lg:p-16">
         <div>
           <h1 className="text-4xl font-bold text-deep-blue text-center mb-8 md:text-left">
-            Neural News!!!!
+            Neural News!
           </h1>
           <Button onClick={handleGetTopNews} text="Get Top Headlines" />
 
@@ -55,19 +60,29 @@ export default function Home({ news }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(
-    `${process.env.BASE_URL}/api/newsArticles/getAllNews`,
-  );
-  const news = await res.json();
-  console.log('news', news);
-  return {
-    props: { news },
-    revalidate: 10,
-  };
-};
-
-export const handleGetTopNews = async () => {
-  const res = await fetch(`/api/newsArticles/getTopHeadlines`);
-  const news = await res.json();
-  console.log('Button clicked!', news);
+  try {
+    // cannot call api directly from get static props, can only call db method.
+    const news = await prisma.news.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    const newsWithSerializedDate = news.map((item) => ({
+      ...item,
+      createdAt: item.createdAt.toISOString(), //Convert the createdAt date to a string representation
+    }));
+    console.log('news', news);
+    return {
+      props: { news: newsWithSerializedDate },
+      revalidate: 10,
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return {
+      props: {
+        news: [],
+      },
+      revalidate: 10,
+    };
+  }
 };

@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
-import { setTimeout } from 'timers/promises';
 
 export default async function handler(
   req: NextApiRequest,

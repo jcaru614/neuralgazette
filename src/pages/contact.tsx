@@ -1,9 +1,10 @@
 import Layout from '@/components/Layout';
 
-const ContactPage = () => {
+const Contact = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // Handle form submission here
+    console.log('submit');
   };
 
   return (
@@ -79,4 +80,4 @@ const ContactPage = () => {
   );
 };
 
-export default ContactPage;
+export default Contact;
