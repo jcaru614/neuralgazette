@@ -4,17 +4,19 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^5.0.0",
+    "@prisma/client": "^5.1.1",
     "@types/node": "20.4.0",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
     "bard-ai": "^1.5.4",
+    "cheerio": "^1.0.0-rc.12",
     "date-fns": "^2.30.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
@@ -28,7 +30,7 @@
   },
   "devDependencies": {
     "prettier": "^3.0.0",
-    "prisma": "^5.0.0"
+    "prisma": "^5.1.1"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"

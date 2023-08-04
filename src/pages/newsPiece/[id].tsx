@@ -10,8 +10,10 @@ import {
 } from '@/images/index';
 interface NewsPost {
   id: string;
+  title: string;
   headline: string;
-  summary: string | null;
+  summary: string;
+  article: string;
   published: boolean;
   createdAt: string;
 }
@@ -39,7 +41,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
             />
           </div>
           <h1 className="text-4xl font-bold text-deep-blue mb-4">
-            {post.headline}
+            {post.title}
           </h1>
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4 mb-4">
             <div className="relative">
@@ -54,8 +56,9 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               </div>
             </div>
             <p className="text-sm text-gray-600">
-              By AINN BOT | AI NEWS NETWORK:{' '}
-              {new Date(post.createdAt).toLocaleString()}
+              {`By AINN BOT | AI NEWS NETWORK: ${new Date(
+                post.createdAt,
+              ).toLocaleString()}`}
             </p>
             <div className="flex mt-2 md:mt-0">
               <a
@@ -88,7 +91,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               </a>
             </div>
           </div>
-          <p className="text-lg mb-4">{post.summary}</p>
+          <p className="text-lg mb-4">{post.article}</p>
         </div>
       </main>
     </Layout>
@@ -107,7 +110,7 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
     );
     if (response.ok) {
       post = await response.json();
-      console.log('res ', response);
+      console.log('res ', post);
     } else {
       throw new Error('Failed to fetch post');
     }
