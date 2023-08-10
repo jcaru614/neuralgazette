@@ -1,6 +1,5 @@
 const fetchFromAI = async (prompt: string) => {
   try {
-    console.log('action!');
     const options = {
       method: 'POST',
       headers: {
@@ -9,12 +8,12 @@ const fetchFromAI = async (prompt: string) => {
         'X-API-KEY': process.env.AI_API_KEY ?? '',
       },
       body: JSON.stringify({
-        enable_google_results: 'true',
-        enable_memory: false,
+        enable_google_results: false,
+        enable_memory: true,
         input_text: prompt,
       }),
     };
-
+    console.log('Working on your AI request sir!');
     const response = await fetch(
       'https://api.writesonic.com/v2/business/content/chatsonic?engine=premium&language=en',
       options,

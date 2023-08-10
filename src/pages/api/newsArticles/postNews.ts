@@ -7,46 +7,90 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const latesHeadlinesRight = await fetchLatestHeadlines('fox-news');
-    const latesHeadlinesLeft = await fetchLatestHeadlines('cnn');
-    console.log('headLines 111111', latesHeadlinesRight);
-    console.log('headLines 222222', latesHeadlinesLeft);
-    let articleLink = latesHeadlinesRight.articles[0].url;
-    const articleBody = await fetchLinkData(articleLink);
-    console.log('article body!!!!!!!!!!!!', articleBody);
+    const { articles: latesHeadlinesLeft } = await fetchLatestHeadlines(
+      // 'the-washington-times',
+      'cnn',
+    );
+    const { articles: latesHeadlinesRight } = await fetchLatestHeadlines(
+      // 'the-washington-post',
+      'fox-news',
+    );
+    const titlesOnlyLeft = latesHeadlinesLeft
+      .map((item: any) => item.title)
+      .join('\n');
+    const titlesOnlyRight = latesHeadlinesRight
+      .map((item: any) => item.title)
+      .join('\n');
 
-    //     const articlePrompt = `
-    //     AI, I want you to follow these instructions carefully to provide an unbiased news article response. First, find the most recent and trending matching news articles from each media company provided below.
+    const matchingTitleIndexPrompt = `
+    Please analyze the titles at the end of this prompt from both a left-leaning and a right-leaning news organization. Your goal is to find a pair of titles that are about the exact same subject. 
+    
+    Your task:
+    1. Retrieve and return the index of each matching title in their respective arrays at the very beginning of the response as such: leftIndex[index], rightIndex[index].
+    2. Provide both matching titles.
+    3. Offer a brief explanation of why these titles are about the same topic, despite potential differences in perspective.
+    
+    Keep in mind that left-leaning and right-leaning news organizations may present different viewpoints on the same topic. Your aim is to identify underlying similarities or common themes in the titles.
+    
+    You have access to the provided arrays of articles from left-leaning and right-leaning news sources.
+    
+    Once you find a matching pair of titles, return the following:
+    - Left-Leaning News Index: leftIndex[index]
+    - Right-Leaning News Index: rightIndex[index]
+    - The matching title from the left-leaning news
+    - The matching title from the right-leaning news
+    - A brief explanation of why these titles are about the same topic.
+    
+    If no matches are found, return "false" to indicate that there are no titles with the same topic between the two sources.
+    Do not return a match of the same duplicate article from either side; wait until you reach the second array of titles to find the match.
+    
+    Left Leaning News Titles:
+    ${titlesOnlyLeft}
+    
+    Right Leaning News Titles:
+    ${titlesOnlyRight}
+    `;
 
-    //     Media Companies: MSNBC, Fox News, Daily Wire, Vox.
+    console.log(matchingTitleIndexPrompt);
 
-    //     Next, use the information you can learn from those specific articles for each media company to craft a new unbiased and accurate news article.
+    console.log('prompt', matchingTitleIndexPrompt);
+    const response = await fetchFromAI(matchingTitleIndexPrompt);
 
-    //     When composing your response, ensure you stay unbiased and refrain from mentioning or referencing the news media you learned from. Additionally, make sure the article is about one identical topic covered by the 4 news companies provided, not similar topics.
+    console.log('AI RESPONSE', response);
+    const leftIndex = parseInt(
+      response.message.match(/Left-Leaning News Index: (\d+)/)[1],
+    );
+    const rightIndex = parseInt(
+      response.message.match(/Right-Leaning News Index: (\d+)/)[1],
+    );
 
-    //     The content must be free from any bias or favoritism towards any news source. Focus on combining the knowledge from each source and providing accurate and balanced information. The article must be between 350 and 1000 words and should only include the article text, without any additional elements like titles or references.
+    console.log('Left-Leaning News Index:', leftIndex);
+    console.log('Right-Leaning News Index:', rightIndex);
 
-    //     Please ensure that your article contains relevant and coherent information, and it should be written in a clear and concise manner to convey the news effectively.
+    const matchingLeftArticle = latesHeadlinesLeft[leftIndex];
+    const matchingRightArticle = latesHeadlinesRight[rightIndex];
 
-    //     At the end of the article leave a place to mention the initial articles you found and the name of each media company you used.
-    // `;
+    console.log('Matching Title from Left-Leaning News:', matchingLeftArticle);
+    console.log(
+      'Matching Title from Right-Leaning News:',
+      matchingRightArticle,
+    );
 
-    //     const { message: article } = await fetchFromAI(articlePrompt);
-    //     console.log('***** Extracted article: *****', article, '******');
+    
 
-    //     const summaryPrompt = `
+    // const summaryPrompt = `
     //     AI, I want you to create an unbiased news summary based on this article provided here: ${article}. Return only a single summary between 50 to 200 words as your response`;
-    //     const headlinePrompt = `
+    // const headlinePrompt = `
     //     AI, I want you to create an unbiased news headline based on this article provided here: ${article}. Return only a single headline between 10 to 100 words as your response`;
-    //     const titlePrompt = `
+    // const titlePrompt = `
     //     AI, I want you to create an unbiased news title based on this article provided here: ${article}. Return only a single title between 5 to 25 words as your response`;
 
-    //     const { message: summary } = await fetchFromAI(summaryPrompt);
-    //     console.log('***** Extracted headline: *****', summary, '******');
-    //     const { message: headline } = await fetchFromAI(headlinePrompt);
-    //     console.log('***** Extracted summary: *****', headline, '******');
-    //     const { message: title } = await fetchFromAI(titlePrompt);
-    //     console.log('***** Extracted title: *****', title, '******');
+    // const { message: summary } = await fetchFromAI(summaryPrompt);
+    // console.log('***** AI Generated headline: *****', summary, '******');
+    // const { message: headline } = await fetchFromAI(headlinePrompt);
+    // console.log('***** AI Generated summary: *****', headline, '******');
+    // const { message: title } = await fetchFromAI(titlePrompt);
+    // console.log('***** AI Generated title: *****', title, '******');
 
     //     await prisma.news.create({
     //       data: {
