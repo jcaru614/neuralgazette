@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   return link ? (
     <Link
       href={href || '#'}
-      className={`text-neural-network hover:text-tungsten ${className}`}
+      className={`text-neural-network hover:text-neural-network ${className}`}
       target={target}
       rel={rel}
     >
@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
     </Link>
   ) : (
     <button
-      className={`bg-deep-blue hover:bg-tungsten text-white font-semibold py-2 px-4 rounded ${className}`}
+      className={`bg-abyss hover:bg-neural-network text-white font-semibold py-2 px-4 rounded ${className}`}
       onClick={onClick}
     >
       {text}

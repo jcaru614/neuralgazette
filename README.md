@@ -37,11 +37,11 @@ Commands
 
 <!-- To actually create the tables in your database, you now can use the following command of the Prisma CLI:-->
 
-npx prisma db push
-
-<!-- Because Prisma Client is tailored to your own schema, you need to update it every time your Prisma schema file is changing by running the following command: -->
-
 npx prisma generate
+
+npx prisma migrate dev
+
+npx prisma db push
 
 <!-- opens up the gui -->
 

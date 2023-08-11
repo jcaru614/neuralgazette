@@ -1,20 +1,23 @@
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { Layout } from '@/components';
+import { Layout, Loading } from '@/components';
+import { ainnBot } from '@/public/images';
 import {
   facebookIcon,
-  emailIcon,
-  messageIcon,
   twitterIcon,
-  ainnBot,
-} from '@/images/index';
+  messageIcon,
+  redditIcon,
+  emailIcon,
+  whatsappIcon,
+} from '@/public/images';
+
 interface NewsPost {
   id: string;
   title: string;
   headline: string;
   summary: string;
   article: string;
-  published: boolean;
+  image: string;
   createdAt: string;
 }
 
@@ -24,74 +27,123 @@ interface PostPageProps {
 
 const PostPage: React.FC<PostPageProps> = ({ post }) => {
   if (!post) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
+  const shareUrl = `${process.env.BASE_URL}/news/${post.id}`;
+  const shareText = `Check out this article on AI News Network: ${post.title}`;
 
+  const paragraphs = post.article.split('\n').map((para) => para.trim());
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-8">
         <div className="max-w-[728px] w-full bg-white rounded-lg shadow-lg p-8">
-          <div className="mb-4">
-            <Image
-              src=""
-              alt="News Image"
-              width={800}
-              height={400}
-              className="rounded-lg"
-            />
+          <div className="relative h-60 md:h-96">
+            <Image src={post.image} alt="Article Image" layout="fill" />
           </div>
-          <h1 className="text-4xl font-bold text-deep-blue mb-4">
-            {post.title}
-          </h1>
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4 mb-4">
-            <div className="relative">
-              <div className="absolute bottom-[-6px] left-1/2 transform translate-x-[-50%] w-10 h-10 rounded-full bg-neural-network"></div>
-              <div className="relative w-8 h-8">
-                <Image
-                  src={ainnBot}
-                  alt="Facebook"
-                  layout="fill"
-                  objectFit="cover"
-                />
-              </div>
-            </div>
-            <p className="text-sm text-gray-600">
+          <div className="flex items-center justify-center mb-4 mt-4">
+            <h1 className="text-4xl font-bold text-abyss text-center">
+              {post.title}
+            </h1>
+          </div>
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <Image
+              src={ainnBot}
+              alt="AI News Network Logo"
+              width={20}
+              height={20}
+            />
+            <p className="text-sm text-neural-network">
               {`By AINN BOT | AI NEWS NETWORK: ${new Date(
                 post.createdAt,
-              ).toLocaleString()}`}
+              ).toLocaleDateString()}`}
             </p>
-            <div className="flex mt-2 md:mt-0">
-              <a
-                href="https://www.facebook.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  src={facebookIcon}
-                  alt="Facebook"
-                  width={24}
-                  height={24}
-                />
-              </a>
-              <a
-                href="https://www.twitter.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ml-4"
-              >
-                <Image src={twitterIcon} alt="Twitter" width={24} height={24} />
-              </a>
-              <a
-                href="mailto:example@example.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ml-4"
-              >
-                <Image src={emailIcon} alt="Email" width={24} height={24} />
-              </a>
-            </div>
           </div>
-          <p className="text-lg mb-4">{post.article}</p>
+
+          {/* Share Links */}
+          <div className="flex justify-center space-x-4 mt-4 mb-4">
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                shareUrl,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={facebookIcon}
+                alt="Facebook Icon"
+                width={24}
+                height={24}
+              />
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                shareText,
+              )}&url=${encodeURIComponent(shareUrl)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={twitterIcon}
+                alt="Twitter Icon"
+                width={24}
+                height={24}
+              />
+            </a>
+
+            <a
+              href={`sms:?&body=${encodeURIComponent(
+                shareText + ' ' + shareUrl,
+              )}`}
+            >
+              <Image
+                src={messageIcon}
+                alt="Text Message Icon"
+                width={24}
+                height={24}
+              />
+            </a>
+            <a
+              href={`https://www.reddit.com/submit?url=${encodeURIComponent(
+                shareUrl,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={redditIcon}
+                alt="Reddit Icon"
+                width={24}
+                height={24}
+              />
+            </a>
+
+            <a
+              href={`whatsapp://send?text=${encodeURIComponent(
+                shareText + ' ' + shareUrl,
+              )}`}
+            >
+              <Image
+                src={whatsappIcon}
+                alt="WhatsApp Icon"
+                width={24}
+                height={24}
+              />
+            </a>
+
+            <a
+              href={`mailto:?subject=${encodeURIComponent(
+                post.title,
+              )}&body=${encodeURIComponent(shareText + ' ' + shareUrl)}`}
+            >
+              <Image src={emailIcon} alt="Email Icon" width={24} height={24} />
+            </a>
+          </div>
+
+          {paragraphs.map((paragraph, index) => (
+            <p key={index} className="text-lg mb-4">
+              {paragraph}
+            </p>
+          ))}
         </div>
       </main>
     </Layout>

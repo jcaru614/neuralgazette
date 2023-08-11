@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-
+// use if news website blocks text due to authentication, fetch url and extract html
 const fetchLinkData = async (link: string) => {
   try {
     const response = await fetch(link);
