@@ -10,7 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^5.1.1",
+    "@prisma/client": "^5.2.0",
     "@types/node": "20.4.0",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "prettier": "^3.0.0",
-    "prisma": "^5.1.1"
+    "prisma": "^5.2.0"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"

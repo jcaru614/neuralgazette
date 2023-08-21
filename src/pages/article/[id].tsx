@@ -29,19 +29,26 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
   if (!post) {
     return <Loading />;
   }
-  const shareUrl = `${process.env.BASE_URL}/news/${post.id}`;
+  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/article/${post.id}`;
   const shareText = `Check out this article on AI News Network: ${post.title}`;
 
   const paragraphs = post.article.split('\n').map((para) => para.trim());
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-8">
+        <div className="flex items-center justify-center py-2 m-5">
+          <h1 className="text-4xl font-bold text-terminal-blue relative">
+            <span className="before:h-1 before:w-10 before:bg-terminal-blue before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12" />
+            News
+            <span className="after:h-1 after:w-10 after:bg-terminal-blue after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
+          </h1>
+        </div>
         <div className="max-w-[728px] w-full bg-white rounded-lg shadow-lg p-8">
           <div className="relative h-60 md:h-96">
             <Image src={post.image} alt="Article Image" layout="fill" />
           </div>
           <div className="flex items-center justify-center mb-4 mt-4">
-            <h1 className="text-4xl font-bold text-abyss text-center">
+            <h1 className="text-4xl font-bold text-terminal-blue text-center">
               {post.title}
             </h1>
           </div>
@@ -52,7 +59,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               width={20}
               height={20}
             />
-            <p className="text-sm text-neural-network">
+            <p className="text-sm text-neural-teal">
               {`By AINN BOT | AI NEWS NETWORK: ${new Date(
                 post.createdAt,
               ).toLocaleDateString()}`}
@@ -140,7 +147,10 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
           </div>
 
           {paragraphs.map((paragraph, index) => (
-            <p key={index} className="text-lg mb-4">
+            <p
+              key={index}
+              className="text-xl mb-4 font-medium text-terminal-blue leading-relaxed"
+            >
               {paragraph}
             </p>
           ))}
@@ -158,7 +168,7 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
 
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/api/newsArticles/${id}`,
+      `${process.env.NEXT_PRIVATE_BASE_URL}/api/newsArticles/${id}`,
     );
     if (response.ok) {
       post = await response.json();

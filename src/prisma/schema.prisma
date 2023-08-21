@@ -11,14 +11,17 @@ datasource db {
 }
 
 model News {
-  id        String   @id @default(cuid())
-  title     String
-  headline  String
-  summary   String
-  article   String
-  image     String?
-  category  Category @default(POLITICS)
-  createdAt DateTime @default(now()) @map("created_at")
+  approved     Boolean      @default(false)
+  id           String       @id @default(cuid())
+  title        String
+  headline     String
+  summary      String
+  article      String
+  image        String?
+  category     Category     @default(POLITICS)
+  originalUrl  String
+  originalBias OriginalBias
+  createdAt    DateTime     @default(now()) @map("created_at")
 }
 
 model User {
@@ -39,4 +42,10 @@ enum Category {
   SCIENCE
   BUSINESS
   WORLD
+}
+
+enum OriginalBias {
+  LEANS_LEFT
+  CENTER
+  LEANS_RIGHT
 }

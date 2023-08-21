@@ -1,8 +1,9 @@
-import { Layout } from '@/components';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 import prisma from '@/lib/prisma';
-import { Loading, NewsCard, Button } from '@/components';
+import Layout from '@/components/Layout';
 import { GetServerSideProps } from 'next';
+import { NewsCard, Loading, Button } from '@/components';
+import { useState } from 'react';
 
 interface News {
   id: string;
@@ -10,14 +11,21 @@ interface News {
   headline: string;
   summary: string;
   article: string;
-  image: string | null;
+  image: any;
 }
 
-interface HomeProps {
+interface CategoryPageProps {
   initialNews: News[];
 }
 
-export default function Home({ initialNews }: { initialNews: News[] }) {
+const CategoryPage: React.FC<CategoryPageProps> = ({
+  initialNews,
+}: {
+  initialNews: News[];
+}) => {
+  const router = useRouter();
+  const { category } = router.query;
+
   const [news, setNews] = useState<News[]>(initialNews);
   const [loading, setLoading] = useState(false);
 
@@ -61,21 +69,15 @@ export default function Home({ initialNews }: { initialNews: News[] }) {
           <div className="mb-8 relative">
             <div className="flex items-center justify-center py-2">
               <h1 className="text-4xl font-bold text-terminal-blue">
-                NEURAL NEWS
+                {category}
               </h1>
             </div>
             <div className="absolute left-0 w-2 h-16 bg-gradient-to-t from-neural-teal to-neural-teal-lighter transform rotate-180 rounded-tr-md rounded-tl-md"></div>
             <div className="absolute right-0 w-2 h-16 bg-gradient-to-t from-neural-teal to-neural-teal-lighter rounded-br-md rounded-bl-md"></div>
             <div className="w-full h-2 bg-gradient-to-r from-neural-teal to-neural-teal-lighter"></div>
           </div>
-
           <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
-            {news.slice(0, 1).map((item) => (
-              <NewsCard key={item.id} news={item} latestFlag={true} />
-            ))}
-          </div>
-          <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
-            {news.slice(1).map((item) => (
+            {news.map((item) => (
               <NewsCard key={item.id} news={item} />
             ))}
           </div>
@@ -90,34 +92,34 @@ export default function Home({ initialNews }: { initialNews: News[] }) {
       </main>
     </Layout>
   );
-}
-
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-  try {
-    const initialNews = await prisma.news.findMany({
-      where: {
-        approved: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: 10,
-    });
-
-    const serializableNews = initialNews.map((news) => ({
-      ...news,
-      createdAt: news.createdAt.toISOString(), // Convert Date to ISO string
-    }));
-
-    return {
-      props: { initialNews: serializableNews },
-    };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return {
-      props: {
-        initialNews: [],
-      },
-    };
-  }
 };
+
+export const getServerSideProps: GetServerSideProps<CategoryPageProps> = async (
+  context,
+) => {
+  const { category } = context.params as { category: any };
+
+  const initialNews = await prisma.news.findMany({
+    where: {
+      approved: true,
+      category: {
+        equals: category,
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 10,
+  });
+
+  const serializableNews = initialNews.map((news) => ({
+    ...news,
+    createdAt: news.createdAt.toISOString(), // Convert Date to ISO string
+  }));
+
+  return {
+    props: { initialNews: serializableNews },
+  };
+};
+
+export default CategoryPage;

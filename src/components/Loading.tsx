@@ -1,12 +1,23 @@
+import React from 'react';
 import Layout from './Layout';
 
-const Loading = () => {
+interface LoadingProps {
+  isFullScreen?: boolean; // Whether to show the Loading component or not
+}
+
+const Loading: React.FC<LoadingProps> = ({ isFullScreen = false }) => {
   return (
-    <Layout>
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 border-opacity-25"></div>
-      </div>
-    </Layout>
+    <>
+      {isFullScreen ? (
+        <Layout>
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-neural-teal"></div>
+          </div>
+        </Layout>
+      ) : (
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-neural-teal"></div>
+      )}
+    </>
   );
 };
 

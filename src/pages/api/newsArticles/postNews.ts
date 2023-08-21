@@ -8,13 +8,12 @@ import {
   summaryPrompt,
   categoryPrompt,
 } from '@/prompts';
-import { each } from 'cheerio/lib/api/traversing';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { news_sources, text, earliest_publish_date } = req.query;
+  const { news_sources, text, earliest_publish_date, originalBias } = req.query;
   try {
     const { news } = await fetchExternalNews(
       news_sources as string,
@@ -73,6 +72,8 @@ export default async function handler(
           article: unbiasedArticleResponse.message,
           image: newsItem.image,
           category: category.message,
+          originalUrl: newsItem.url,
+          originalBias: originalBias as any,
         },
       });
     });

@@ -8,7 +8,8 @@ interface ButtonProps {
   href?: string;
   target?: string;
   rel?: string;
-  className?: string; 
+  className?: string;
+  disabled?: boolean; // Add the disabled prop
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,12 +19,13 @@ const Button: React.FC<ButtonProps> = ({
   href,
   target,
   rel,
-  className, 
+  className,
+  disabled
 }) => {
   return link ? (
     <Link
       href={href || '#'}
-      className={`text-neural-network hover:text-neural-network ${className}`}
+      className={`text-neural-teal hover:text-neural-teal ${className}`}
       target={target}
       rel={rel}
     >
@@ -31,8 +33,9 @@ const Button: React.FC<ButtonProps> = ({
     </Link>
   ) : (
     <button
-      className={`bg-abyss hover:bg-neural-network text-white font-semibold py-2 px-4 rounded ${className}`}
+      className={`bg-terminal-blue hover:bg-neural-teal text-white font-semibold py-2 px-4 rounded ${className}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {text}
     </button>
