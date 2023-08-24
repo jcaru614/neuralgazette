@@ -20,22 +20,29 @@ const Navbar = () => {
     { href: '/category/SCIENCE', text: 'Science' },
     { href: '/category/BUSINESS', text: 'Business' },
     { href: '/category/WORLD', text: 'World' },
+    { href: '/category/ECONOMY', text: 'Economy' },
+    { href: '/category/LIFESTYLE', text: 'Lifestyle' },
   ];
 
   return (
     <>
-      <nav className="flex items-center flex-wrap bg-gradient-to-r from-terminal-blue to-terminal-green pr-2">
-        <Link href="/" className="inline-flex items-center">
-          <Image
-            src={logo}
-            width={100}
-            objectFit="contain"
-            alt="Your Name"
-            className="hover:scale-110 transform transition-transform cursor-pointer"
-          />
-        </Link>
+      <nav className="flex items-center flex-wrap bg-gradient-to-r from-terminal-blue to-terminal-green p-4 sticky top-0 z-10">
+        <div className="w-full flex justify-center m-2">
+          <Link href="/" className="flex flex-col items-center">
+            <Image
+              src={logo}
+              width={250}
+              objectFit="contain"
+              alt="Your Name"
+              className="hover:scale-110 transform transition-transform cursor-pointer"
+            />
+            <h1 className="text-center mt-2 text-neural-teal-lighter text-xs">
+              Decoding Truth, Disentangling Misinformation, Empowering Minds.
+            </h1>
+          </Link>
+        </div>
         <button
-          className=" inline-flex p-3 hover:bg-neural-teal rounded lg:hidden text-white ml-auto hover:text-white outline-none"
+          className="inline-flex p-3 hover:bg-neural-teal rounded lg:hidden text-white mr-auto hover:text-white outline-none"
           onClick={handleClick}
         >
           <svg
@@ -55,15 +62,15 @@ const Navbar = () => {
         </button>
         <div
           className={`${
-            active ? 'pl-1' : 'hidden'
+            active ? '' : 'hidden'
           }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
-          <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
+          <div className="lg:inline-flex lg:flex-row lg:m-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-neural-teal hover:text-white "
+                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-teal hover:text-white "
               >
                 {link.text}
               </Link>

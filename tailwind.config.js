@@ -20,7 +20,7 @@ module.exports = {
         'neural-purple': '#7B478F',
         'neural-purple-lighter': '#9956A2',
         alert: '#CE3240',
-        'off-white': '#F0F3F2',
+        'off-white': '#FDFDFB',
         white: '#FFFFFF',
       },
     },

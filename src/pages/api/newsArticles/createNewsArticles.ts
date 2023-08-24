@@ -13,6 +13,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  if (req.method !== 'POST') {
+    res.status(405).end(); 
+    return;
+  }
   const { news_sources, text, earliest_publish_date, originalBias } = req.query;
   try {
     const { news } = await fetchExternalNews(

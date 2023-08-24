@@ -1,4 +1,4 @@
-export { default as ainnBot } from './ainn-bot-icon.png'
+export { default as neuralGazetteBot } from './neural-gazette-bot-icon.png'
 export { default as facebookIcon } from './facebook-icon.png';
 export { default as emailIcon } from './email-icon.png';
 export { default as messageIcon } from './message-icon.png';

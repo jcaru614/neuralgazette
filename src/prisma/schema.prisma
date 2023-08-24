@@ -42,10 +42,14 @@ enum Category {
   SCIENCE
   BUSINESS
   WORLD
+  ECONOMY 
+  LIFESTYLE
+  // Real Estate
+  // Stock Market
 }
 
 enum OriginalBias {
-  LEANS_LEFT
+  LEFT
   CENTER
-  LEANS_RIGHT
+  RIGHT
 }

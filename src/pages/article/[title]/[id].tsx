@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { Layout, Loading } from '@/components';
-import { ainnBot } from '@/public/images';
+import { neuralGazetteBot } from '@/public/images';
 import {
   facebookIcon,
   twitterIcon,
@@ -10,6 +10,7 @@ import {
   emailIcon,
   whatsappIcon,
 } from '@/public/images';
+import slugify from '@/utils/slugify';
 
 interface NewsPost {
   id: string;
@@ -27,40 +28,46 @@ interface PostPageProps {
 
 const PostPage: React.FC<PostPageProps> = ({ post }) => {
   if (!post) {
-    return <Loading />;
+    return <Loading isFullScreen={true} />;
   }
-  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/article/${post.id}`;
+  const titleSlug = slugify(post.title);
+  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/article/${titleSlug}/${post.id}`;
   const shareText = `Check out this article on AI News Network: ${post.title}`;
 
   const paragraphs = post.article.split('\n').map((para) => para.trim());
   return (
     <Layout>
-      <main className="flex flex-col items-center justify-center min-h-screen p-8">
+      <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="flex items-center justify-center py-2 m-5">
-          <h1 className="text-4xl font-bold text-terminal-blue relative">
-            <span className="before:h-1 before:w-10 before:bg-terminal-blue before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12" />
+          <h1 className="text-4xl font-bold text-neural-teal relative">
+            <span className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12" />
             News
-            <span className="after:h-1 after:w-10 after:bg-terminal-blue after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
+            <span className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
           </h1>
         </div>
-        <div className="max-w-[728px] w-full bg-white rounded-lg shadow-lg p-8">
-          <div className="relative h-60 md:h-96">
-            <Image src={post.image} alt="Article Image" layout="fill" />
-          </div>
-          <div className="flex items-center justify-center mb-4 mt-4">
-            <h1 className="text-4xl font-bold text-terminal-blue text-center">
-              {post.title}
-            </h1>
+        <div className="max-w-[728px] w-full bg-off-white rounded-lg shadow-md p-2">
+          <h1 className="text-4xl font-bold text-terminal-blue text-center">
+            {post.title}
+          </h1>
+          <div className="relative mb-4 mt-4">
+            <Image
+              src={post.image}
+              alt="Article Image"
+              layout="responsive"
+              className="w-full"
+              width={360}
+              height={240}
+            />
           </div>
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Image
-              src={ainnBot}
-              alt="AI News Network Logo"
+              src={neuralGazetteBot}
+              alt="Neural Gazette Logo"
               width={20}
               height={20}
             />
             <p className="text-sm text-neural-teal">
-              {`By AINN BOT | AI NEWS NETWORK: ${new Date(
+              {`By Neural Gazette BOT | The Neural Gazette: ${new Date(
                 post.createdAt,
               ).toLocaleDateString()}`}
             </p>
@@ -172,7 +179,6 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
     );
     if (response.ok) {
       post = await response.json();
-      console.log('res ', post);
     } else {
       throw new Error('Failed to fetch post');
     }
