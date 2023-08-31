@@ -19,46 +19,45 @@ interface HomeProps {
 }
 
 export default function Home({ initialNews }: { initialNews: News[] }) {
-  // const [news, setNews] = useState<News[]>(initialNews);
-  // const [loading, setLoading] = useState(false);
+  const [news, setNews] = useState<News[]>(initialNews);
+  const [loading, setLoading] = useState(false);
 
-  // const loadMore = async () => {
-  //   if (loading) return;
-  //   setLoading(true);
-  //   try {
-  //     const lastNewsId = news[news.length - 1]?.id || null;
-  //     const response = await fetch(
-  //       `/api/newsArticles/readMoreNews?lastNewsId=${lastNewsId}`,
-  //     );
+  const loadMore = async () => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const lastNewsId = news[news.length - 1]?.id || null;
+      const response = await fetch(
+        `/api/newsArticles/readMoreNews?lastNewsId=${lastNewsId}`,
+      );
 
-  //     if (!response.ok) {
-  //       console.error('Fetch error:', response.statusText);
-  //       return;
-  //     }
+      if (!response.ok) {
+        console.error('Fetch error:', response.statusText);
+        return;
+      }
 
-  //     const newNews = await response.json();
+      const newNews = await response.json();
 
-  //     if (Array.isArray(newNews)) {
-  //       setNews((prevNews) => [...prevNews, ...newNews]);
-  //     } else {
-  //       console.error('Invalid response data:', newNews);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching more news:', error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      if (Array.isArray(newNews)) {
+        setNews((prevNews) => [...prevNews, ...newNews]);
+      } else {
+        console.error('Invalid response data:', newNews);
+      }
+    } catch (error) {
+      console.error('Error fetching more news:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // if (initialNews.length === 0) {
-  //   return <Loading isFullScreen={true} />;
-  // }
+  if (initialNews.length === 0) {
+    return <Loading isFullScreen={true} />;
+  }
 
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
-        <h1>hello</h1>
-        {/* <div className="max-w-screen-xl">
+        <div className="max-w-screen-xl">
           <div className="mb-8 relative">
             <div className="flex items-center justify-center py-2">
               <h1 className="text-4xl font-bold text-terminal-blue">NEWS</h1>
@@ -77,38 +76,48 @@ export default function Home({ initialNews }: { initialNews: News[] }) {
               <Button text="Load More" onClick={loadMore} />
             )}
           </div>
-        </div> */}
+        </div>
       </main>
     </Layout>
   );
 }
 
-// export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-//   try {
-//     const initialNews = await prisma.news.findMany({
-//       where: {
-//         approved: true,
-//       },
-//       orderBy: {
-//         createdAt: 'desc',
-//       },
-//       take: 5,
-//     });
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  try {
+    const initialNews = await prisma.news.findMany({
+      where: {
+        approved: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 5,
+      // select: {
+      //   id: true,
+      //   title: true,
+      //   headline: true,
+      //   summary: true,
+      //   article: true,
+      //   image: true,
+      //   category: true,
+      //   createdAt: false, 
+      // },
+    });
 
-//     const serializableNews = initialNews.map((news) => ({
-//       ...news,
-//       createdAt: news.createdAt.toISOString(),
-//     }));
+    // const serializableNews = initialNews.map((news) => ({
+    //   ...news,
+    //   createdAt: news.createdAt.toISOString(),
+    // }));
 
-//     return {
-//       props: { initialNews: serializableNews },
-//     };
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//     return {
-//       props: {
-//         initialNews: [],
-//       },
-//     };
-//   }
-// };
+    return {
+      props: { initialNews : JSON.parse(JSON.stringify(initialNews)) },
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return {
+      props: {
+        initialNews: [],
+      },
+    };
+  }
+};
