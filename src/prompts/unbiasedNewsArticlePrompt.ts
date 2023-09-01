@@ -1,14 +1,18 @@
 export const unbiasedNewsArticlePrompt = (article: any) => {
   return `
-    Read this article and await instructions: "${article}"
+  Please read this article and await further instructions:
 
-    Instructions: I want you to write an unbiased article based on the article you just read.
-    
-    Your article should aim to present a balanced view of the subject, providing readers with a comprehensive understanding of the situation and allowing them to form their own opinions.
+  "${article}"
+  
+  Instructions:
+  I want you to write an unbiased article based solely on the content of the provided article. Your article should aim to present a balanced view of the subject, offering readers a comprehensive understanding of the situation and enabling them to form their own opinions.
+  
+  Avoid taking a stance against or in favor of any element in the original article. The goal is to maintain a neutral tone and convey only factual information.
 
-    The length of the article should be no more then 2500 characters.
-
-    Return only the unbiased article do not prefix anything to it.
-
+  Make sure to not copy the article and truely make it unique and free of copy. 
+  
+  The article you write should not exceed 2,500 characters in length.
+  
+  Return only the unbiased article without any additional text or preamble.
 `;
 };

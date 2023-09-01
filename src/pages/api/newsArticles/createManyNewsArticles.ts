@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
-import { fetchFromAI, fetchExternalNews } from '../utils';
+import { fetchFromAI, fetchExternalNews, extractPhotoCredit } from '../utils';
 import {
   unbiasedNewsArticlePrompt,
   titlePrompt,
@@ -14,36 +14,59 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method !== 'POST') {
-    res.status(405).end(); 
+    res.status(405).end();
     return;
   }
-  const { news_sources, text, earliest_publish_date, originalBias } = req.query;
+  const {
+    leftNewsSources,
+    rightNewsSources,
+    text,
+    earliestPublishDate,
+  } = req.body;
   try {
-    const { news } = await fetchExternalNews(
-      news_sources as string,
+    const leftNews = await fetchExternalNews(
+      leftNewsSources as string,
       text as string,
-      earliest_publish_date as any,
+      earliestPublishDate as any,
+    );
+    const rightNews = await fetchExternalNews(
+      rightNewsSources as string,
+      text as string,
+      earliestPublishDate as any,
     );
 
+    console.log('Left News Sources:', leftNews.news);
+    console.log('Right News Sources:', rightNews.news);
+
+    const combinedNews = [];
+    const maxNewsCount = Math.max(leftNews.news.length, rightNews.news.length);
+
+    for (let i = 0; i < maxNewsCount; i++) {
+      if (i < leftNews.news.length) {
+        const leftNewsItem = leftNews.news[i];
+        const photoCredit = await extractPhotoCredit(leftNewsItem.url); // Extract photo credit
+        combinedNews.push({ ...leftNewsItem, originalBias: 'LEFT', photoCredit });
+      }
+      if (i < rightNews.news.length) {
+        const rightNewsItem = rightNews.news[i];
+        const photoCredit = await extractPhotoCredit(rightNewsItem.url); // Extract photo credit
+        combinedNews.push({ ...rightNewsItem, originalBias: 'RIGHT', photoCredit });
+      }
+    }
+
+    console.log('combinedNews News Sources:', combinedNews);
     console.log(
-      `********************************************************
-      unbiasedNewsArticlePrompt: ${unbiasedNewsArticlePrompt(
-        news[0].text.slice(0, 3000),
-      )}
-      ********************************************************
-  `,
+      `unbiasedNewsArticlePrompt: ${unbiasedNewsArticlePrompt(
+        combinedNews[0].text.slice(0, 3000),
+      )}`,
     );
-    const promises = news.map(async (newsItem: any) => {
+
+    const promises = combinedNews.map(async (newsItem: any) => {
       const unbiasedArticleResponse = await fetchFromAI(
         unbiasedNewsArticlePrompt(newsItem.text.slice(0, 3000)),
       );
 
-      console.log(
-        `********************************************************
-        article: ${unbiasedArticleResponse}
-        ********************************************************
-    `,
-      );
+      console.log(`article: ${unbiasedArticleResponse}`);
 
       const title = await fetchFromAI(
         titlePrompt(unbiasedArticleResponse.message),
@@ -75,9 +98,10 @@ export default async function handler(
           summary: summary.message,
           article: unbiasedArticleResponse.message,
           image: newsItem.image,
+          photoCredit: newsItem.photoCredit,
           category: category.message,
           originalUrl: newsItem.url,
-          originalBias: originalBias as any,
+          originalBias: newsItem.originalBias,
         },
       });
     });
@@ -85,7 +109,7 @@ export default async function handler(
 
     res.status(201).json({ message: 'Posts created successfully' });
   } catch (error) {
-    console.error('Error fetching news:', error);
+    console.error('Error creating news posts:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }

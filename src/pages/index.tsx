@@ -1,7 +1,7 @@
 import { Layout } from '@/components';
 import { useState } from 'react';
 import prisma from '@/lib/prisma';
-import { Loading, NewsCard, Button } from '@/components';
+import { Loading, NewsCard, Button, ServerError } from '@/components';
 import { GetServerSideProps } from 'next';
 
 interface News {
@@ -12,13 +12,15 @@ interface News {
   article: string;
   image: string | null;
   category: any;
+  originalBias?: any;
 }
 
 interface HomeProps {
   initialNews: News[];
+  error?: string;
 }
 
-export default function Home({ initialNews }: { initialNews: News[] }) {
+export default function Home({ initialNews, error }: HomeProps) {
   const [news, setNews] = useState<News[]>(initialNews);
   const [loading, setLoading] = useState(false);
 
@@ -50,10 +52,12 @@ export default function Home({ initialNews }: { initialNews: News[] }) {
     }
   };
 
+  if (error) {
+    return <ServerError />;
+  }
   if (initialNews.length === 0) {
     return <Loading isFullScreen={true} />;
   }
-
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
@@ -69,7 +73,7 @@ export default function Home({ initialNews }: { initialNews: News[] }) {
               <NewsCard key={item.id} news={item} />
             ))}
           </div>
-          <div className="flex justify-center items-center space-x-4 mt-4">
+          <div className="flex justify-center items-center space-x-4 m-4">
             {loading ? (
               <Loading />
             ) : (
@@ -100,23 +104,19 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
       //   article: true,
       //   image: true,
       //   category: true,
-      //   createdAt: false, 
+      //   createdAt: false,
       // },
     });
 
-    // const serializableNews = initialNews.map((news) => ({
-    //   ...news,
-    //   createdAt: news.createdAt.toISOString(),
-    // }));
-
     return {
-      props: { initialNews : JSON.parse(JSON.stringify(initialNews)) },
+      props: { initialNews: JSON.parse(JSON.stringify(initialNews)) },
     };
   } catch (error) {
     console.error('Error fetching data:', error);
     return {
       props: {
         initialNews: [],
+        error: 'An error occurred while fetching data.',
       },
     };
   }

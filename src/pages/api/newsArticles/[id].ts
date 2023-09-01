@@ -5,6 +5,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  if (req.method !== 'GET') {
+    res.status(405).end();
+    return;
+  }
   const { id } = req.query;
 
   try {
@@ -14,10 +18,9 @@ export default async function handler(
       },
     });
 
-
     res.status(200).json(result);
   } catch (error) {
-    console.error('Error retrieving post:', error);
+    console.error('Error retrieving news by id', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }

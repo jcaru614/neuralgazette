@@ -2,15 +2,18 @@ import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { Layout, Loading } from '@/components';
 import { neuralGazetteBot } from '@/public/images';
+import Head from 'next/head';
 import {
   facebookIcon,
   twitterIcon,
   messageIcon,
   redditIcon,
-  emailIcon,
+  copyIcon,
   whatsappIcon,
 } from '@/public/images';
 import slugify from '@/utils/slugify';
+import { format, parseISO } from 'date-fns';
+import { useState } from 'react';
 
 interface NewsPost {
   id: string;
@@ -19,6 +22,7 @@ interface NewsPost {
   summary: string;
   article: string;
   image: string;
+  photoCredit?: string;
   createdAt: string;
 }
 
@@ -27,16 +31,35 @@ interface PostPageProps {
 }
 
 const PostPage: React.FC<PostPageProps> = ({ post }) => {
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const titleSlug = slugify(post.title);
+  const shareUrl = `https://neuralgazette.com//article/${titleSlug}/${post.id}`;
+  const shareText = `Check out this article on AI News Network: ${post.title}`;
+
+  const handleCopyLink = () => {
+    const copyText = `${shareText}: ${shareUrl}`;
+    navigator.clipboard.writeText(copyText);
+    setCopySuccess(true);
+    setTimeout(() => {
+      setCopySuccess(false);
+    }, 3000);
+  };
+
+  const paragraphs = post.article.split('\n').map((para) => para.trim());
+
   if (!post) {
     return <Loading isFullScreen={true} />;
   }
-  const titleSlug = slugify(post.title);
-  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/article/${titleSlug}/${post.id}`;
-  const shareText = `Check out this article on AI News Network: ${post.title}`;
-
-  const paragraphs = post.article.split('\n').map((para) => para.trim());
   return (
     <Layout>
+      <Head>
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={shareUrl} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.summary} />
+        <meta property="og:image" content={post.image} />
+      </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="flex items-center justify-center py-2 m-5">
           <h1 className="text-4xl font-bold text-neural-teal relative">
@@ -46,7 +69,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
           </h1>
         </div>
         <div className="max-w-[728px] w-full bg-off-white rounded-lg shadow-md p-2">
-          <h1 className="text-4xl font-bold text-terminal-blue text-center">
+          <h1 className="md:text-2xl lg:text-4xl font-bold text-terminal-blue text-center">
             {post.title}
           </h1>
           <div className="relative mb-4 mt-4">
@@ -58,8 +81,13 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               width={360}
               height={240}
             />
+            {post.photoCredit && (
+              <p className="text-sm text-terminal-blue text-center mt-2">
+                Photo source: {post.photoCredit}
+              </p>
+            )}
           </div>
-          <div className="flex items-center justify-center space-x-2 mb-4">
+          <div className="flex items-center justify-center space-x-2 m-4">
             <Image
               src={neuralGazetteBot}
               alt="Neural Gazette Logo"
@@ -67,18 +95,17 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               height={20}
             />
             <p className="text-sm text-neural-teal">
-              {`By Neural Gazette BOT | The Neural Gazette: ${new Date(
-                post.createdAt,
-              ).toLocaleDateString()}`}
+              {`The Neural Gazette | ${format(
+                parseISO(post.createdAt),
+                'MMMM d, yyyy',
+              )}`}
             </p>
           </div>
-
-          {/* Share Links */}
           <div className="flex justify-center space-x-4 mt-4 mb-4">
             <a
               href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                 shareUrl,
-              )}`}
+              )}&quote=${encodeURIComponent(shareText)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -89,10 +116,11 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
                 height={24}
               />
             </a>
+
             <a
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                 shareText,
-              )}&url=${encodeURIComponent(shareUrl)}`}
+              )}&url=${encodeURIComponent(shareUrl)}&hashtags=yourHashtagsHere`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -108,6 +136,8 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               href={`sms:?&body=${encodeURIComponent(
                 shareText + ' ' + shareUrl,
               )}`}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Image
                 src={messageIcon}
@@ -119,7 +149,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
             <a
               href={`https://www.reddit.com/submit?url=${encodeURIComponent(
                 shareUrl,
-              )}`}
+              )}&title=${encodeURIComponent(shareText)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -130,11 +160,12 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
                 height={24}
               />
             </a>
-
             <a
               href={`whatsapp://send?text=${encodeURIComponent(
                 shareText + ' ' + shareUrl,
               )}`}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Image
                 src={whatsappIcon}
@@ -143,20 +174,16 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
                 height={24}
               />
             </a>
-
-            <a
-              href={`mailto:?subject=${encodeURIComponent(
-                post.title,
-              )}&body=${encodeURIComponent(shareText + ' ' + shareUrl)}`}
-            >
-              <Image src={emailIcon} alt="Email Icon" width={24} height={24} />
-            </a>
+            <button onClick={handleCopyLink}>
+              <Image src={copyIcon} alt="Copy Icon" width={24} height={24} />
+            </button>
+            {copySuccess && <p className="text-sm">Link copied</p>}
           </div>
 
           {paragraphs.map((paragraph, index) => (
             <p
               key={index}
-              className="text-xl mb-4 font-medium text-terminal-blue leading-relaxed"
+              className="md:text-md lg:text-xl mb-4 font-medium text-terminal-blue leading-relaxed"
             >
               {paragraph}
             </p>

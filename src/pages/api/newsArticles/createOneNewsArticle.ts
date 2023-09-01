@@ -14,21 +14,16 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method !== 'POST') {
-    res.status(405).end(); // Method Not Allowed
+    res.status(405).end();
     return;
   }
-  const { article, image, originalUrl, originalBias } = req.body;
+  const { article, image, photoCredit, originalUrl, originalBias } = req.body;
   try {
     const unbiasedArticleResponse = await fetchFromAI(
       unbiasedNewsArticlePrompt(article.slice(0, 3000)),
     );
 
-    console.log(
-      `********************************************************
-        article: ${unbiasedArticleResponse}
-        ********************************************************
-    `,
-    );
+    console.log(`article: ${unbiasedArticleResponse}`);
 
     const title = await fetchFromAI(
       titlePrompt(unbiasedArticleResponse.message),
@@ -60,6 +55,7 @@ export default async function handler(
         summary: summary.message,
         article: unbiasedArticleResponse.message,
         image: image as string,
+        photoCredit: photoCredit,
         category: category.message,
         originalUrl: originalUrl as any,
         originalBias: originalBias as any,
@@ -68,7 +64,7 @@ export default async function handler(
 
     res.status(201).json({ message: 'Posts created successfully' });
   } catch (error) {
-    console.error('Error fetching news:', error);
+    console.error('Error creating news posts:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }

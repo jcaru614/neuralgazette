@@ -18,10 +18,12 @@ model News {
   summary      String
   article      String
   image        String?
+  photoCredit  String?
   category     Category     @default(POLITICS)
   originalUrl  String
   originalBias OriginalBias
   createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @default(now()) @updatedAt @map("updated_at")
 }
 
 model User {
@@ -42,7 +44,7 @@ enum Category {
   SCIENCE
   BUSINESS
   WORLD
-  ECONOMY 
+  ECONOMY
   LIFESTYLE
   // Real Estate
   // Stock Market

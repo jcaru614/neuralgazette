@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from './Layout';
 
 interface LoadingProps {
-  isFullScreen?: boolean; // Whether to show the Loading component or not
+  isFullScreen?: boolean;
 }
 
 const Loading: React.FC<LoadingProps> = ({ isFullScreen = false }) => {

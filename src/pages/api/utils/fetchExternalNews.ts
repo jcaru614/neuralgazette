@@ -1,15 +1,9 @@
 const fetchExternalNews = async (
-  news_sources: string,
+  newsSources: string,
   text: string = '',
-  earliest_publish_date: string = '',
+  earliestPublishDate: string = '',
 ) => {
-  console.log(
-    'fetchExternalNews Params ',
-    news_sources,
-    text,
-    earliest_publish_date,
-  );
-  const url = `https://api.worldnewsapi.com/search-news?source-countries=us&language=en&news-sources=${news_sources}&text=${text}&earliest-publish-date=${earliest_publish_date}`;
+  const url = `https://api.worldnewsapi.com/search-news?source-countries=us&language=en&news-sources=${newsSources}&text=${text}&earliest-publish-date=${earliestPublishDate}`;
   try {
     const response = await fetch(url, {
       headers: {
@@ -19,7 +13,7 @@ const fetchExternalNews = async (
     const data = response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching latest politics headlines:', error);
+    console.error('Error fetching latest news sources', error);
     throw error;
   }
 };

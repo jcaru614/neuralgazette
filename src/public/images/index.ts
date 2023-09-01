@@ -5,3 +5,4 @@ export { default as messageIcon } from './message-icon.png';
 export { default as twitterIcon } from './twitter-icon.png';
 export { default as redditIcon } from './reddit-icon.png';
 export { default as whatsappIcon } from './whatsapp-icon.png'
+export { default as copyIcon } from './copy-icon.png'

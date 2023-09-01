@@ -22,7 +22,7 @@ const fetchFromAI = async (prompt: string) => {
     const data = response.json();
     return data;
   } catch (error) {
-    console.error('Error calling writeToAI:', error);
+    console.error('Error fetching response from AI:', error);
     throw error;
   }
 };

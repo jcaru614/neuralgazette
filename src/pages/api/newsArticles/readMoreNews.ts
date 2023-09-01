@@ -6,6 +6,10 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
+    if (req.method !== 'GET') {
+      res.status(405).end();
+      return;
+    }
     const { lastNewsId }: any = req.query;
     const news = await prisma.news.findMany({
       where: {
@@ -20,7 +24,7 @@ export default async function handler(
     });
     res.status(200).json(news);
   } catch (error) {
-    console.error('Error fetching more news:', error);
-    res.status(500).json({ error: 'An error occurred' });
+    console.error('Error fetching more news by lastNewsId:', error);
+    res.status(500).json({ error: 'An error occurred while fetching more news' });
   }
 }

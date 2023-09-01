@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
-import { NewsCard, Loading, Button } from '@/components';
+import { NewsCard, Loading, Button, ServerError } from '@/components';
 import useSWR from 'swr';
 import { useState } from 'react';
 
@@ -24,23 +24,28 @@ const CategoryPage: React.FC = () => {
     setLoading(true);
     const lastNewsId = news[news.length - 1]?.id;
 
-    const moreNews = await fetcher(
-      `/api/newsArticles/readMoreNewsByCategory?lastNewsId=${lastNewsId}&category=${category}`,
-    );
+    try {
+      const moreNews = await fetcher(
+        `/api/newsArticles/readMoreNewsByCategory?lastNewsId=${lastNewsId}&category=${category}`,
+      );
 
-    if (Array.isArray(moreNews)) {
-      // Append the new news articles to the existing list
-      mutate([...news, ...moreNews], false);
+      if (Array.isArray(moreNews)) {
+        mutate([...news, ...moreNews], false);
+      } else {
+        console.error('Invalid response data for more news:', moreNews);
+      }
+    } catch (error) {
+      console.error('Error fetching more news:', error);
+    } finally {
       setLoading(false);
     }
   };
 
+  if (error) {
+    return <ServerError />;
+  }
   if (!news) {
     return <Loading isFullScreen={true} />;
-  }
-
-  if (error) {
-    console.error('Error fetching news:', error);
   }
   return (
     <Layout>
@@ -57,7 +62,7 @@ const CategoryPage: React.FC = () => {
           <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
             {news?.map((item) => <NewsCard key={item.id} news={item} />)}
           </div>
-          <div className="flex justify-center items-center space-x-4 mt-4">
+          <div className="flex justify-center items-center space-x-4 m-4">
             {loading ? (
               <Loading />
             ) : (
