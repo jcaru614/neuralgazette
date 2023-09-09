@@ -53,9 +53,9 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
             <p className="md:text-sm lg:text-lg text-terminal-blue rounded block">
               {news.summary}
             </p>
-            <h2 className="md:text-lg lg:text-xl text-neural-teal font-semibold block">
+            {/* <h2 className="md:text-lg lg:text-xl text-neural-teal font-semibold block">
               {news.originalBias}
-            </h2>
+            </h2> */}
           </div>
         </div>
         <Button

@@ -10,6 +10,7 @@ import {
   redditIcon,
   copyIcon,
   whatsappIcon,
+  instagramIcon,
 } from '@/public/images';
 import slugify from '@/utils/slugify';
 import { format, parseISO } from 'date-fns';
@@ -68,7 +69,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
             <span className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
           </h1>
         </div>
-        <div className="max-w-[728px] w-full bg-off-white rounded-lg shadow-md p-2">
+        <div className="max-w-3xl w-full bg-off-white rounded-lg shadow-md p-2">
           <h1 className="md:text-2xl lg:text-4xl font-bold text-terminal-blue text-center">
             {post.title}
           </h1>
@@ -131,7 +132,22 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
                 height={24}
               />
             </a>
-
+            <a
+              href={`https://www.instagram.com/?url=${encodeURIComponent(
+                shareUrl,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              // className="text-neural-teal hover:underline cursor-pointer block text-center text-lg mt-4"
+            >
+              <Image
+                src={instagramIcon}
+                alt="Instagram Icon"
+                width={24}
+                height={24}
+                // style={{ verticalAlign: 'middle' }}
+              />
+            </a>
             <a
               href={`sms:?&body=${encodeURIComponent(
                 shareText + ' ' + shareUrl,
@@ -174,6 +190,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
                 height={24}
               />
             </a>
+
             <button onClick={handleCopyLink}>
               <Image src={copyIcon} alt="Copy Icon" width={24} height={24} />
             </button>

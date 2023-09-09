@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import Image from 'next/image';
-import logo from '@/public/images/logo.png';
+import { logo } from '@/public/images';
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
@@ -11,7 +11,6 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { href: '/about', text: 'About' },
     { href: '/category/POLITICS', text: 'Politics' },
     { href: '/category/SPORTS', text: 'Sports' },
     { href: '/category/TECHNOLOGY', text: 'Technology' },
