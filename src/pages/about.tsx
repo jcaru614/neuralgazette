@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from '@/components';
 
-const AboutPage = () => {
+const About = () => {
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
@@ -55,4 +55,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+export default About;

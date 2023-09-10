@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '@/components/Layout';
 import Link from 'next/link';
 
-const TermsPage = () => {
+const TermsAndConditions = () => {
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
@@ -67,4 +67,4 @@ const TermsPage = () => {
   );
 };
 
-export default TermsPage;
+export default TermsAndConditions;
