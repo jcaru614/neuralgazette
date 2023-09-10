@@ -11,16 +11,16 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-terminal-blue to-terminal-green text-white py-6">
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row md:justify-between items-center">
-          <div className="md:w-1/3 text-center md:text-left mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row md:justify-between items-center text-center xs:text-left">
+          <div className="md:w-1/3 mb-4 md:mb-0">
             <Image
               src={logo}
               width={250}
               objectFit="contain"
               alt="Your Name"
-              className="hover:scale-110 transform transition-transform cursor-pointer"
+              className="hover:scale-110 transform transition-transform cursor-pointer mx-auto xs:mx-0"
             />
-            <p className="mt-2">
+            <p className="mt-2 p-2">
               Decoding Truth, Disentangling Misinformation, Empowering Minds.
             </p>
           </div>
@@ -28,13 +28,27 @@ const Footer = () => {
             <h4 className="text-lg font-semibold">Quick Links</h4>
             <ul className="mt-2">
               <li>
-                <Link href="/about">About</Link>
+                <Link className="hover:text-neural-teal" href="/about">
+                  About
+                </Link>
               </li>
               <li>
-                <Link href="/privacyPolicy">Privacy Policy</Link>
+                <Link className="hover:text-neural-teal" href="/privacyPolicy">
+                  Privacy Policy
+                </Link>
               </li>
               <li>
-                <Link href="/termsAndConditions">Terms and Conditions</Link>
+                <Link
+                  className="hover:text-neural-teal"
+                  href="/termsAndConditions"
+                >
+                  Terms and Conditions
+                </Link>
+              </li>
+              <li>
+                <Link className="hover:text-neural-teal" href="/contactUs">
+                  Contact Us
+                </Link>
               </li>
             </ul>
           </div>
