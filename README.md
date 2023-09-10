@@ -1,3 +1,10 @@
+# The Neural Gazette - Your AI-Powered News Source
+
+Welcome to The Neural Gazette, your trusted source for fast, concise, and unbiased news, all powered by Artificial Intelligence (AI). We're committed to revolutionizing your news consumption experience through AI technology.
+
+- **AI-Powered News:** Our AI algorithms collect and analyze news articles to provide you with unbiased, personalized news content.
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -33,16 +40,17 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-Commands
+## Commands
 
-<!-- To actually create the tables in your database, you now can use the following command of the Prisma CLI:-->
-
-npx prisma generate
-
-npx prisma migrate dev
-
-npx prisma db push
-
+## Modifying the Prisma Database Schema
 <!-- opens up the gui -->
-
 npx prisma studio
+### Step 1: Generate a Migration
+After updating the Prisma schema, you need to generate a migration to capture these changes.
+Run the following command to generate a new migration:
+
+npx prisma migrate dev --name your-migration-name
+### Step 2: Apply the Migration
+npx prisma migrate deploy
+### Step 3: Update the Database
+npx prisma db push
