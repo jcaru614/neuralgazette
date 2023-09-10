@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 
-const PrivacyPage = () => {
+const PrivacyPolicy = () => {
   return (
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
@@ -134,4 +134,4 @@ const PrivacyPage = () => {
   );
 };
 
-export default PrivacyPage;
+export default PrivacyPolicy;
