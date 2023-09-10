@@ -64,7 +64,7 @@ export default function Home({ initialNews, error }: HomeProps) {
         <div className="max-w-screen-xl">
           <div className="mb-8 relative">
             <div className="flex items-center justify-center py-2">
-              <h1 className="text-4xl font-bold text-terminal-blue">NEWS STAGING 123456789</h1>
+              <h1 className="text-4xl font-bold text-terminal-blue">NEWS</h1>
             </div>
             <div className="w-full h-2 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
           </div>
