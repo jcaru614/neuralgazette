@@ -60,15 +60,27 @@ const CategoryPage: React.FC = () => {
             <div className="w-full h-2 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
           </div>
           <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
-            {news?.map((item) => <NewsCard key={item.id} news={item} />)}
-          </div>
-          <div className="flex justify-center items-center space-x-4 m-4">
-            {loading ? (
-              <Loading />
+            {news.length > 0 ? (
+              news.map((item) => <NewsCard key={item.id} news={item} />)
             ) : (
-              <Button text="Load More" onClick={loadMore} />
+              <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
+                <h1 className="text-2xl font-bold text-terminal-blue text-center">
+                  Sorry there is no AI written news for{' '}
+                  {(category as string).toLowerCase()} right now, please try
+                  again later.
+                </h1>
+              </div>
             )}
           </div>
+          {news.length > 0 ? (
+            <div className="flex justify-center items-center space-x-4 m-4">
+              {loading ? (
+                <Loading />
+              ) : (
+                <Button text="Load More" onClick={loadMore} />
+              )}
+            </div>
+          ) : null}
         </div>
       </main>
     </Layout>

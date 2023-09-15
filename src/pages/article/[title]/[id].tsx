@@ -73,21 +73,6 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
           <h1 className="md:text-2xl lg:text-4xl font-bold text-terminal-blue text-center">
             {post.title}
           </h1>
-          <div className="relative mb-4 mt-4">
-            <Image
-              src={post.image}
-              alt="Article Image"
-              layout="responsive"
-              className="w-full"
-              width={360}
-              height={240}
-            />
-            {post.photoCredit && (
-              <p className="text-sm text-terminal-blue text-center mt-2">
-                Photo source: {post.photoCredit}
-              </p>
-            )}
-          </div>
           <div className="flex items-center justify-center space-x-2 m-4">
             <Image
               src={neuralGazetteBot}
@@ -95,7 +80,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               width={20}
               height={20}
             />
-            <p className="text-sm text-neural-teal">
+            <p className="text-md text-neural-teal">
               {`The Neural Gazette | ${format(
                 parseISO(post.createdAt),
                 'MMMM d, yyyy',
@@ -113,8 +98,8 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               <Image
                 src={facebookIcon}
                 alt="Facebook Icon"
-                width={24}
-                height={24}
+                width={28}
+                height={28}
               />
             </a>
 
@@ -128,8 +113,8 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               <Image
                 src={twitterIcon}
                 alt="Twitter Icon"
-                width={24}
-                height={24}
+                width={28}
+                height={28}
               />
             </a>
             <a
@@ -138,14 +123,12 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              // className="text-neural-teal hover:underline cursor-pointer block text-center text-lg mt-4"
             >
               <Image
                 src={instagramIcon}
                 alt="Instagram Icon"
-                width={24}
-                height={24}
-                // style={{ verticalAlign: 'middle' }}
+                width={28}
+                height={28}
               />
             </a>
             <a
@@ -158,8 +141,8 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               <Image
                 src={messageIcon}
                 alt="Text Message Icon"
-                width={24}
-                height={24}
+                width={28}
+                height={28}
               />
             </a>
             <a
@@ -172,8 +155,8 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               <Image
                 src={redditIcon}
                 alt="Reddit Icon"
-                width={24}
-                height={24}
+                width={28}
+                height={28}
               />
             </a>
             <a
@@ -186,15 +169,30 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
               <Image
                 src={whatsappIcon}
                 alt="WhatsApp Icon"
-                width={24}
-                height={24}
+                width={28}
+                height={28}
               />
             </a>
 
             <button onClick={handleCopyLink}>
-              <Image src={copyIcon} alt="Copy Icon" width={24} height={24} />
+              <Image src={copyIcon} alt="Copy Icon" width={28} height={28} />
             </button>
             {copySuccess && <p className="text-sm">Link copied</p>}
+          </div>
+          <div className="relative mb-4 mt-4">
+            <Image
+              src={post.image}
+              alt="Article Image"
+              unoptimized
+              className="w-full"
+              width={360}
+              height={240}
+            />
+            {post.photoCredit && (
+              <p className="text-sm text-gray-500 italic mt-2">
+                Photo source: {post.photoCredit}
+              </p>
+            )}
           </div>
 
           {paragraphs.map((paragraph, index) => (

@@ -42,15 +42,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Commands
 
+## Generatig a brand new Database Schema
+<!-- deletes everything so dont use -->
+npx prisma generate
 ## Modifying the Prisma Database Schema
 <!-- opens up the gui -->
 npx prisma studio
-### Step 1: Generate a Migration
-After updating the Prisma schema, you need to generate a migration to capture these changes.
-Run the following command to generate a new migration:
-
-npx prisma migrate dev --name your-migration-name
-### Step 2: Apply the Migration
-npx prisma migrate deploy
+### reset db
+prisma migrate reset
+### Step 1: run migration
+<!-- will push new changes in schema -->
+npx prisma migrate dev --name migrationName
 ### Step 3: Update the Database
+<!-- will push new changes in schema -->
 npx prisma db push
+<!-- Try below for production maybe it wont erase-->
+npx prisma migrate deploy

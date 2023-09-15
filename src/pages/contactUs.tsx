@@ -23,7 +23,7 @@ const ContactUs: React.FC = () => {
       [name]: value,
     });
   };
-
+  console.log(process.env.NG_API_KEY);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
