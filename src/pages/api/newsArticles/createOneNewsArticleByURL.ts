@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
-import { fetchFromAI } from '../utils';
+import { fetchFromAI, extractNews, extractPhotoCredit } from '../utils';
 import {
   unbiasedNewsArticlePrompt,
   titlePrompt,
@@ -17,13 +17,15 @@ export default async function handler(
     res.status(405).end();
     return;
   }
-  const { article, image, photoCredit, originalUrl, originalBias } = req.body;
-  try {
-    const unbiasedArticleResponse = await fetchFromAI(
-      unbiasedNewsArticlePrompt(article.slice(0, 3000)),
-    );
+  const { url, originalBias } = req.body;
 
-    console.log(`article: ${unbiasedArticleResponse}`);
+  try {
+    const news = await extractNews(url);
+    console.log('news ', news.text.slice(0, 3000));
+
+    const unbiasedArticleResponse = await fetchFromAI(
+      unbiasedNewsArticlePrompt(news.text.slice(0, 3000)),
+    );
 
     const title = await fetchFromAI(
       titlePrompt(unbiasedArticleResponse.message),
@@ -38,8 +40,12 @@ export default async function handler(
     const category = await fetchFromAI(
       categoryPrompt(unbiasedArticleResponse.message),
     );
+
+    const photoCredit = await extractPhotoCredit(news.url);
+
     console.log(
       `********************************************************
+        article: ${unbiasedArticleResponse.message}
         summary: ${summary.message}
         headline: ${headline.message},
         title ${title.message},
@@ -50,14 +56,15 @@ export default async function handler(
 
     await prisma.news.create({
       data: {
+        approved: true,
         title: title.message,
         headline: headline.message,
         summary: summary.message,
         article: unbiasedArticleResponse.message,
-        image: image as string,
+        image: news.image as string,
         photoCredit: photoCredit,
         category: category.message,
-        originalUrl: originalUrl as any,
+        originalUrl: news.url as any,
         originalBias: originalBias as any,
       },
     });

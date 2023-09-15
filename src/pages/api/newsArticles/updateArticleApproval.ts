@@ -10,7 +10,7 @@ export default async function handler(
       res.status(405).end();
       return;
     }
-
+    
     const news = await prisma.news.findMany({
       where: {
         approved: false,

@@ -66,8 +66,6 @@ export default async function handler(
         unbiasedNewsArticlePrompt(newsItem.text.slice(0, 3000)),
       );
 
-      console.log(`article: ${unbiasedArticleResponse}`);
-
       const title = await fetchFromAI(
         titlePrompt(unbiasedArticleResponse.message),
       );
@@ -83,6 +81,7 @@ export default async function handler(
       );
       console.log(
         `********************************************************
+        article: ${unbiasedArticleResponse.message}
         summary: ${summary.message}
         headline: ${headline.message},
         title ${title.message},
@@ -93,6 +92,7 @@ export default async function handler(
 
       await prisma.news.create({
         data: {
+          approved: true,
           title: title.message,
           headline: headline.message,
           summary: summary.message,

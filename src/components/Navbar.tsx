@@ -31,7 +31,6 @@ const Navbar = () => {
             <Image
               src={logo}
               width={250}
-              objectFit="contain"
               alt="Your Name"
               className="hover:scale-110 transform transition-transform cursor-pointer"
             />
