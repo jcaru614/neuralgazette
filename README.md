@@ -55,6 +55,7 @@ prisma migrate reset
 npx prisma migrate dev --name migrationName
 ### Step 3: Update the Database
 <!-- will push new changes in schema -->
+<!-- Prototyping? Use the db push command if you are prototyping and are not concerned with data loss or replicating your changes in other environments. You can start or continue your migration history when you are happy with your changes. -->
 npx prisma db push
 <!-- Try below for production maybe it wont erase-->
 npx prisma migrate deploy
