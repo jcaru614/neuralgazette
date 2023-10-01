@@ -49,12 +49,14 @@ npx prisma generate
 <!-- opens up the gui -->
 npx prisma studio
 ### reset db
-prisma migrate reset
+npx prisma migrate reset
 ### Step 1: run migration
 <!-- will push new changes in schema -->
 npx prisma migrate dev --name migrationName
 ### Step 3: Update the Database
 <!-- will push new changes in schema -->
+<!-- This command may delete all entries provided you rename any field or do not use the optional ? for a new field -->
 npx prisma db push
+
 <!-- Try below for production maybe it wont erase-->
 npx prisma migrate deploy
