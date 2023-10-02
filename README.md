@@ -1,10 +1,3 @@
-# The Neural Gazette - Your AI-Powered News Source
-
-Welcome to The Neural Gazette, your trusted source for fast, concise, and unbiased news, all powered by Artificial Intelligence (AI). We're committed to revolutionizing your news consumption experience through AI technology.
-
-- **AI-Powered News:** Our AI algorithms collect and analyze news articles to provide you with unbiased, personalized news content.
-
-
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -59,4 +52,5 @@ npx prisma migrate dev --name migrationName
 npx prisma db push
 
 <!-- Try below for production maybe it wont erase-->
+
 npx prisma migrate deploy
