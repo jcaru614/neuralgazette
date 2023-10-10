@@ -92,7 +92,7 @@ export default async function handler(
 
       await prisma.news.create({
         data: {
-          approved: true,
+          approved: false,
           title: title.message,
           headline: headline.message,
           summary: summary.message,

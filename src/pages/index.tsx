@@ -1,4 +1,5 @@
 import { Layout } from '@/components';
+
 import { useState } from 'react';
 import prisma from '@/lib/prisma';
 import { Loading, NewsCard, Button, ServerError } from '@/components';
