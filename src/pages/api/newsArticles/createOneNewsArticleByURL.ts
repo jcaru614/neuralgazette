@@ -21,10 +21,11 @@ export default async function handler(
 
   try {
     const news = await extractNews(url);
-    console.log('news ', news.text.slice(0, 3000));
+    // console.log('news ', news.text.slice(0, 3000));
 
+    const newsText = news.text || ''; 
     const unbiasedArticleResponse = await fetchFromAI(
-      unbiasedNewsArticlePrompt(news.text.slice(0, 3000)),
+      unbiasedNewsArticlePrompt(newsText.slice(0, 3000)),
     );
 
     const title = await fetchFromAI(
