@@ -23,9 +23,8 @@ export default async function handler(
     const news = await extractNews(url);
     // console.log('news ', news.text.slice(0, 3000));
 
-    const newsText = news.text || ''; 
     const unbiasedArticleResponse = await fetchFromAI(
-      unbiasedNewsArticlePrompt(newsText.slice(0, 3000)),
+      unbiasedNewsArticlePrompt(news.text.slice(0, 3000)),
     );
 
     const title = await fetchFromAI(

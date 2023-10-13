@@ -54,12 +54,12 @@ export default async function handler(
       }
     }
 
-    console.log('combinedNews News Sources:', combinedNews);
-    console.log(
-      `unbiasedNewsArticlePrompt: ${unbiasedNewsArticlePrompt(
-        combinedNews[0].text.slice(0, 3000),
-      )}`,
-    );
+    // console.log('combinedNews News Sources:', combinedNews);
+    // console.log(
+    //   `unbiasedNewsArticlePrompt: ${unbiasedNewsArticlePrompt(
+    //     combinedNews[0].text.slice(0, 3000),
+    //   )}`,
+    // );
 
     const promises = combinedNews.map(async (newsItem: any) => {
       const unbiasedArticleResponse = await fetchFromAI(
