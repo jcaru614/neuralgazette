@@ -11,7 +11,7 @@ export default async function handler(
   }
   try {
     const combinedNews = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const promises = combinedNews.map(async (newsItem: any) => {
+    const promises = combinedNews.map(async () => {
     
       await prisma.news.create({
         data: {
