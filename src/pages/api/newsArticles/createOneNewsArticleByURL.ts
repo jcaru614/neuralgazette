@@ -21,7 +21,7 @@ export default async function handler(
 
   try {
     const news = await extractNews(url);
-    console.log('news ', news.text.slice(0, 3000));
+    console.log('news.slice', news.text.slice(0, 3000));
 
     const unbiasedArticleResponse = await fetchFromAI(
       unbiasedNewsArticlePrompt(news.text.slice(0, 3000)),
