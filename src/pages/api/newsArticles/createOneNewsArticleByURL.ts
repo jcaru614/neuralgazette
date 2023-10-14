@@ -17,15 +17,31 @@ export default async function handler(
     res.status(405).end();
     return;
   }
+
   const { url, originalBias } = req.body;
 
   try {
     const news = await extractNews(url);
-    // console.log('news ', news.text.slice(0, 3000));
+    console.log('news ', news);
+    if (!news || typeof news.text !== 'string') {
+      res.status(400).json({ error: 'Invalid news data' });
+      return;
+    }
 
+    const truncatedText = news.text.slice(0, 3000);
+    console.log('truncatedText ', truncatedText);
+    
     const unbiasedArticleResponse = await fetchFromAI(
-      unbiasedNewsArticlePrompt(news.text.slice(0, 3000)),
+      unbiasedNewsArticlePrompt(truncatedText),
     );
+
+    if (!unbiasedArticleResponse) {
+      console.error(
+        'Error in fetchFromAI: unbiasedArticleResponse is undefined',
+      );
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
 
     const title = await fetchFromAI(
       titlePrompt(unbiasedArticleResponse.message),
@@ -54,6 +70,8 @@ export default async function handler(
     `,
     );
 
+    const image = news.image as string | undefined;
+
     await prisma.news.create({
       data: {
         approved: false,
@@ -61,7 +79,7 @@ export default async function handler(
         headline: headline.message,
         summary: summary.message,
         article: unbiasedArticleResponse.message,
-        image: news.image as string,
+        image: image,
         photoCredit: photoCredit,
         category: category.message,
         originalUrl: news.url as any,
