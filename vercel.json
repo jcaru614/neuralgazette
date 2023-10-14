@@ -5,11 +5,6 @@
         "src": "nextjs-app",
         "use": "@vercel/node"
       }
-    ],
-    "functions": {
-      "*": {
-        "maxDuration": 300
-      }
-    }
+    ]
   }
   
