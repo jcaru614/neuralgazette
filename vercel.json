@@ -1,8 +1,15 @@
 {
-  "version": 2,
-  "functions": {
-    "*": {
-      "maxDuration": 300
+    "version": 2,
+    "builds": [
+      {
+        "src": "nextjs-app",
+        "use": "@vercel/node"
+      }
+    ],
+    "functions": {
+      "*": {
+        "maxDuration": 300
+      }
     }
   }
-}
+  
