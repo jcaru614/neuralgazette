@@ -1,6 +1,6 @@
 {
     "functions": {
-      "yourFunction": {
+        "*": {
         "maxDuration": 300
       }
     }
