@@ -1,10 +1,8 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "nextjs-app",
-        "use": "@vercel/node"
-      }
-    ]
+  "version": 2,
+  "functions": {
+    "pages/api/newsArticles/createOneNewsArticleByUrl.ts": {
+      "maxDuration": 300
+    }
   }
-  
+}
