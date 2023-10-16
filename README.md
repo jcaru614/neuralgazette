@@ -7,6 +7,13 @@ npm run dev
 
 ```
 
+To replicate the Vercel deployment environment locally :
+
+```bash
+vercel dev
+
+```
+
 ## Commands for PRISMA AND SUPPABASE
 
 ### Generatig a brand new Database Schema
