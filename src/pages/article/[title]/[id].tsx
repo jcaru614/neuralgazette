@@ -36,7 +36,7 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
 
   const titleSlug = slugify(post.title);
   const shareUrl = `https://neuralgazette.com//article/${titleSlug}/${post.id}`;
-  const shareText = `Check out this article on AI News Network: ${post.title}`;
+  const shareText = `Check out this article on the neural gazette: ${post.title}`;
 
   const handleCopyLink = () => {
     const copyText = `${shareText}: ${shareUrl}`;
