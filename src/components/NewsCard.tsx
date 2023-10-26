@@ -25,6 +25,10 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
     router.push(`/article/${titleSlug}/${news.id}`);
   };
 
+  const sanitizeString = (inputString) => {
+    return inputString.replace(/['"]/g, '');
+  };
+
   return (
     <div className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-md active:shadow-lg md:flex relative p-1">
       <Link href={`/article/${titleSlug}/${news.id}`} passHref target="_blank">
@@ -45,7 +49,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
             )}
             <div className="p-2">
               <h2 className="md:text-md lg:text-lg text-terminal-blue font-semibold block">
-                {news.headline}
+                {sanitizeString(news.headline)}
               </h2>
             </div>
           </div>
