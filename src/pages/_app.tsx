@@ -4,32 +4,60 @@ import '@/styles/global.css';
 import GoogleAnalytics from '@/lib/GoogleAnalytics';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { title, headline, image, initialNews } = pageProps;
+
+  const globalSeo = {
+    title: 'Neural Gazette - Artificial Intelligence Written News',
+    description:
+      'Decoding Truth, Disentangling Misinformation, Empowering Minds. Neural Gazette is an artificial intelligence news platform that provides users with accurate, unbiased, and engaging news.',
+    ogTitle: 'Neural Gazette - Artificial Intelligence Written News',
+    ogDescription:
+      'Decoding Truth, Disentangling Misinformation, Empowering Minds. Neural Gazette is an artificial intelligence news platform that provides users with accurate, unbiased, and engaging news.',
+    ogImage:
+      'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
+  };
+  console.log("pageprops ", pageProps)
   return (
     <>
+      {/* Head section for global SEO meta tags */}
       <Head>
+        {/* Title */}
+        <title>{globalSeo.title}</title>
+
+        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="description"
-          content="Neural Gazette - Decoding Truth, Disentangling Misinformation, Empowering Minds. Neural Gazette is an artificial intelligence news platform that provides users with accurate, unbiased, and engaging news."
-        />
-        <meta
-          name="og:title"
-          content="Neural Gazette - Artificial Intelligence Written News"
-        />
-        <meta
-          name="og:description"
-          content="Neural Gazette is a artificial intelligence news platform, delivering fast, concise news while countering the dangers of information overload and reliance on unreliable sources."
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Neural Gazette - Artificial Intelligence Written News"
-        />
-        <meta
-          name="twitter:description"
-          content="Delivering true and unbiased information, tailored to users' interests, without reinforcing biases."
-        />
+
+        {/* Description meta tag */}
+        <meta name="description" content={globalSeo.description} />
+
+        {/* Open Graph meta tags */}
+        <meta property="og:title" content={globalSeo.ogTitle} />
+        <meta property="og:description" content={globalSeo.ogDescription} />
+        <meta property="og:image" content={globalSeo.ogImage} />
+
+        {/* Twitter meta tags */}
+        <meta name="twitter:card" content={globalSeo.ogImage} />
+        <meta name="twitter:title" content={globalSeo.ogTitle} />
+        <meta name="twitter:description" content={globalSeo.ogDescription} />
       </Head>
+
+      {/* Head section for article-specific SEO meta tags */}
+        <Head>
+          <title>{title}</title>
+
+          <meta name="description" content={headline} />
+
+          {/* Open Graph meta tags for the article */}
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={headline} />
+          <meta property="og:image" content={image} />
+
+          {/* Twitter meta tags for the article */}
+          <meta name="twitter:title" content={title} />
+          <meta name="twitter:description" content={headline} />
+          <meta name="twitter:card" content={image} />
+        </Head>
+
       <GoogleAnalytics />
       <Component {...pageProps} />
     </>
