@@ -12,14 +12,14 @@ const Navbar = () => {
 
   const navLinks = [
     { href: '/category/POLITICS', text: 'Politics' },
-    { href: '/category/SPORTS', text: 'Sports' },
+    { href: '/category/WORLD', text: 'World' },
+    { href: '/category/BUSINESS', text: 'Business' },
+    { href: '/category/ECONOMY', text: 'Economy' },
     { href: '/category/TECHNOLOGY', text: 'Technology' },
     { href: '/category/ENTERTAINMENT', text: 'Entertainment' },
     { href: '/category/HEALTH', text: 'Health' },
     { href: '/category/SCIENCE', text: 'Science' },
-    { href: '/category/BUSINESS', text: 'Business' },
-    { href: '/category/WORLD', text: 'World' },
-    { href: '/category/ECONOMY', text: 'Economy' },
+    { href: '/category/SPORTS', text: 'Sports' },
     { href: '/category/LIFESTYLE', text: 'Lifestyle' },
   ];
 
@@ -68,7 +68,7 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-teal hover:text-white "
+                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
               >
                 {link.text}
               </Link>
