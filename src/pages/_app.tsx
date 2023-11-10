@@ -2,6 +2,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import '@/styles/global.css';
 import GoogleAnalytics from '@/lib/GoogleAnalytics';
+import GoogleAds from '@/lib/GoogleAds';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as gtag from '@/lib/gtag';
@@ -71,7 +72,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="twitter:description" content={headline} />
         <meta name="twitter:card" content={image} />
       </Head>
-
+      <GoogleAds
+        GOOGLE_ADS_CLIENT_ID={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}
+      />
       <GoogleAnalytics GA_TRACKING_ID={gtag.GA_TRACKING_ID} />
       <Component {...pageProps} />
     </>
