@@ -2,14 +2,17 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import '@/styles/global.css';
 import GoogleAnalytics from '@/lib/GoogleAnalytics';
-import GoogleAds from '@/lib/GoogleAds';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as gtag from '@/lib/gtag';
+import Script from 'next/script';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { title, headline, image, initialNews } = pageProps;
-
+  console.log(
+    'process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID ',
+    process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID,
+  );
   const router = useRouter();
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -54,10 +57,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="twitter:card" content={globalSeo.ogImage} />
         <meta name="twitter:title" content={globalSeo.ogTitle} />
         <meta name="twitter:description" content={globalSeo.ogDescription} />
-      </Head>
 
-      {/* Head section for article-specific SEO meta tags */}
-      <Head>
+        {/* Head section for article-specific SEO meta tags */}
+
         <title>{title}</title>
 
         <meta name="description" content={headline} />
@@ -72,12 +74,18 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="twitter:description" content={headline} />
         <meta name="twitter:card" content={image} />
       </Head>
-
-      <GoogleAds
-        GOOGLE_ADS_CLIENT_ID={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}
-      />
-      
       <GoogleAnalytics GA_TRACKING_ID={gtag.GA_TRACKING_ID} />
+      <Script
+        id="Adsense-id"
+        data-ad-client={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}
+        async
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+        onError={(e) => {
+          console.error('Script failed to load', e);
+        }}
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      />
       <Component {...pageProps} />
     </>
   );
