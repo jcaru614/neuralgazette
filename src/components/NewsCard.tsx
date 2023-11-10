@@ -21,7 +21,8 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   const router = useRouter();
 
   const titleSlug = slugify(news.title);
-  const handleReadMoreClick = () => {
+  const handleReadMoreClick = (e: any) => {
+    e.preventDefault();
     router.push(`/article/${titleSlug}/${news.id}`);
   };
 
@@ -31,7 +32,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
 
   return (
     <div className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-md active:shadow-lg md:flex relative p-1">
-      <Link href={`/article/${titleSlug}/${news.id}`} passHref target="_blank">
+      <Link href={`/article/${titleSlug}/${news.id}`} passHref>
         <div className="md:flex md:flex-row md:space-x-2">
           <div className="md:w-1/3 relative">
             {news.image && (
