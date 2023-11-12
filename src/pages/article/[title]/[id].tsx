@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { Layout, Loading } from '@/components';
+import { Layout, Loading, SmallNewsCard } from '@/components';
 import { neuralGazetteBot } from '@/public/images';
 import Head from 'next/head';
 import {
@@ -15,6 +15,7 @@ import {
 import slugify from '@/utils/slugify';
 import { format, parseISO } from 'date-fns';
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface NewsPost {
   id: string;
@@ -29,9 +30,11 @@ interface NewsPost {
 
 interface PostPageProps {
   post: NewsPost | null;
+  nextPost: NewsPost | null;
+  prevPost: NewsPost | null;
 }
 
-const PostPage: React.FC<PostPageProps> = ({ post }) => {
+const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   const [copySuccess, setCopySuccess] = useState(false);
 
   const titleSlug = slugify(post.title);
@@ -204,6 +207,18 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => {
             </p>
           ))}
         </div>
+
+        <div className="mb-8 mt-8">
+          <h2 className="text-2xl font-bold text-center mb-4 text-terminal-blue">
+            More Articles
+          </h2>
+
+          <div className="flex flex-col md:flex-row items-center md:items-stretch md:space-x-4">
+            {prevPost && <SmallNewsCard news={prevPost} />}
+
+            {nextPost && <SmallNewsCard news={nextPost} />}
+          </div>
+        </div>
       </main>
     </Layout>
   );
@@ -214,15 +229,24 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
 }) => {
   const { id }: any = params;
   let post = null;
+  let nextPost = null;
+  let prevPost = null;
 
   try {
+    // Fetch the current, before, and after articles
     const response = await fetch(
-      `${process.env.NEXT_PRIVATE_BASE_URL}/api/newsArticles/${id}`,
+      `${process.env.NEXT_PRIVATE_BASE_URL}/api/newsArticlesAround/${id}`,
     );
+
     if (response.ok) {
-      post = await response.json();
+      const { currentArticle, beforeArticles, afterArticles } =
+        await response.json();
+
+      post = currentArticle;
+      prevPost = beforeArticles.length > 0 ? beforeArticles[0] : null;
+      nextPost = afterArticles.length > 0 ? afterArticles[0] : null;
     } else {
-      throw new Error('Failed to fetch post');
+      throw new Error('Failed to fetch articles around the current article');
     }
   } catch (error) {
     console.error('Error retrieving post:', error);
@@ -231,6 +255,8 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
   return {
     props: {
       post,
+      nextPost,
+      prevPost,
     },
   };
 };

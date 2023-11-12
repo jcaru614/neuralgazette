@@ -9,11 +9,12 @@ import * as gtag from '@/lib/gtag';
 import Script from 'next/script';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { title, headline, image, initialNews } = pageProps;
+
   console.log(
     'process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID ',
     process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID,
   );
+
   const router = useRouter();
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -70,21 +71,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="twitter:title" content={globalSeo.ogTitle} />
         <meta name="twitter:description" content={globalSeo.ogDescription} />
 
-        {/* Head section for article-specific SEO meta tags */}
-
-        <title>{title}</title>
-
-        <meta name="description" content={headline} />
-
-        {/* Open Graph meta tags for the article */}
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={headline} />
-        <meta property="og:image" content={image} />
-
-        {/* Twitter meta tags for the article */}
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={headline} />
-        <meta name="twitter:card" content={image} />
       </Head>
       <GoogleAnalytics GA_TRACKING_ID={gtag.GA_TRACKING_ID} />
 
