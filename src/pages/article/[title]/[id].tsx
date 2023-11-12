@@ -215,9 +215,8 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
           </h2>
 
           <div className="flex flex-col md:flex-row items-center md:items-stretch">
-            {prevPost && <SmallNewsCard news={prevPost} />}
-
             {nextPost && <SmallNewsCard news={nextPost} />}
+            {prevPost && <SmallNewsCard news={prevPost} />}
           </div>
         </div>
       </main>
