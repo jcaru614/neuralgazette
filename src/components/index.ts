@@ -5,3 +5,4 @@ export { default as Loading } from './Loading';
 export { default as NewsCard } from './NewsCard';
 export { default as Footer } from './Footer';
 export { default as ServerError } from './ServerError';
+export { default as SmallNewsCard } from './SmallNewsCard';

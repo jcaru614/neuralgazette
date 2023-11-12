@@ -31,7 +31,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   };
 
   return (
-    <div className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-md active:shadow-lg md:flex relative p-1">
+    <div className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-lg active:shadow-lg md:flex relative p-1">
       <Link href={`/article/${titleSlug}/${news.id}`} passHref>
         <div className="md:flex md:flex-row md:space-x-2">
           <div className="md:w-1/3 relative">
@@ -48,14 +48,12 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
                 />
               </div>
             )}
-            <div className="p-2">
-              <h2 className="md:text-md lg:text-lg text-terminal-blue font-semibold block">
-                {sanitizeString(news.headline)}
-              </h2>
-            </div>
           </div>
           <div className="md:w-2/3 mb-8 p-2">
-            <p className="md:text-sm lg:text-lg text-terminal-blue rounded block">
+            <h2 className="lg:text-xl md:text-lg sm:text-lg xs:text-md text-terminal-blue font-semibold block mb-4">
+              {sanitizeString(news.headline)}
+            </h2>
+            <p className="md:text-md lg:text-lg text-terminal-blue rounded block">
               {news.summary}
             </p>
             {/* <h2 className="md:text-lg lg:text-xl text-neural-teal font-semibold block">
