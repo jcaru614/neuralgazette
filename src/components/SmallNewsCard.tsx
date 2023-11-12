@@ -20,7 +20,7 @@ interface SmallNewsCardProps {
 
 const NewsCard: React.FC<SmallNewsCardProps> = ({ news }) => {
   return (
-    <Link href={`/article/${slugify(news.title)}/${news.id}`}>
+    <Link href={`/article/${slugify(news.title)}/${news.id}`} className='m-2'>
       <div className="flex items-center p-4 border border-gray-300 rounded-md hover:bg-gray-100 transition">
         <div className="flex-shrink-0 w-20 h-20 overflow-hidden rounded-md">
           <Image

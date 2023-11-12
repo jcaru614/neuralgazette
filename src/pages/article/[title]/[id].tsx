@@ -207,13 +207,14 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
             </p>
           ))}
         </div>
+        <div className="w-full max-w-4xl h-1 mt-10 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
 
-        <div className="mb-8 mt-8">
+        <div className="m-4">
           <h2 className="text-2xl font-bold text-center mb-4 text-terminal-blue">
             More Articles
           </h2>
 
-          <div className="flex flex-col md:flex-row items-center md:items-stretch md:space-x-4">
+          <div className="flex flex-col md:flex-row items-center md:items-stretch">
             {prevPost && <SmallNewsCard news={prevPost} />}
 
             {nextPost && <SmallNewsCard news={nextPost} />}
