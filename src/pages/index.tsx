@@ -67,7 +67,7 @@ export default function Home({ initialNews, error }: HomeProps) {
             <div className="flex items-center justify-center py-2">
               <h1 className="text-4xl font-bold text-neural-teal">NEWS</h1>
             </div>
-            <div className="w-full h-2 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
+            <div className="w-full h-1 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
           </div>
           <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
             {news.length > 0 ? (
