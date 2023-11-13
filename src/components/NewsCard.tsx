@@ -50,13 +50,13 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
             )}
           </div>
           <div className="md:w-2/3 mb-8 p-2">
-            <h2 className="lg:text-xl md:text-lg sm:text-lg xs:text-md text-terminal-blue font-semibold block mb-4">
+            <h2 className="md:text-xl sm:text-lg text-terminal-blue font-semibold block mb-4">
               {sanitizeString(news.headline)}
             </h2>
-            <p className="md:text-md lg:text-lg text-terminal-blue rounded block">
+            <p className="md:text-lg sm:text-md text-terminal-blue rounded block">
               {news.summary}
             </p>
-            {/* <h2 className="md:text-lg lg:text-xl text-neural-teal font-semibold block">
+            {/* <h2 className="md:text-lg sm:text-md text-neural-teal font-semibold block">
               {news.originalBias}
             </h2> */}
           </div>
