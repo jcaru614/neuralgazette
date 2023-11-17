@@ -75,7 +75,7 @@ export default function Home({ initialNews, error }: HomeProps) {
             ) : (
               <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
                 <h1 className="text-2xl font-bold text-terminal-blue text-center">
-                  Sorry there is no AI written news right now, please try again
+                  Sorry there is news right now, please try again
                   later.
                 </h1>
               </div>

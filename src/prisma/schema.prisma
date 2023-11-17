@@ -35,15 +35,13 @@ model User {
 
 enum Category {
   POLITICS
-  SPORTS
+  WORLD
+  POLICY
+  BUSINESS
   TECHNOLOGY
-  ENTERTAINMENT
+  ECONOMY
   HEALTH
   SCIENCE
-  BUSINESS
-  WORLD
-  ECONOMY
-  LIFESTYLE
 }
 
 enum OriginalBias {

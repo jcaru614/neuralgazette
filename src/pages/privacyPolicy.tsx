@@ -17,7 +17,7 @@ const PrivacyPolicy = () => {
             to protecting your privacy and ensuring the security of your
             personal information. This Privacy Policy explains how we collect,
             use, disclose, and safeguard your personal information when you
-            visit our website, [Your Website URL]. By accessing or using our
+            visit our website, https://neuralgazette.com. By accessing or using our
             website, you consent to the practices described in this Privacy
             Policy. Please take a moment to read this Privacy Policy carefully.
             If you do not agree with the terms of this Privacy Policy, please do

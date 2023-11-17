@@ -16,11 +16,8 @@ const Navbar = () => {
     { href: '/category/BUSINESS', text: 'Business' },
     { href: '/category/ECONOMY', text: 'Economy' },
     { href: '/category/TECHNOLOGY', text: 'Technology' },
-    { href: '/category/ENTERTAINMENT', text: 'Entertainment' },
     { href: '/category/HEALTH', text: 'Health' },
     { href: '/category/SCIENCE', text: 'Science' },
-    { href: '/category/SPORTS', text: 'Sports' },
-    { href: '/category/LIFESTYLE', text: 'Lifestyle' },
   ];
 
   return (
