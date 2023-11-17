@@ -65,7 +65,7 @@ const CategoryPage: React.FC = () => {
             ) : (
               <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
                 <h1 className="text-2xl font-bold text-terminal-blue text-center">
-                  Sorry there is no AI written news for{' '}
+                  Sorry there is no news for{' '}
                   {(category as string).toLowerCase()} right now, please try
                   again later.
                 </h1>

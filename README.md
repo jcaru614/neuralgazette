@@ -80,7 +80,10 @@ some commands are not working on their system. if you are stuck in some prisma c
 
         npx prisma migrate dev
 
-## Guide for ADDING AND EDITING A FIELD FOR TABLE HAVING EXISTING DATA###
+
+
+
+## Guide for ADDING AND EDITING A FIELD FOR TABLE HAVING EXISTING DATA ##
 
 ### adding a FIELD
 
