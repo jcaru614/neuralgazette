@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import slugify from '@/utils/slugify';
+import { slugify } from '@/utils';
 import { format, parseISO } from 'date-fns';
 
 interface SmallNewsCardProps {

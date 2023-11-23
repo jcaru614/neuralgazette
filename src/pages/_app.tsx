@@ -6,14 +6,8 @@ import GoogleAnalytics from '@/lib/GoogleAnalytics';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as gtag from '@/lib/gtag';
-import Script from 'next/script';
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-  console.log(
-    'process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID ',
-    process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID,
-  );
 
   const router = useRouter();
   useEffect(() => {
@@ -41,17 +35,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       {/* Head section for global SEO meta tags */}
       <Head>
-        <Script
-          id="Adsense-id"
-          data-ad-client={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}
-          async
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-          onError={(e) => {
-            console.error('Script failed to load', e);
-          }}
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        />
         {/* Title */}
         <title>{globalSeo.title}</title>
 

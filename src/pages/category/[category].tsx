@@ -3,8 +3,7 @@ import Layout from '@/components/Layout';
 import { NewsCard, Loading, Button, ServerError } from '@/components';
 import useSWR from 'swr';
 import { useState } from 'react';
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import fetcher from '@/utils/fetcher';
 
 const CategoryPage: React.FC = () => {
   const router = useRouter();

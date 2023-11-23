@@ -1,5 +1,4 @@
 /* eslint-disable no-useless-escape */
-// utils/slugify.js
 
 export default function slugify(text) {
   if (text) {
