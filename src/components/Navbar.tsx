@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Image from 'next/image';
 import { logo } from '@/public/images';
+import { SearchBar } from '@/components';
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
@@ -15,8 +16,8 @@ const Navbar = () => {
     { href: '/category/WORLD', text: 'World' },
     { href: '/category/POLICY', text: 'Policy' },
     { href: '/category/BUSINESS', text: 'Business' },
-    { href: '/category/TECHNOLOGY', text: 'Technology' },
     { href: '/category/ECONOMY', text: 'Economy' },
+    { href: '/category/TECHNOLOGY', text: 'Technology' },
     { href: '/category/HEALTH', text: 'Health' },
     { href: '/category/SCIENCE', text: 'Science' },
   ];
@@ -71,6 +72,7 @@ const Navbar = () => {
                 {link.text}
               </Link>
             ))}
+            <SearchBar />
           </div>
         </div>
       </nav>

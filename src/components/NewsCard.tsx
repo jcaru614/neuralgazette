@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Button } from '@/components';
 import Link from 'next/link';
-import slugify from '@/utils/slugify';
+import { slugify } from '@/utils';
 
 interface NewsCardProps {
   news: {

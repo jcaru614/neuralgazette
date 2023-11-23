@@ -12,10 +12,9 @@ import {
   whatsappIcon,
   instagramIcon,
 } from '@/public/images';
-import slugify from '@/utils/slugify';
+import { slugify } from '@/utils';
 import { format, parseISO } from 'date-fns';
 import { useState } from 'react';
-import Link from 'next/link';
 
 interface NewsPost {
   id: string;
