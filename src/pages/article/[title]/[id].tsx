@@ -181,22 +181,23 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
             </button>
             {copySuccess && <p className="text-sm">Link copied</p>}
           </div>
-          <div className="relative mb-4 mt-4">
-            <Image
-              src={post.image}
-              alt="Article Image"
-              unoptimized
-              className="w-full"
-              width={360}
-              height={240}
-            />
-            {post.photoCredit && (
-              <p className="text-sm text-gray-500 italic mt-2">
-                Photo source: {post.photoCredit}
-              </p>
-            )}
-          </div>
-
+          {post.image && (
+            <div className="relative mb-4 mt-4">
+              <Image
+                src={post.image}
+                alt="Article Image"
+                unoptimized
+                className="w-full"
+                width={360}
+                height={240}
+              />
+              {post.photoCredit && (
+                <p className="text-sm text-gray-500 italic mt-2">
+                  Photo source: {post.photoCredit}
+                </p>
+              )}
+            </div>
+          )}
           {paragraphs.map((paragraph, index) => (
             <p
               key={index}
