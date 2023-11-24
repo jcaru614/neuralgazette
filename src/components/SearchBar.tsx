@@ -88,15 +88,18 @@ const SearchBar = () => {
                     className="block p-2 border-b border-gray-300 hover:bg-gray-100 hover:underline"
                   >
                     <div className="flex">
-                      <div className="w-16 h-16 overflow-hidden rounded-md">
-                        <Image
-                          src={result.image}
-                          alt="Search Result Thumbnail"
-                          layout="responsive"
-                          width={64}
-                          height={64}
-                        />
-                      </div>
+                      {result.image && (
+                        <div className="w-16 h-16 overflow-hidden rounded-md">
+                          <Image
+                            src={result.image}
+                            alt="Search Result Thumbnail"
+                            layout="responsive"
+                            width={64}
+                            height={64}
+                          />
+                        </div>
+                      )}
+
                       <div className="ml-4 flex flex-col">
                         <p className="text-sm font-semibold text-neural-teal">
                           {result.title}

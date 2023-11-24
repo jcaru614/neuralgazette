@@ -21,15 +21,17 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news }) => {
   return (
     <Link href={`/article/${slugify(news.title)}/${news.id}`} className="m-2">
       <div className="flex p-2 border border-gray-300 rounded-md hover:bg-gray-100 transition sm:max-w-sm md:max-w-xl">
-        <div className="w-20 overflow-hidden rounded-md">
-          <Image
-            src={news.image}
-            alt="Next Article Thumbnail"
-            layout="responsive"
-            width={80}
-            height={80}
-          />
-        </div>
+        {news.image && (
+          <div className="w-20 overflow-hidden rounded-md">
+            <Image
+              src={news.image}
+              alt="Next Article Thumbnail"
+              layout="responsive"
+              width={80}
+              height={80}
+            />
+          </div>
+        )}
         <div className="ml-4 flex flex-col">
           <h3 className="md:text-md sm:text-xs font-semibold text-neural-teal">
             {news.title}
