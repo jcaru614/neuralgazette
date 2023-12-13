@@ -11,10 +11,11 @@ const ServerErrorPage = () => {
         <p className="text-xl text-gray-700 mb-8">
           Sorry, something went wrong on our end. Please try again later.
         </p>
-        <Link href="/">
-          <a className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 ease-in-out">
-            Go Back to Home
-          </a>
+        <Link
+          href="/"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 ease-in-out"
+        >
+          Go Back to Home
         </Link>
       </div>
     </Layout>
