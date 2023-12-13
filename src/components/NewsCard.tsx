@@ -34,8 +34,8 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
     <div className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-lg active:shadow-lg md:flex relative p-1">
       <Link href={`/article/${titleSlug}/${news.id}`} passHref>
         <div className="md:flex md:flex-row md:space-x-2">
-          <div className="md:w-1/3 relative">
-            {news.image && (
+          {news.image && (
+            <div className="md:w-1/3 relative">
               <div className="w-full mx-auto md:mx-0">
                 <Image
                   src={news.image}
@@ -47,8 +47,8 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
                   loading="lazy"
                 />
               </div>
-            )}
-          </div>
+            </div>
+          )}
           <div className="md:w-2/3 mb-8 p-2">
             <h2 className="md:text-xl sm:text-lg text-terminal-blue font-semibold block mb-4">
               {sanitizeString(news.headline)}
