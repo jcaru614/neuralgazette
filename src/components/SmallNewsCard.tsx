@@ -10,7 +10,7 @@ interface SmallNewsCardProps {
     title: string;
     headline: string;
     summary: string;
-    image: string | null;
+    photoPath: string | null;
     category?: any;
     originalBias?: any;
     createdAt?: string;
@@ -23,14 +23,14 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
 
   useEffect(() => {
     const fetchImageUrl = async () => {
-      if (news.image) {
-        const filepath = news.image;
+      if (news.photoPath) {
+        const filepath = news.photoPath;
         setImageUrl(await getPublicImageUrl(filepath));
       }
     };
 
     fetchImageUrl();
-  }, [news.image]);
+  }, [news.photoPath]);
 
   const linkProps = search
     ? {
@@ -58,7 +58,6 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
             <Image
               src={imageUrl}
               alt={search ? 'Search news Thumbnail' : 'Next Article Thumbnail'}
-              layout="responsive"
               width={search ? 64 : 80}
               height={search ? 64 : 80}
             />

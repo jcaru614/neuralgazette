@@ -66,7 +66,6 @@ export default async function handler(
 
       const uuid = uuidv4();
 
-      // Append the UUID to the slugified title
       slugWithUuid = `${slugify(title)}-${uuid}`;
 
       const { data: photoData, error: photoError } = await supabase.storage
@@ -91,7 +90,7 @@ export default async function handler(
         headline: headline.message,
         summary: summary.message,
         article,
-        image: files && files.photo ? slugWithUuid : null,
+        photoPath: files && files.photo ? slugWithUuid : null,
         photoCredit,
         category: category.message,
         originalUrl,

@@ -12,7 +12,7 @@ interface NewsCardProps {
     title: string;
     headline: string;
     summary: string;
-    image: string | null;
+    photoPath: string | null;
     category: any;
     originalBias?: any;
   };
@@ -24,15 +24,15 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
 
   useEffect(() => {
     const fetchImageUrl = async () => {
-      if (news.image) {
-        const filepath = news.image;
+      if (news.photoPath) {
+        const filepath = news.photoPath;
         const url = await getPublicImageUrl(filepath);
         setImageUrl(url);
       }
     };
 
     fetchImageUrl();
-  }, [news.image]);
+  }, [news.photoPath]);
 
   const titleSlug = slugify(news.title);
   const handleReadMoreClick = (e: any) => {

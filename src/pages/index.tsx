@@ -11,7 +11,7 @@ interface News {
   headline: string;
   summary: string;
   article: string;
-  image: string | null;
+  photoPath: string | null;
   category: any;
   originalBias?: any;
 }
@@ -112,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
       //   headline: true,
       //   summary: true,
       //   article: true,
-      //   image: true,
+      //   photoPath: true,
       //   category: true,
       //   createdAt: false,
       // },

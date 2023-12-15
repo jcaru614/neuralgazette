@@ -15,8 +15,7 @@ model News {
   headline     String
   summary      String
   article      String
-  // TODO: change image for photoPath
-  image        String?
+  photoPath        String?
   photoCredit  String?
   category     Category?    @default(POLITICS)
   originalUrl  String?
