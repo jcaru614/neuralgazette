@@ -3,7 +3,7 @@ import supabase from '@/lib/supabase';
 const getPublicImageUrl = async (filepath) => {
   try {
     const { data } = await supabase.storage
-      .from('images')
+      .from('photos')
       .getPublicUrl(filepath);
 
     return data.publicUrl;

@@ -25,7 +25,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   useEffect(() => {
     const fetchImageUrl = async () => {
       if (news.image) {
-        const filepath = 'photos/' + news.image;
+        const filepath = news.image;
         const url = await getPublicImageUrl(filepath);
         setImageUrl(url);
       }

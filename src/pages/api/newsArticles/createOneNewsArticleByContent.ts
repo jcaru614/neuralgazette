@@ -6,6 +6,7 @@ import { fetchFromAI } from '../utils';
 import { categoryPrompt, headlinePrompt, summaryPrompt } from '@/prompts';
 import { slugify } from '@/utils';
 import fs from 'fs/promises';
+import { v4 as uuidv4 } from 'uuid';
 
 export const config = {
   api: {
@@ -43,8 +44,6 @@ export default async function handler(
     });
 
     const { title, photoCredit, article, originalUrl, originalBias } = fields;
-    const uploadedImage = files.image[0];
-    console.log('files', files);
 
     const unbiasedArticle = article.slice(0, 3000);
 
@@ -53,26 +52,36 @@ export default async function handler(
       fetchFromAI(summaryPrompt(unbiasedArticle)),
       fetchFromAI(categoryPrompt(unbiasedArticle)),
     ]);
+    let slugWithUuid;
+    console.log('files *** 1');
+    if (files && files.photo) {
+      const uploadedPhoto = files.photo[0];
+      console.log('files *** 2', files, 'uploadedImage', uploadedPhoto);
+      const fileExtension = uploadedPhoto.originalFilename
+        .split('.')
+        .pop()
+        .toLowerCase();
 
-    const fileExtension = uploadedImage.originalFilename
-      .split('.')
-      .pop()
-      .toLowerCase();
+      const photo = await fs.readFile(uploadedPhoto.path);
 
-    const image = await fs.readFile(uploadedImage.path);
+      const uuid = uuidv4();
 
-    const { data: photoData, error: photoError } = await supabase.storage
-      .from('images')
-      .upload(`photos/${slugify(title)}`, image, {
-        contentType: `image/${fileExtension}`,
-      });
+      // Append the UUID to the slugified title
+      slugWithUuid = `${slugify(title)}-${uuid}`;
 
-    if (photoError) {
-      console.error('Error uploading photo:', photoError.message);
-      res.status(500).json({ error: 'Error uploading photo' });
-      return;
-    } else {
-      console.log('photodata', photoData);
+      const { data: photoData, error: photoError } = await supabase.storage
+        .from('photos')
+        .upload(slugWithUuid, photo, {
+          contentType: `image/${fileExtension}`,
+        });
+
+      if (photoError) {
+        console.error('Error uploading photo:', photoError.message);
+        res.status(500).json({ error: 'Error uploading photo' });
+        return;
+      } else {
+        console.log('photodata', photoData);
+      }
     }
 
     await prisma.news.create({
@@ -82,7 +91,7 @@ export default async function handler(
         headline: headline.message,
         summary: summary.message,
         article,
-        image: `${slugify(title)}`,
+        image: files && files.photo ? slugWithUuid : null,
         photoCredit,
         category: category.message,
         originalUrl,

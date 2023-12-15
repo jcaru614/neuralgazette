@@ -24,7 +24,7 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
   useEffect(() => {
     const fetchImageUrl = async () => {
       if (news.image) {
-        const filepath = 'photos/' + news.image;
+        const filepath = news.image;
         setImageUrl(await getPublicImageUrl(filepath));
       }
     };

@@ -36,12 +36,12 @@ interface PostPageProps {
 const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  console.log('IMAGEURL', imageUrl);
+  console.log('IMAGEURL!!!', imageUrl);
 
   useEffect(() => {
     const fetchImageUrl = async () => {
       if (post.image) {
-        const filepath = 'photos/' + post.image;
+        const filepath = post.image;
         const url = await getPublicImageUrl(filepath);
         setImageUrl(url);
       }
