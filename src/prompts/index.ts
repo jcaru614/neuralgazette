@@ -50,7 +50,7 @@ Categories:
 7. HEALTH
 8. SCIENCE
 
-In your response, provide the name of your chosen category exactly as it appears in the list above. Do not include any additional text or explanations. Return only a string.
+In your response, provide the name of your chosen category exactly as it appears in the list above. Do not include any additional text or explanations.
 
 Example response: POLITICS
 

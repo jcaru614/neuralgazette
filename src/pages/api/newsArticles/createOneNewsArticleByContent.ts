@@ -4,8 +4,8 @@ import prisma from '@/lib/prisma';
 import supabase from '@/lib/supabase';
 import { fetchFromAI } from '../utils';
 import { categoryPrompt, headlinePrompt, summaryPrompt } from '@/prompts';
-import fs from 'fs';
 import { slugify } from '@/utils';
+import fs from 'fs/promises';
 
 export const config = {
   api: {
@@ -43,27 +43,30 @@ export default async function handler(
     });
 
     const { title, photoCredit, article, originalUrl, originalBias } = fields;
-    const uploadedImage = files.image[0]; // multiparty puts files in an array
+    const uploadedImage = files.image[0];
     console.log('files', files);
 
     const unbiasedArticle = article.slice(0, 3000);
 
-    const headline = await fetchFromAI(headlinePrompt(unbiasedArticle));
-    const summary = await fetchFromAI(summaryPrompt(unbiasedArticle));
-    const category = await fetchFromAI(categoryPrompt(unbiasedArticle));
-    console.log('category!!!!!!!!!!!!!!!!! ', category);
+    const [headline, summary, category] = await Promise.all([
+      fetchFromAI(headlinePrompt(unbiasedArticle)),
+      fetchFromAI(summaryPrompt(unbiasedArticle)),
+      fetchFromAI(categoryPrompt(unbiasedArticle)),
+    ]);
+
     const fileExtension = uploadedImage.originalFilename
       .split('.')
       .pop()
       .toLowerCase();
 
-    const image = await fs.promises.readFile(uploadedImage.path);
+    const image = await fs.readFile(uploadedImage.path);
 
     const { data: photoData, error: photoError } = await supabase.storage
       .from('images')
       .upload(`photos/${slugify(title)}`, image, {
         contentType: `image/${fileExtension}`,
       });
+
     if (photoError) {
       console.error('Error uploading photo:', photoError.message);
       res.status(500).json({ error: 'Error uploading photo' });
@@ -74,15 +77,15 @@ export default async function handler(
 
     await prisma.news.create({
       data: {
-        approved: false,
-        title: title,
+        approved: true,
+        title,
         headline: headline.message,
         summary: summary.message,
-        article: article,
-        // image: photoData, // Store uploaded image URL
-        photoCredit: photoCredit,
-        category: category,
-        originalUrl: originalUrl,
+        article,
+        image: `${slugify(title)}`,
+        photoCredit,
+        category: category.message,
+        originalUrl,
         originalBias: originalBias as any,
       },
     });

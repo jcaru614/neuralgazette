@@ -12,9 +12,9 @@ import {
   whatsappIcon,
   instagramIcon,
 } from '@/public/images';
-import { slugify } from '@/utils';
+import { getPublicImageUrl, slugify } from '@/utils';
 import { format, parseISO } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface NewsPost {
   id: string;
@@ -35,6 +35,20 @@ interface PostPageProps {
 
 const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   const [copySuccess, setCopySuccess] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  console.log('IMAGEURL', imageUrl);
+
+  useEffect(() => {
+    const fetchImageUrl = async () => {
+      if (post.image) {
+        const filepath = 'photos/' + post.image;
+        const url = await getPublicImageUrl(filepath);
+        setImageUrl(url);
+      }
+    };
+
+    fetchImageUrl();
+  }, [post.image]);
 
   const titleSlug = slugify(post.title);
   const shareUrl = `https://neuralgazette.com//article/${titleSlug}/${post.id}`;
@@ -181,10 +195,10 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
             </button>
             {copySuccess && <p className="text-sm">Link copied</p>}
           </div>
-          {post.image && (
+          {imageUrl && (
             <div className="relative mb-4 mt-4">
               <Image
-                src={post.image}
+                src={imageUrl}
                 alt="Article Image"
                 unoptimized
                 className="w-full"

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Button } from '@/components';
 import Link from 'next/link';
 import { slugify } from '@/utils';
+import { getPublicImageUrl } from '@/utils';
 
 interface NewsCardProps {
   news: {
@@ -19,6 +20,19 @@ interface NewsCardProps {
 
 const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   const router = useRouter();
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchImageUrl = async () => {
+      if (news.image) {
+        const filepath = 'photos/' + news.image;
+        const url = await getPublicImageUrl(filepath);
+        setImageUrl(url);
+      }
+    };
+
+    fetchImageUrl();
+  }, [news.image]);
 
   const titleSlug = slugify(news.title);
   const handleReadMoreClick = (e: any) => {
@@ -26,7 +40,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
     router.push(`/article/${titleSlug}/${news.id}`);
   };
 
-  const sanitizeString = (inputString) => {
+  const sanitizeString = (inputString: string) => {
     return inputString.replace(/['"]/g, '');
   };
 
@@ -34,11 +48,11 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
     <div className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-lg active:shadow-lg md:flex relative p-1">
       <Link href={`/article/${titleSlug}/${news.id}`} passHref>
         <div className="md:flex md:flex-row md:space-x-2">
-          {news.image && (
+          {imageUrl && (
             <div className="md:w-1/3 relative">
               <div className="w-full mx-auto md:mx-0">
                 <Image
-                  src={news.image}
+                  src={imageUrl}
                   alt={`Image for ${news.title}`}
                   width={360}
                   height={240}
