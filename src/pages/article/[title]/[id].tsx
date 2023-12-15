@@ -12,9 +12,9 @@ import {
   whatsappIcon,
   instagramIcon,
 } from '@/public/images';
-import { slugify } from '@/utils';
+import { getPublicImageUrl, slugify } from '@/utils';
 import { format, parseISO } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface NewsPost {
   id: string;
@@ -22,7 +22,7 @@ interface NewsPost {
   headline: string;
   summary: string;
   article: string;
-  image: string;
+  photoPath: string;
   photoCredit?: string;
   createdAt: string;
 }
@@ -35,6 +35,20 @@ interface PostPageProps {
 
 const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   const [copySuccess, setCopySuccess] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  console.log('IMAGEURL!!!', imageUrl);
+
+  useEffect(() => {
+    const fetchImageUrl = async () => {
+      if (post.photoPath) {
+        const filepath = post.photoPath;
+        const url = await getPublicImageUrl(filepath);
+        setImageUrl(url);
+      }
+    };
+
+    fetchImageUrl();
+  }, [post.photoPath]);
 
   const titleSlug = slugify(post.title);
   const shareUrl = `https://neuralgazette.com//article/${titleSlug}/${post.id}`;
@@ -61,7 +75,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
         <meta property="og:url" content={shareUrl} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.summary} />
-        <meta property="og:image" content={post.image} />
+        <meta property="og:image" content={post.photoPath} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="flex items-center justify-center py-2 m-5">
@@ -181,10 +195,10 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
             </button>
             {copySuccess && <p className="text-sm">Link copied</p>}
           </div>
-          {post.image && (
+          {imageUrl && (
             <div className="relative mb-4 mt-4">
               <Image
-                src={post.image}
+                src={imageUrl}
                 alt="Article Image"
                 unoptimized
                 className="w-full"

@@ -15,7 +15,7 @@ model News {
   headline     String
   summary      String
   article      String
-  image        String?
+  photoPath        String?
   photoCredit  String?
   category     Category?    @default(POLITICS)
   originalUrl  String?

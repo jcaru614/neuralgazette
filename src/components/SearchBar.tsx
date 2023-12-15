@@ -2,10 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import debounce from 'lodash.debounce';
 import fetcher from '@/utils/fetcher';
-import { slugify } from '@/utils';
 import { searchIcon } from '@/public/images';
 import Image from 'next/image';
-import { format, parseISO } from 'date-fns';
+import SmallNewsCard from './SmallNewsCard';
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,34 +82,7 @@ const SearchBar = () => {
             <ul>
               {searchResults.map((result) => (
                 <li key={result.id}>
-                  <a
-                    href={`/article/${slugify(result.title)}/${result.id}`}
-                    className="block p-2 border-b border-gray-300 hover:bg-gray-100 hover:underline"
-                  >
-                    <div className="flex">
-                      {result.image && (
-                        <div className="w-16 h-16 overflow-hidden rounded-md">
-                          <Image
-                            src={result.image}
-                            alt="Search Result Thumbnail"
-                            layout="responsive"
-                            width={64}
-                            height={64}
-                          />
-                        </div>
-                      )}
-
-                      <div className="ml-4 flex flex-col">
-                        <p className="text-sm font-semibold text-neural-teal">
-                          {result.title}
-                        </p>
-                        <span className="text-xs text-gray-500">
-                          {result.createdAt &&
-                            format(parseISO(result.createdAt), 'MMMM d, yyyy')}
-                        </span>
-                      </div>
-                    </div>
-                  </a>
+                  <SmallNewsCard news={result} search />
                 </li>
               ))}
             </ul>
