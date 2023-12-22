@@ -31,7 +31,6 @@ export default async function handler(
         if (err) {
           reject(err);
         } else {
-          // Transform fields to extract the first index
           const transformedFields = Object.fromEntries(
             Object.entries(fields).map(([key, value]) => [
               key,
@@ -43,7 +42,7 @@ export default async function handler(
       });
     });
 
-    const { title, photoCredit, article, originalUrl, originalBias } = fields;
+    const { title, photoCredit, article } = fields;
 
     const unbiasedArticle = article.slice(0, 3000);
 
@@ -53,10 +52,9 @@ export default async function handler(
       fetchFromAI(categoryPrompt(unbiasedArticle)),
     ]);
     let slugWithUuid;
-    console.log('files *** 1');
+
     if (files && files.photo) {
       const uploadedPhoto = files.photo[0];
-      console.log('files *** 2', files, 'uploadedImage', uploadedPhoto);
       const fileExtension = uploadedPhoto.originalFilename
         .split('.')
         .pop()
@@ -93,8 +91,6 @@ export default async function handler(
         photoPath: files && files.photo ? slugWithUuid : null,
         photoCredit,
         category: category.message,
-        originalUrl,
-        originalBias: originalBias as any,
       },
     });
 
