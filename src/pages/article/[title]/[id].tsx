@@ -36,7 +36,6 @@ interface PostPageProps {
 const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  console.log('IMAGEURL!!!', imageUrl);
 
   useEffect(() => {
     const fetchImageUrl = async () => {
@@ -71,11 +70,20 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   return (
     <Layout>
       <Head>
+        <title>{post.title} - The Neural Gazette</title>
+        <meta name="description" content={post.summary} />
+        <link
+          rel="canonical"
+          href={`https://neuralgazette.com/article/${titleSlug}/${post.id}`}
+        />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={shareUrl} />
+        <meta
+          property="og:url"
+          content={`https://neuralgazette.com/article/${titleSlug}/${post.id}`}
+        />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.summary} />
-        <meta property="og:image" content={post.photoPath} />
+        <meta property="og:image" content={imageUrl || 'default-image-url'} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="flex items-center justify-center py-2 m-5">
@@ -199,11 +207,12 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
             <div className="relative mb-4 mt-4">
               <Image
                 src={imageUrl}
-                alt="Article Image"
-                unoptimized
+                alt={post.title}
                 className="w-full"
                 width={360}
                 height={240}
+                unoptimized
+                loading="lazy"
               />
               {post.photoCredit && (
                 <p className="text-sm text-gray-500 italic mt-2">

@@ -60,6 +60,8 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
               alt={search ? 'Search news Thumbnail' : 'Next Article Thumbnail'}
               width={search ? 64 : 80}
               height={search ? 64 : 80}
+              unoptimized
+              loading="lazy"
             />
           </div>
         )}

@@ -30,7 +30,7 @@ const Navbar = () => {
             <Image
               src={logo}
               width={250}
-              alt="Your Name"
+              alt="The Neural Gazette Logo"
               className="hover:scale-110 transform transition-transform cursor-pointer"
             />
             <h1 className="text-center mt-2 text-neural-teal-lighter text-xs">
