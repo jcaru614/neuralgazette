@@ -1,50 +1,31 @@
 import { Layout } from '@/components';
-
 import { useState } from 'react';
-import prisma from '@/lib/prisma';
 import { Loading, NewsCard, Button, ServerError } from '@/components';
-import { GetServerSideProps } from 'next';
+import { fetcher } from '@/utils';
+import useSWR from 'swr';
 
-interface News {
-  id: string;
-  title: string;
-  headline: string;
-  summary: string;
-  article: string;
-  photoPath: string | null;
-  category: any;
-  originalBias?: any;
-}
-
-interface HomeProps {
-  initialNews: News[];
-  error?: string;
-}
-
-export default function Home({ initialNews, error }: HomeProps) {
-  const [news, setNews] = useState<News[]>(initialNews);
+export default function Home() {
   const [loading, setLoading] = useState(false);
+  const {
+    data: news,
+    error,
+    mutate,
+  } = useSWR(`/api/newsArticles/readNews`, fetcher);
 
   const loadMore = async () => {
-    if (loading) return;
+    if (!news) return;
     setLoading(true);
+    const lastNewsId = news[news.length - 1]?.id;
+
     try {
-      const lastNewsId = news[news.length - 1]?.id || null;
-      const response = await fetch(
+      const moreNews = await fetcher(
         `/api/newsArticles/readMoreNews?lastNewsId=${lastNewsId}`,
       );
 
-      if (!response.ok) {
-        console.error('Fetch error:', response.statusText);
-        return;
-      }
-
-      const newNews = await response.json();
-
-      if (Array.isArray(newNews)) {
-        setNews((prevNews) => [...prevNews, ...newNews]);
+      if (Array.isArray(moreNews)) {
+        mutate([...news, ...moreNews], false);
       } else {
-        console.error('Invalid response data:', newNews);
+        console.error('Invalid response data for more news:', moreNews);
       }
     } catch (error) {
       console.error('Error fetching more news:', error);
@@ -56,7 +37,7 @@ export default function Home({ initialNews, error }: HomeProps) {
   if (error) {
     return <ServerError />;
   }
-  if (!initialNews) {
+  if (!news) {
     return <Loading isFullScreen={true} />;
   }
   return (
@@ -75,8 +56,7 @@ export default function Home({ initialNews, error }: HomeProps) {
             ) : (
               <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
                 <h1 className="text-2xl font-bold text-terminal-blue text-center">
-                  Sorry there is news right now, please try again
-                  later.
+                  Sorry there is news right now, please try again later.
                 </h1>
               </div>
             )}
@@ -95,39 +75,3 @@ export default function Home({ initialNews, error }: HomeProps) {
     </Layout>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-  try {
-    const initialNews = await prisma.news.findMany({
-      where: {
-        approved: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: 5,
-      // select: {
-      //   id: true,
-      //   title: true,
-      //   headline: true,
-      //   summary: true,
-      //   article: true,
-      //   photoPath: true,
-      //   category: true,
-      //   createdAt: false,
-      // },
-    });
-
-    return {
-      props: { initialNews: JSON.parse(JSON.stringify(initialNews)) },
-    };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return {
-      props: {
-        initialNews: [],
-        error: 'An error occurred while fetching data.',
-      },
-    };
-  }
-};

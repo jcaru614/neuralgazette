@@ -56,8 +56,8 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
                   alt={`Image for ${news.title}`}
                   width={360}
                   height={240}
-                  unoptimized
                   className="w-full"
+                  unoptimized
                   loading="lazy"
                 />
               </div>

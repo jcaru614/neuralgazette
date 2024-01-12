@@ -73,7 +73,14 @@ const SearchBar = () => {
             className="p-2 pl-10 pr-8 rounded border-none bg-white w-full lg:w-80 sm:w-64"
           />
           <div className="absolute pl-2">
-            <Image src={searchIcon} alt="Search Icon" width={20} height={20} />
+            <Image
+              src={searchIcon}
+              alt="Search Icon"
+              width={20}
+              height={20}
+              unoptimized
+              loading="lazy"
+            />
           </div>
         </div>
 
