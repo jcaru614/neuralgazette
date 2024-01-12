@@ -17,7 +17,7 @@ export default async function handler(
       orderBy: {
         createdAt: 'desc',
       },
-      take: 5,
+      take: 10,
     });
     res.status(200).json(news);
   } catch (error) {
