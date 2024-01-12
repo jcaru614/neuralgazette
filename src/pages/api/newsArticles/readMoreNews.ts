@@ -20,7 +20,7 @@ export default async function handler(
       },
       skip: lastNewsId ? 1 : 0,
       ...(lastNewsId ? { cursor: { id: lastNewsId } } : {}),
-      take: 5,
+      take: 10,
     });
     res.status(200).json(news);
   } catch (error) {
