@@ -36,7 +36,6 @@ interface PostPageProps {
 const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  console.log('IMAGEURL!!!', imageUrl);
 
   useEffect(() => {
     const fetchImageUrl = async () => {
