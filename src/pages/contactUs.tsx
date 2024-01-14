@@ -58,7 +58,7 @@ const ContactUs: React.FC = () => {
   return (
     <Layout>
       <div className="container mx-auto p-8 max-w-3xl">
-        <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
+        <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
         {status.type === 'success' && (
           <div className="bg-gradient-to-r from-neural-teal to-neural-teal-lighter text-white px-4 py-3 mb-4 rounded">
             {status.message}

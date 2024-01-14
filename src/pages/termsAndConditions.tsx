@@ -7,9 +7,9 @@ const TermsAndConditions = () => {
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <div className="max-w-3xl">
-          <h1 className="text-4xl font-bold text-neural-teal mb-4">
+          <h2 className="text-4xl font-bold text-neural-teal mb-4">
             Terms and Conditions
-          </h1>
+          </h2>
           <p className="text-lg text-gray-700">Last Updated: 09/08/2023</p>
 
           <h2 className="text-2xl font-semibold mt-6">
