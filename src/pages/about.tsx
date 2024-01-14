@@ -6,9 +6,9 @@ const About = () => {
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <div className="max-w-3xl">
-          <h1 className="text-4xl font-bold text-neural-teal">
+          <h2 className="text-4xl font-bold text-neural-teal">
             About The Neural Gazette
-          </h1>
+          </h2>
           <p className="text-lg text-gray-700 mt-4">
             Welcome to The Neural Gazette, your trusted source for fast,
             concise, and unbiased news, all powered by Artificial Intelligence
