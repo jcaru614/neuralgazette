@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 import * as gtag from '@/lib/gtag';
 
 function MyApp({ Component, pageProps }: AppProps) {
-
   const router = useRouter();
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -54,6 +53,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="twitter:title" content={globalSeo.ogTitle} />
         <meta name="twitter:description" content={globalSeo.ogDescription} />
 
+        <script
+          id="seona-js-plugin"
+          defer
+          src="https://assets.usestyle.ai/seonajsplugin"
+        ></script>
       </Head>
       <GoogleAnalytics GA_TRACKING_ID={gtag.GA_TRACKING_ID} />
 
