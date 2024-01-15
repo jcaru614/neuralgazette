@@ -102,6 +102,7 @@ export default function Home() {
           }}
         />
       </Head>
+      
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="max-w-screen-xl">
           <div className="mb-8 relative">
