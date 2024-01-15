@@ -1,9 +1,33 @@
 import React from 'react';
 import { Layout } from '@/components';
+import Head from 'next/head';
+
+const SEO = {
+  title: `Neural Gazette | About`,
+  description: `An Unbiased AI news platform that' decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
+  image:
+    'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
+  url: 'https://neuralgazette.com/about',
+};
 
 const About = () => {
   return (
     <Layout>
+      <Head>
+        <title>{SEO.title}</title>
+        <link rel="canonical" href={SEO.url} />
+        <meta name="description" content={SEO.description} />
+
+        <meta property="og:type" content="home page" />
+        <meta property="og:title" content={SEO.title} />
+        <meta property="og:description" content={SEO.description} />
+        <meta property="og:image" content={SEO.image} />
+        <meta property="og:url" content={SEO.url} />
+
+        <meta name="twitter:card" content={SEO.image} />
+        <meta name="twitter:title" content={SEO.title} />
+        <meta name="twitter:description" content={SEO.description} />
+      </Head>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <div className="max-w-3xl">
           <h2 className="text-4xl font-bold text-neural-teal">
@@ -18,26 +42,31 @@ const About = () => {
           <p className="text-lg text-gray-700 mt-4">
             At The Neural Gazette, we leverage the cutting-edge technology of AI
             to revolutionize the way you consume news. Our AI algorithms collect
-            and analyze a vast array of news articles to generate unbiased news
-            articles tailored just for you.
+            and analyzes a vast amount of news articles across the political
+            spectrum to generate new unbiased and factual news articles with out
+            an agenda.
           </p>
           <p className="text-lg text-gray-700 mt-4">
             In today's fast-paced world, we understand the need for quick and
-            reliable information. That's why we present news in the form of
-            short paragraphs or two-liners, making it easy for you to stay
-            informed without being overwhelmed.
+            reliable information. That's why we present news so that each post
+            is a short summary and title, and if you desire more in-depth
+            coverage, you can easily access the full article by clicking the
+            post.
           </p>
           <p className="text-lg text-gray-700 mt-4">
-            Information overload and reliance on unreliable sources can be
-            dangerous. However, we believe that AI is the solution. Neural
-            Gazette uses AI technology to deliver true and unbiased information,
-            countering the pitfalls of misinformation and biased reporting.
+            Relying solely on ideologically biased sources poses inherent risks.
+            While such sources may convey accurate information in many
+            instances, the issue arises from the selective omission or complete
+            absence of certain details. This information gap is where challenges
+            emerge. Herein lies the value of AI as a solution. Neural Gazette
+            harnesses AI technology to provide genuinely unbiased and
+            comprehensive information, mitigating the risks associated with
+            misinformation and biased reporting.
           </p>
           <p className="text-lg text-gray-700 mt-4">
-            We understand that everyone's interests are unique. That's why our
-            app displays news stories with out reinforcing biases. Each post is
-            a short paragraph providing accurate information, and if you desire
-            more in-depth coverage, you can easily access the full articles.
+            Neural Gazette displays news stories with out reinforcing biases by
+            showing all current events regardless of which side so that you can
+            over come your blind side.
           </p>
           <p className="text-lg text-gray-700 mt-4">
             Join us on this transformative journey to access news that is not

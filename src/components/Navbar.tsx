@@ -26,7 +26,11 @@ const Navbar = () => {
     <>
       <nav className="flex items-center flex-wrap bg-gradient-to-r from-terminal-blue to-terminal-green p-4 sticky top-0 z-10">
         <div className="w-full flex justify-center m-2">
-          <Link href="/" className="flex flex-col items-center">
+          <Link
+            href="/"
+            className="flex flex-col items-center"
+            title="Neural Gazette Home"
+          >
             <Image
               src={logo}
               width={250}
@@ -67,6 +71,7 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
+                title={link.text}
                 className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
               >
                 {link.text}

@@ -27,12 +27,20 @@ const Footer = () => {
             <h4 className="text-lg font-semibold">Quick Links</h4>
             <ul className="mt-2">
               <li>
-                <Link className="hover:text-neural-teal" href="/about">
+                <Link
+                  className="hover:text-neural-teal"
+                  href="/about"
+                  title="About"
+                >
                   About
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-neural-teal" href="/privacyPolicy">
+                <Link
+                  className="hover:text-neural-teal"
+                  href="/privacyPolicy"
+                  title="Privacy Policy"
+                >
                   Privacy Policy
                 </Link>
               </li>
@@ -40,12 +48,17 @@ const Footer = () => {
                 <Link
                   className="hover:text-neural-teal"
                   href="/termsAndConditions"
+                  title="Terms and Conditions"
                 >
                   Terms and Conditions
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-neural-teal" href="/contactUs">
+                <Link
+                  className="hover:text-neural-teal"
+                  href="/contactUs"
+                  title="Contact Us"
+                >
                   Contact Us
                 </Link>
               </li>
@@ -60,6 +73,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-neural-teal-lighter"
+                  title="@neuralgazette"
                 >
                   <Image
                     src={twitterIcon}
@@ -76,6 +90,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-neural-teal-lighter"
+                  title="@neuralgazette"
                 >
                   <Image
                     src={instagramIcon}

@@ -3,6 +3,15 @@ import { useState } from 'react';
 import { Loading, NewsCard, Button, ServerError } from '@/components';
 import { fetcher } from '@/utils';
 import useSWR from 'swr';
+import Head from 'next/head';
+
+const SEO = {
+  title: `Neural Gazette | Unbiased News Articles written with AI from sources compiled across the political spectrum`,
+  description: `An Unbiased AI news platform that' decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
+  image:
+    'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
+  url: 'https://neuralgazette.com/',
+};
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -42,6 +51,21 @@ export default function Home() {
   }
   return (
     <Layout>
+      <Head>
+        <title>{SEO.title}</title>
+        <link rel="canonical" href={SEO.url} />
+        <meta name="description" content={SEO.description} />
+
+        <meta property="og:type" content="home page" />
+        <meta property="og:title" content={SEO.title} />
+        <meta property="og:description" content={SEO.description} />
+        <meta property="og:image" content={SEO.image} />
+        <meta property="og:url" content={SEO.url} />
+
+        <meta name="twitter:card" content={SEO.image} />
+        <meta name="twitter:title" content={SEO.title} />
+        <meta name="twitter:description" content={SEO.description} />
+      </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="max-w-screen-xl">
           <div className="mb-8 relative">

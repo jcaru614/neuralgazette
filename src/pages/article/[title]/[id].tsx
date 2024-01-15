@@ -70,20 +70,37 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   return (
     <Layout>
       <Head>
-        <title>{post.title} - The Neural Gazette</title>
-        <meta name="description" content={post.summary} />
+        <title>{post.title} | The Neural Gazette</title>
         <link
           rel="canonical"
           href={`https://neuralgazette.com/article/${titleSlug}/${post.id}`}
         />
+        <meta name="description" content={post.summary} />
+
         <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.summary} />
+        <meta
+          property="og:image"
+          content={
+            imageUrl ||
+            'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75'
+          }
+        />
         <meta
           property="og:url"
           content={`https://neuralgazette.com/article/${titleSlug}/${post.id}`}
         />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.summary} />
-        <meta property="og:image" content={imageUrl || 'default-image-url'} />
+
+        <meta
+          name="twitter:card"
+          content={
+            imageUrl ||
+            'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75'
+          }
+        />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.summary} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="flex items-center justify-center py-2 m-5">

@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
 import { Layout } from '@/components';
+import Head from 'next/head';
+
+const SEO = {
+  title: `Neural Gazette | Contact Us`,
+  description: `An Unbiased AI news platform that' decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
+  image:
+    'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
+  url: 'https://neuralgazette.com/about',
+};
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -57,6 +66,21 @@ const ContactUs: React.FC = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>{SEO.title}</title>
+        <link rel="canonical" href={SEO.url} />
+        <meta name="description" content={SEO.description} />
+
+        <meta property="og:type" content="home page" />
+        <meta property="og:title" content={SEO.title} />
+        <meta property="og:description" content={SEO.description} />
+        <meta property="og:image" content={SEO.image} />
+        <meta property="og:url" content={SEO.url} />
+
+        <meta name="twitter:card" content={SEO.image} />
+        <meta name="twitter:title" content={SEO.title} />
+        <meta name="twitter:description" content={SEO.description} />
+      </Head>
       <div className="container mx-auto p-8 max-w-3xl">
         <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
         {status.type === 'success' && (
