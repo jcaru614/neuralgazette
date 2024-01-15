@@ -11,11 +11,12 @@ export default async function handler(
       return;
     }
     const { lastNewsId, category }: any = req.query;
+
     const news = await prisma.news.findMany({
       where: {
         approved: true,
         category: {
-          equals: category,
+          equals: category.toUpperCase(),
         },
       },
       orderBy: {
@@ -32,10 +33,8 @@ export default async function handler(
       'Error fetching more news by category and lastNewsId:',
       error,
     );
-    res
-      .status(500)
-      .json({
-        error: 'An error occurred while fetching more news by category',
-      });
+    res.status(500).json({
+      error: 'An error occurred while fetching more news by category',
+    });
   }
 }

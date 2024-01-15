@@ -56,7 +56,7 @@ export default function Home() {
         <link rel="canonical" href={SEO.url} />
         <meta name="description" content={SEO.description} />
 
-        <meta property="og:type" content="home page" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={SEO.title} />
         <meta property="og:description" content={SEO.description} />
         <meta property="og:image" content={SEO.image} />
@@ -65,6 +65,42 @@ export default function Home() {
         <meta name="twitter:card" content={SEO.image} />
         <meta name="twitter:title" content={SEO.title} />
         <meta name="twitter:description" content={SEO.description} />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  name: 'About',
+                  item: `${SEO.url}/about`,
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: 'Politics',
+                  item: `${SEO.url}/politics`,
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 3,
+                  name: 'World',
+                  item: `${SEO.url}/world`,
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 4,
+                  name: 'Policy',
+                  item: `${SEO.url}/policy`,
+                },
+              ],
+            }),
+          }}
+        />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="max-w-screen-xl">

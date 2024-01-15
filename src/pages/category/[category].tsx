@@ -15,7 +15,7 @@ const CategoryPage: React.FC = () => {
     description: `An Unbiased AI news platform that' decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
     image:
       'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
-    url: 'https://neuralgazette.com/',
+    url: `https://neuralgazette.com/category${category}`,
   };
 
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ const CategoryPage: React.FC = () => {
         <link rel="canonical" href={SEO.url} />
         <meta name="description" content={SEO.description} />
 
-        <meta property="og:type" content="home page" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={SEO.title} />
         <meta property="og:description" content={SEO.description} />
         <meta property="og:image" content={SEO.image} />
@@ -78,7 +78,7 @@ const CategoryPage: React.FC = () => {
           <div className="mb-8 relative">
             <div className="flex items-center justify-center py-2">
               <h1 className="text-4xl font-bold text-terminal-blue">
-                {category}
+                {(category as string)?.toUpperCase()}
               </h1>
             </div>
             <div className="w-full h-2 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
@@ -89,9 +89,8 @@ const CategoryPage: React.FC = () => {
             ) : (
               <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
                 <h1 className="text-2xl font-bold text-terminal-blue text-center">
-                  Sorry there is no news for{' '}
-                  {(category as string).toLowerCase()} right now, please try
-                  again later.
+                  Sorry there is no news for {category as string} right now,
+                  please try again later.
                 </h1>
               </div>
             )}

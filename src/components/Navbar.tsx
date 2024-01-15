@@ -12,14 +12,14 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { href: '/category/POLITICS', text: 'Politics' },
-    { href: '/category/WORLD', text: 'World' },
-    { href: '/category/POLICY', text: 'Policy' },
-    { href: '/category/BUSINESS', text: 'Business' },
-    { href: '/category/ECONOMY', text: 'Economy' },
-    { href: '/category/TECHNOLOGY', text: 'Technology' },
-    { href: '/category/HEALTH', text: 'Health' },
-    { href: '/category/SCIENCE', text: 'Science' },
+    { href: '/category/politics', text: 'Politics' },
+    { href: '/category/world', text: 'World' },
+    { href: '/category/policy', text: 'Policy' },
+    { href: '/category/business', text: 'Business' },
+    { href: '/category/economy', text: 'Economy' },
+    { href: '/category/technology', text: 'Technology' },
+    { href: '/category/health', text: 'Health' },
+    { href: '/category/science', text: 'Science' },
   ];
 
   return (

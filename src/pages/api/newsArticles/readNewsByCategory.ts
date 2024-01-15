@@ -12,12 +12,12 @@ export default async function handler(
     }
 
     const { category }: any = req.query;
-
+    
     const news = await prisma.news.findMany({
       where: {
         approved: true,
         category: {
-          equals: category,
+          equals: category.toUpperCase(),
         },
       },
       orderBy: {
