@@ -7,7 +7,7 @@ const SEO = {
   description: `Discover the story behind Neural Gazette, an unbiased AI news platform. Learn about our mission, values, and the team driving accurate AI-written news.`,
   image:
     'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
-  url: 'https://neuralgazette.com/aboutUs',
+  url: 'https://neuralgazette.com/about',
 };
 
 const About = () => {
