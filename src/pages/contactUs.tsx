@@ -77,9 +77,10 @@ const ContactUs: React.FC = () => {
         <meta property="og:image" content={SEO.image} />
         <meta property="og:url" content={SEO.url} />
 
-        <meta name="twitter:card" content={SEO.image} />
         <meta name="twitter:title" content={SEO.title} />
         <meta name="twitter:description" content={SEO.description} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image:alt" content={SEO.title} />
       </Head>
       <div className="container mx-auto p-8 max-w-3xl">
         <h2 className="text-3xl font-bold mb-6">Contact Us</h2>

@@ -12,10 +12,10 @@ const CategoryPage: React.FC = () => {
 
   const SEO = {
     title: `Neural Gazette | ${category} News`,
-    description: `An Unbiased AI news platform that' decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
+    description: `An Unbiased AI news platform that's decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
     image:
       'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
-    url: `https://neuralgazette.com/category${category}`,
+    url: `https://neuralgazette.com/category/${category}`,
   };
 
   const [loading, setLoading] = useState(false);
@@ -69,9 +69,10 @@ const CategoryPage: React.FC = () => {
         <meta property="og:image" content={SEO.image} />
         <meta property="og:url" content={SEO.url} />
 
-        <meta name="twitter:card" content={SEO.image} />
         <meta name="twitter:title" content={SEO.title} />
         <meta name="twitter:description" content={SEO.description} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image:alt" content={SEO.title} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="max-w-screen-xl">

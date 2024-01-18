@@ -75,6 +75,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
           rel="canonical"
           href={`https://neuralgazette.com/article/${titleSlug}/${post.id}`}
         />
+
         <meta name="description" content={post.summary} />
 
         <meta property="og:type" content="article" />
@@ -101,6 +102,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
         />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.summary} />
+        <meta name="twitter:image:alt" content={post.title} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="flex items-center justify-center py-2 m-5">

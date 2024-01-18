@@ -25,9 +25,10 @@ const TermsAndConditions = () => {
         <meta property="og:image" content={SEO.image} />
         <meta property="og:url" content={SEO.url} />
 
-        <meta name="twitter:card" content={SEO.image} />
         <meta name="twitter:title" content={SEO.title} />
         <meta name="twitter:description" content={SEO.description} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image:alt" content={SEO.title} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <div className="max-w-3xl">
