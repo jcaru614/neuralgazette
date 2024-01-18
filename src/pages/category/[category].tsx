@@ -5,18 +5,41 @@ import useSWR from 'swr';
 import { useState } from 'react';
 import { fetcher } from '@/utils';
 import Head from 'next/head';
+import { ca } from 'date-fns/locale';
 
 const CategoryPage: React.FC = () => {
   const router = useRouter();
   const { category } = router.query;
+  console.log('router ', category);
 
   const SEO = {
     title: `Neural Gazette | ${category} News`,
-    description: `An Unbiased AI news platform that's decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
+    description: `Explore the latest news in the ${category} category on Neural Gazette.`,
     image:
       'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
     url: `https://neuralgazette.com/category/${category}`,
   };
+
+  const categoryDetails = {
+    politics:
+      "Unravel the complexities of political landscapes, analyzing government actions, societal impact, and the ongoing debates shaping our nation's course.",
+    world:
+      'Embark on a global journey, exploring diverse cultures, geopolitical events, and understanding the interconnectedness of our world.',
+    policy:
+      'Navigate the intricacies of policies that mold our society. From identifying challenges to proposing solutions, delve into the ideas that shape our collective future.',
+    business:
+      'Decode the language of commerce, examining market dynamics, corporate strategies, and the economic forces influencing businesses worldwide.',
+    economy:
+      'Explore the intricate web of economic forces, from fiscal policies to market trends, and gain insights into the dynamics that drive financial ecosystems.',
+    technology:
+      'Journey through the ever-evolving tech realm, exploring innovations, societal impacts, and the ethical debates surrounding technological advancements.',
+    health:
+      'Stay informed about the intricacies of health, from breakthrough medical discoveries to public health policies, and the ongoing debates shaping healthcare.',
+    science:
+      'Embark on a scientific exploration, delving into groundbreaking discoveries, ongoing research, and the debates shaping our understanding of the natural world.',
+  };
+
+  const subtext = categoryDetails[category as string];
 
   const [loading, setLoading] = useState(false);
   const {
@@ -74,15 +97,21 @@ const CategoryPage: React.FC = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image:alt" content={SEO.title} />
       </Head>
-      <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
+
+      <main className="flex flex-col items-center justify-center min-h-screen sm:p-2 md:p-4 lg:p-8">
         <div className="max-w-screen-xl">
           <div className="mb-8 relative">
-            <div className="flex items-center justify-center py-2">
-              <h1 className="text-4xl font-bold text-terminal-blue">
-                {(category as string)?.toUpperCase()}
+            <div className="flex flex-col items-center justify-center py-2">
+              <h1 className="uppercase text-4xl font-bold text-neural-teal relative">
+                <span className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12" />
+                {category as string}
+                <span className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
               </h1>
+              <h2 className="text-xl text-gray-700 font-bold mt-2 mb-2 text-center max-w-screen-md mx-auto">
+                {subtext}
+              </h2>
             </div>
-            <div className="w-full h-2 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
+            <div className="w-full h-1 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
           </div>
           <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
             {news.length > 0 ? (

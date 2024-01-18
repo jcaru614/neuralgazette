@@ -104,11 +104,15 @@ export default function Home() {
         />
       </Head>
 
-      <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
+      <main className="flex flex-col items-center justify-center min-h-screen sm:p-2 md:p-4 lg:p-8">
         <div className="max-w-screen-xl">
           <div className="mb-8 relative">
             <div className="flex items-center justify-center py-2">
-              <h1 className="text-4xl font-bold text-neural-teal">NEWS</h1>
+              <h1 className="text-4xl font-bold text-neural-teal relative">
+                <span className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12" />
+                NEWS
+                <span className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
+              </h1>
             </div>
             <div className="w-full h-1 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
           </div>
