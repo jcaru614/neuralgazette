@@ -5,7 +5,7 @@ import Head from 'next/head';
 
 const SEO = {
   title: `Neural Gazette | Terms and Conditions`,
-  description: `An Unbiased AI news platform that' decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
+  description: `Review Neural Gazette's terms and conditions. Understand the guidelines and agreements that govern your use of our unbiased AI news platform.`,
   image:
     'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
   url: 'https://neuralgazette.com/termsAndConditions',

@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 const SEO = {
   title: `Neural Gazette | Contact Us`,
-  description: `An Unbiased AI news platform that' decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
+  description: `Get in touch with Neural Gazette - Your source for unbiased AI news. Reach out to us for inquiries, feedback, or collaboration opportunities.`,
   image:
     'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
   url: 'https://neuralgazette.com/contactUs',

@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 const SEO = {
   title: `Neural Gazette | Privacy Policy`,
-  description: `An Unbiased AI news platform that' decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
+  description: `Learn about Neural Gazette's commitment to your privacy. Explore our privacy policy to understand how we handle your data on our unbiased AI news platform.`,
   image:
     'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
   url: 'https://neuralgazette.com/privacyPolicy',
