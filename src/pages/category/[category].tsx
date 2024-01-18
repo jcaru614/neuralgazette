@@ -12,14 +12,6 @@ const CategoryPage: React.FC = () => {
   const { category } = router.query;
   console.log('router ', category);
 
-  const SEO = {
-    title: `Neural Gazette | ${category} News`,
-    description: `Explore the latest news in the ${category} category on Neural Gazette.`,
-    image:
-      'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
-    url: `https://neuralgazette.com/category/${category}`,
-  };
-
   const categoryDetails = {
     politics:
       "Unravel the complexities of political landscapes, analyzing government actions, societal impact, and the ongoing debates shaping our nation's course.",
@@ -40,6 +32,14 @@ const CategoryPage: React.FC = () => {
   };
 
   const subtext = categoryDetails[category as string];
+
+  const SEO = {
+    title: `Neural Gazette | ${category} News`,
+    description: `Explore the latest news in the ${category} category on Neural Gazette. ${subtext}`,
+    image:
+      'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
+    url: `https://neuralgazette.com/category/${category}`,
+  };
 
   const [loading, setLoading] = useState(false);
   const {
