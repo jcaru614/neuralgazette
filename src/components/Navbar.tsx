@@ -50,6 +50,7 @@ const Navbar = () => {
         <button
           className="inline-flex p-3 hover:bg-neural-teal rounded lg:hidden text-white mr-auto hover:text-white outline-none"
           onClick={handleClick}
+          type="button"
         >
           <svg
             className="w-6 h-6"

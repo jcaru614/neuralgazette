@@ -18,7 +18,7 @@ const About = () => {
         <link rel="canonical" href={SEO.url} />
         <meta name="description" content={SEO.description} />
 
-        <meta property="og:type" content="home page" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={SEO.title} />
         <meta property="og:description" content={SEO.description} />
         <meta property="og:image" content={SEO.image} />

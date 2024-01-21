@@ -64,9 +64,9 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
           </div>
         )}
         <div className="ml-4 flex flex-col">
-          <h3 className="md:text-md sm:text-xs font-semibold text-neural-teal">
+          <h2 className="md:text-md sm:text-xs font-semibold text-neural-teal">
             {news.title}
-          </h3>
+          </h2>
 
           <span className="text-xs text-gray">
             {news.createdAt && format(parseISO(news.createdAt), 'MMMM d, yyyy')}

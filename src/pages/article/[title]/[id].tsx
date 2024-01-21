@@ -107,20 +107,31 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <div className="flex items-center justify-center py-2 m-5">
-          <h1 className="text-4xl font-bold text-neural-teal relative">
-            <span className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12" />
-            NEWS
-            <span className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
-          </h1>
+          <section>
+            <h2 className="text-4xl font-bold text-neural-teal relative">
+              <span
+                role="presentation"
+                className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12"
+              />
+              NEWS
+              <span
+                role="presentation"
+                className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12"
+              />
+            </h2>
+          </section>
         </div>
-        <div className="max-w-3xl w-full bg-off-white rounded-lg shadow-md p-2">
-          <div className="bg-neural-purple text-white p-1 m-2 rounded-md shadow-md inline-block">
-            {post.category}
-          </div>
 
-          <h1 className="md:text-4xl sm:text-xl font-bold text-terminal-blue text-center mt-2">
-            {post.title}
-          </h1>
+        <div className="max-w-3xl w-full bg-off-white rounded-lg shadow-md p-2">
+          <section>
+            <div className="bg-neural-purple text-white p-1 m-2 rounded-md shadow-md inline-block">
+              {post.category}
+            </div>
+
+            <h1 className="md:text-4xl sm:text-xl font-bold text-terminal-blue text-center mt-2">
+              {post.title}
+            </h1>
+          </section>
           <div className="flex items-center justify-center space-x-2 m-4">
             <Image
               src={neuralGazetteBot}
@@ -222,7 +233,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
               />
             </a>
 
-            <button onClick={handleCopyLink}>
+            <button type="button" onClick={handleCopyLink}>
               <Image src={copyIcon} alt="Copy Icon" width={28} height={28} />
             </button>
             {copySuccess && <p className="text-sm">Link copied</p>}
@@ -245,14 +256,16 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
               )}
             </div>
           )}
-          {paragraphs.map((paragraph, index) => (
-            <p
-              key={index}
-              className="md:text-lg sm:text-md mb-4 font-medium text-terminal-blue leading-relaxed"
-            >
-              {paragraph}
-            </p>
-          ))}
+          <article>
+            {paragraphs.map((paragraph, index) => (
+              <p
+                key={index}
+                className="md:text-lg sm:text-md mb-4 font-medium text-terminal-blue leading-relaxed"
+              >
+                {paragraph}
+              </p>
+            ))}
+          </article>
         </div>
         <div className="w-full max-w-4xl h-1 mt-10 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
 

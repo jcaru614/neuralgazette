@@ -18,7 +18,7 @@ const PrivacyPolicy = () => {
         <link rel="canonical" href={SEO.url} />
         <meta name="description" content={SEO.description} />
 
-        <meta property="og:type" content="home page" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={SEO.title} />
         <meta property="og:description" content={SEO.description} />
         <meta property="og:image" content={SEO.image} />
@@ -31,9 +31,9 @@ const PrivacyPolicy = () => {
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <div className="max-w-3xl">
-          <h2 className="text-4xl font-bold text-neural-teal mb-4">
+          <h1 className="text-4xl font-bold text-neural-teal mb-4">
             Privacy Policy
-          </h2>
+          </h1>
           <p className="text-lg text-gray">Last Updated: 09/08/2023</p>
 
           <h2 className="text-2xl font-semibold mt-6">Introduction</h2>

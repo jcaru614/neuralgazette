@@ -107,35 +107,48 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center min-h-screen sm:p-2 md:p-4 lg:p-8">
         <div className="max-w-screen-xl bg-off-white">
           <div className="mb-8 relative">
-            <div className="flex items-center justify-center py-2">
-              <h1 className="text-4xl font-bold text-neural-teal relative">
-                <span className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12" />
-                NEWS
-                <span className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
-              </h1>
-            </div>
-            <div className="w-full h-1 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
-          </div>
-          <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
-            {news.length > 0 ? (
-              news.map((item) => <NewsCard key={item.id} news={item} />)
-            ) : (
-              <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
-                <h1 className="text-2xl font-bold text-terminal-blue text-center">
-                  Sorry there is news right now, please try again later.
+            <section>
+              <div className="flex items-center justify-center py-2">
+                <h1 className="text-4xl font-bold text-neural-teal relative">
+                  <span
+                    role="presentation"
+                    className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12"
+                  />
+                  NEWS
+                  <span
+                    role="presentation"
+                    className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12"
+                  />
                 </h1>
               </div>
-            )}
+            </section>
+            <div
+              role="presentation"
+              className="w-full h-1 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"
+            ></div>
           </div>
-          {news.length > 0 ? (
-            <div className="flex justify-center items-center space-x-4 m-4">
-              {loading ? (
-                <Loading />
+          <section>
+            <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
+              {news.length > 0 ? (
+                news.map((item) => <NewsCard key={item.id} news={item} />)
               ) : (
-                <Button text="Load More" onClick={loadMore} />
+                <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
+                  <h2 className="text-2xl font-bold text-terminal-blue text-center">
+                    Sorry there is news right now, please try again later.
+                  </h2>
+                </div>
               )}
             </div>
-          ) : null}
+            {news.length > 0 ? (
+              <div className="flex justify-center items-center space-x-4 m-4">
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <Button text="Load More" onClick={loadMore} />
+                )}
+              </div>
+            ) : null}
+          </section>
         </div>
       </main>
     </Layout>

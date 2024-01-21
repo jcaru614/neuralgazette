@@ -45,7 +45,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   };
 
   return (
-    <div className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-lg active:shadow-lg md:flex relative p-1 bg-off-white">
+    <article className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-lg active:shadow-lg md:flex relative p-1 bg-off-white">
       <Link href={`/article/${titleSlug}/${news.id}`} passHref>
         <div className="md:flex md:flex-row md:space-x-2">
           {imageUrl && (
@@ -81,7 +81,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
           className="absolute bottom-0 right-0 text-neural-teal rounded-tl hover:text-neural-purple font-semibold py-2 px-4"
         />
       </Link>
-    </div>
+    </article>
   );
 };
 

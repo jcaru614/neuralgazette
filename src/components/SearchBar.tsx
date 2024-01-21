@@ -63,6 +63,9 @@ const SearchBar = () => {
         className="w-full lg:w-auto lg:ml-4 mt-4 lg:mt-0"
       >
         <div className="flex items-center">
+          <label htmlFor="searchInput" className="sr-only">
+            Search
+          </label>
           <input
             type="text"
             placeholder="Search"
@@ -72,7 +75,7 @@ const SearchBar = () => {
             }}
             className="bg-off-white text-gray p-2 pl-10 pr-8 rounded border-none w-full lg:w-80 sm:w-64"
           />
-          <div className="absolute pl-2">
+          <button type="submit" className="absolute pl-2">
             <Image
               src={searchIcon}
               alt="Search Icon"
@@ -80,8 +83,9 @@ const SearchBar = () => {
               height={20}
               unoptimized
               loading="lazy"
+              aria-label="Search Icon"
             />
-          </div>
+          </button>
         </div>
 
         {searchResults && debounceComplete && (

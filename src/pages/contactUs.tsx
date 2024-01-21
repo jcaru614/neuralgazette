@@ -20,7 +20,7 @@ const ContactUs: React.FC = () => {
 
   const [status, setStatus] = useState({
     message: '',
-    type: 'idle', // 'idle' | 'success' | 'error'
+    type: 'idle',
   });
 
   const handleChange = (
@@ -71,7 +71,7 @@ const ContactUs: React.FC = () => {
         <link rel="canonical" href={SEO.url} />
         <meta name="description" content={SEO.description} />
 
-        <meta property="og:type" content="home page" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={SEO.title} />
         <meta property="og:description" content={SEO.description} />
         <meta property="og:image" content={SEO.image} />
@@ -107,6 +107,7 @@ const ContactUs: React.FC = () => {
               onChange={handleChange}
               className="border rounded px-3 py-2 w-full"
               required
+              aria-label="Your Name"
             />
           </div>
           <div className="mb-4">
@@ -121,6 +122,7 @@ const ContactUs: React.FC = () => {
               onChange={handleChange}
               className="border rounded px-3 py-2 w-full"
               required
+              aria-label="Your Email"
             />
           </div>
           <div className="mb-4">
@@ -135,6 +137,7 @@ const ContactUs: React.FC = () => {
               onChange={handleChange}
               className="border rounded px-3 py-2 w-full"
               required
+              aria-label="Your Subject"
             />
           </div>
           <div className="mb-4">
@@ -149,6 +152,7 @@ const ContactUs: React.FC = () => {
               rows={4}
               className="border rounded px-3 py-2 w-full"
               required
+              aria-label="Your Message"
             />
           </div>
           <div className="mb-6">
