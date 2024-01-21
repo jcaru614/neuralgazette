@@ -111,7 +111,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
         </a>
         <div className="flex items-center justify-center py-2 m-5">
           <section>
-            <h2 className="text-4xl font-bold text-neural-teal relative">
+            <p className="text-4xl font-bold text-neural-teal relative">
               <span
                 role="presentation"
                 className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12"
@@ -121,7 +121,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 role="presentation"
                 className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12"
               />
-            </h2>
+            </p>
           </section>
         </div>
 
