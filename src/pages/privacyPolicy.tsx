@@ -34,10 +34,10 @@ const PrivacyPolicy = () => {
           <h2 className="text-4xl font-bold text-neural-teal mb-4">
             Privacy Policy
           </h2>
-          <p className="text-lg text-gray-700">Last Updated: 09/08/2023</p>
+          <p className="text-lg text-gray">Last Updated: 09/08/2023</p>
 
           <h2 className="text-2xl font-semibold mt-6">Introduction</h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray">
             Welcome to Neural Gazette ("we," "our," or "us"). We are committed
             to protecting your privacy and ensuring the security of your
             personal information. This Privacy Policy explains how we collect,
@@ -56,7 +56,7 @@ const PrivacyPolicy = () => {
           <h3 className="text-xl font-semibold mt-4">
             1. Personal Information
           </h3>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray">
             We may collect the following types of personal information when you
             use our website:
           </p>
@@ -68,7 +68,7 @@ const PrivacyPolicy = () => {
           </ul>
 
           <h3 className="text-xl font-semibold mt-4">2. Usage Information</h3>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray">
             We may also collect non-personal information about how you use our
             website, including:
           </p>
@@ -84,7 +84,7 @@ const PrivacyPolicy = () => {
           <h2 className="text-2xl font-semibold mt-6">
             How We Use Your Information
           </h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray">
             We may use your information for the following purposes:
           </p>
           <ul className="list-disc pl-6">
@@ -99,7 +99,7 @@ const PrivacyPolicy = () => {
           <h2 className="text-2xl font-semibold mt-6">
             Disclosure of Your Information
           </h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray">
             We may disclose your personal information to third parties only in
             the following circumstances:
           </p>
@@ -131,7 +131,7 @@ const PrivacyPolicy = () => {
           </ul>
 
           <h2 className="text-2xl font-semibold mt-6">Security</h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray">
             We take reasonable measures to protect your personal information
             from unauthorized access, use, or disclosure. However, no data
             transmission over the internet or electronic storage can be
@@ -141,7 +141,7 @@ const PrivacyPolicy = () => {
           <h2 className="text-2xl font-semibold mt-6">
             Changes to This Privacy Policy
           </h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray">
             We may update this Privacy Policy from time to time to reflect
             changes in our practices or for other operational, legal, or
             regulatory reasons. The updated Privacy Policy will be posted on
@@ -149,7 +149,7 @@ const PrivacyPolicy = () => {
           </p>
 
           <h2 className="text-2xl font-semibold mt-6">Contact Us</h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray">
             If you have any questions, concerns, or requests regarding this
             Privacy Policy, please contact us at neuralgazette@gmail.com.
           </p>

@@ -1,13 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { instagramIcon, twitterIcon, logo } from '@/public/images';
+import {
+  instagramOutlineIcon,
+  twitterOutlineIcon,
+  logo,
+} from '@/public/images';
 
 const Footer = () => {
-  const whiteIconStyle = {
-    filter: 'brightness(0) invert(1)',
-  };
-
   return (
     <footer className="bg-gradient-to-r from-terminal-blue to-terminal-green text-white py-6">
       <div className="container mx-auto">
@@ -19,16 +19,21 @@ const Footer = () => {
               alt="Your Name"
               className="hover:scale-110 transform transition-transform cursor-pointer mx-auto xs:mx-0"
             />
-            <p className="mt-2 p-2">
+            <p className="mt-2 p-2 text-off-white">
               Decoding Truth, Disentangling Misinformation, Empowering Minds.
+            </p>
+            <p className="mt-2 p-2 text-off-white">
+              © {new Date().getFullYear()} The Neural Gazette
             </p>
           </div>
           <div className="md:w-1/3 text-center mb-4 md:mb-0">
-            <h4 className="text-lg font-semibold">Quick Links</h4>
+            <h4 className="text-lg font-semibold text-off-white">
+              Quick Links
+            </h4>
             <ul className="mt-2">
               <li>
                 <Link
-                  className="hover:text-neural-teal"
+                  className="text-off-white hover:text-neural-teal"
                   href="/about"
                   title="About"
                 >
@@ -37,7 +42,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  className="hover:text-neural-teal"
+                  className="text-off-white hover:text-neural-teal"
                   href="/privacyPolicy"
                   title="Privacy Policy"
                 >
@@ -46,7 +51,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  className="hover:text-neural-teal"
+                  className="text-off-white hover:text-neural-teal"
                   href="/termsAndConditions"
                   title="Terms and Conditions"
                 >
@@ -55,7 +60,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  className="hover:text-neural-teal"
+                  className="text-off-white hover:text-neural-teal"
                   href="/contactUs"
                   title="Contact Us"
                 >
@@ -65,25 +70,8 @@ const Footer = () => {
             </ul>
           </div>
           <div className="md:w-1/3 text-center md:text-right">
-            <h4 className="text-lg font-semibold">Follow Us</h4>
+            <h4 className="text-off-white text-lg font-semibold">Follow Us</h4>
             <div className="mt-2 flex justify-center md:justify-end">
-              <div className="mr-4">
-                <a
-                  href="https://twitter.com/neuralgazette"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-neural-teal-lighter"
-                  title="@neuralgazette"
-                >
-                  <Image
-                    src={twitterIcon}
-                    alt="Twitter"
-                    width={24}
-                    height={24}
-                    style={whiteIconStyle}
-                  />
-                </a>
-              </div>
               <div>
                 <a
                   href="https://www.instagram.com/neuralgazette"
@@ -93,11 +81,26 @@ const Footer = () => {
                   title="@neuralgazette"
                 >
                   <Image
-                    src={instagramIcon}
+                    src={instagramOutlineIcon}
                     alt="Instagram"
                     width={24}
                     height={24}
-                    style={whiteIconStyle}
+                  />
+                </a>
+              </div>
+              <div className="mr-4">
+                <a
+                  href="https://twitter.com/neuralgazette"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-neural-teal-lighter"
+                  title="@neuralgazette"
+                >
+                  <Image
+                    src={twitterOutlineIcon}
+                    alt="Twitter"
+                    width={24}
+                    height={24}
                   />
                 </a>
               </div>

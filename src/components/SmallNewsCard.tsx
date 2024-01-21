@@ -35,18 +35,16 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
   const linkProps = search
     ? {
         href: `/article/${slugify(news.title)}/${news.id}`,
-        className:
-          'block p-1 border-b border-gray-300 hover:bg-gray-100 hover:underline',
       }
     : { href: `/article/${slugify(news.title)}/${news.id}`, className: 'm-2' };
 
   return (
     <Link {...linkProps}>
       <div
-        className={`flex p-2 ${
+        className={`border-b border-gray bg-off-white flex p-2 ${
           search
             ? 'sm:max-w-sm'
-            : 'md:max-w-xl border border-gray-300 rounded-md hover:bg-gray-100 transition '
+            : 'md:max-w-xl border border-gray rounded-md transition'
         }`}
       >
         {imageUrl && (
@@ -69,12 +67,10 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
           <h3 className="md:text-md sm:text-xs font-semibold text-neural-teal">
             {news.title}
           </h3>
-          {search && (
-            <span className="text-xs text-gray-500">
-              {news.createdAt &&
-                format(parseISO(news.createdAt), 'MMMM d, yyyy')}
-            </span>
-          )}
+
+          <span className="text-xs text-gray">
+            {news.createdAt && format(parseISO(news.createdAt), 'MMMM d, yyyy')}
+          </span>
         </div>
       </div>
     </Link>

@@ -96,7 +96,7 @@ const ContactUs: React.FC = () => {
         )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700 font-bold">
+            <label htmlFor="name" className="block text-gray font-bold">
               Name:
             </label>
             <input
@@ -110,7 +110,7 @@ const ContactUs: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="from" className="block text-gray-700 font-bold">
+            <label htmlFor="from" className="block text-gray font-bold">
               Email:
             </label>
             <input
@@ -124,7 +124,7 @@ const ContactUs: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="subject" className="block text-gray-700 font-bold">
+            <label htmlFor="subject" className="block text-gray font-bold">
               Subject:
             </label>
             <input
@@ -138,7 +138,7 @@ const ContactUs: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="text" className="block text-gray-700 font-bold">
+            <label htmlFor="text" className="block text-gray font-bold">
               Message:
             </label>
             <textarea

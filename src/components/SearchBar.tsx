@@ -57,7 +57,7 @@ const SearchBar = () => {
   }, []);
 
   return (
-    <div ref={searchContainerRef}>
+    <div ref={searchContainerRef} className="px-3 py-2">
       <form
         onSubmit={handleSearchSubmit}
         className="w-full lg:w-auto lg:ml-4 mt-4 lg:mt-0"
@@ -70,7 +70,7 @@ const SearchBar = () => {
             onChange={(e) => {
               handleSearchChange(e);
             }}
-            className="p-2 pl-10 pr-8 rounded border-none bg-white w-full lg:w-80 sm:w-64"
+            className="bg-off-white text-gray p-2 pl-10 pr-8 rounded border-none w-full lg:w-80 sm:w-64"
           />
           <div className="absolute pl-2">
             <Image
@@ -85,7 +85,7 @@ const SearchBar = () => {
         </div>
 
         {searchResults && debounceComplete && (
-          <div className="absolute mt-2 lg:w-80 sm:w-64 bg-white border rounded shadow-md overflow-hidden">
+          <div className="absolute mt-2 lg:w-80 sm:w-64 max-h-60 overflow-y-auto border rounded shadow-md bg-off-white">
             <ul>
               {searchResults.map((result) => (
                 <li key={result.id}>

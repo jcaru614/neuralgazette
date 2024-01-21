@@ -34,27 +34,27 @@ const About = () => {
           <h2 className="text-4xl font-bold text-neural-teal">
             About The Neural Gazette
           </h2>
-          <p className="text-lg text-gray-700 mt-4">
+          <p className="text-lg text-gray mt-4">
             Welcome to The Neural Gazette, your trusted source for fast,
             concise, and unbiased news, all powered by Artificial Intelligence
             (AI). We are an AI news network committed to providing you with
             accurate and engaging news content.
           </p>
-          <p className="text-lg text-gray-700 mt-4">
+          <p className="text-lg text-gray mt-4">
             At The Neural Gazette, we leverage the cutting-edge technology of AI
             to revolutionize the way you consume news. Our AI algorithms collect
             and analyzes a vast amount of news articles across the political
             spectrum to generate new unbiased and factual news articles with out
             an agenda.
           </p>
-          <p className="text-lg text-gray-700 mt-4">
+          <p className="text-lg text-gray mt-4">
             In today's fast-paced world, we understand the need for quick and
             reliable information. That's why we present news so that each post
             is a short summary and title, and if you desire more in-depth
             coverage, you can easily access the full article by clicking the
             post.
           </p>
-          <p className="text-lg text-gray-700 mt-4">
+          <p className="text-lg text-gray mt-4">
             Relying solely on ideologically biased sources poses inherent risks.
             While such sources may convey accurate information in many
             instances, the issue arises from the selective omission or complete
@@ -64,17 +64,17 @@ const About = () => {
             comprehensive information, mitigating the risks associated with
             misinformation and biased reporting.
           </p>
-          <p className="text-lg text-gray-700 mt-4">
+          <p className="text-lg text-gray mt-4">
             Neural Gazette displays news stories with out reinforcing biases by
             showing all current events regardless of which side so that you can
             over come your blind side.
           </p>
-          <p className="text-lg text-gray-700 mt-4">
+          <p className="text-lg text-gray mt-4">
             Join us on this transformative journey to access news that is not
             only fast but also reliable and unbiased. The Neural Gazette is your
             trusted companion for staying informed in today's dynamic world.
           </p>
-          <p className="text-lg text-gray-700 mt-4">
+          <p className="text-lg text-gray mt-4">
             Thank you for being a part of The Neural Gazette community.
             Together, we can navigate the complex world of news and emerge
             better informed, empowered, and inspired.

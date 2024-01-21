@@ -20,6 +20,7 @@ const Navbar = () => {
     { href: '/category/technology', text: 'Technology' },
     { href: '/category/health', text: 'Health' },
     { href: '/category/science', text: 'Science' },
+    { href: '/about', text: 'About Us' },
   ];
 
   return (
@@ -74,7 +75,7 @@ const Navbar = () => {
                 title={link.text}
                 className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
               >
-                {link.text}
+                <p className="text-off-white">{link.text}</p>
               </Link>
             ))}
             <SearchBar />

@@ -21,7 +21,8 @@ module.exports = {
         'neural-purple-lighter': '#9956A2',
         'network-error': '#CE3240',
         'network-error-lighter': '#DD4C59',
-        'off-white': '#FDFDFB',
+        gray: '#898989',
+        'off-white': '#F7F3EE',
         white: '#FFFFFF',
       },
       screens: {

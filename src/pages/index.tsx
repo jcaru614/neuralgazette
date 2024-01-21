@@ -105,7 +105,7 @@ export default function Home() {
       </Head>
 
       <main className="flex flex-col items-center justify-center min-h-screen sm:p-2 md:p-4 lg:p-8">
-        <div className="max-w-screen-xl">
+        <div className="max-w-screen-xl bg-off-white">
           <div className="mb-8 relative">
             <div className="flex items-center justify-center py-2">
               <h1 className="text-4xl font-bold text-neural-teal relative">

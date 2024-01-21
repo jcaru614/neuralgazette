@@ -25,6 +25,7 @@ interface NewsPost {
   photoPath: string;
   photoCredit?: string;
   createdAt: string;
+  category: string;
 }
 
 interface PostPageProps {
@@ -113,7 +114,11 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
           </h1>
         </div>
         <div className="max-w-3xl w-full bg-off-white rounded-lg shadow-md p-2">
-          <h1 className="md:text-4xl sm:text-xl font-bold text-terminal-blue text-center">
+          <div className="bg-neural-purple text-white p-1 m-2 rounded-md shadow-md inline-block">
+            {post.category}
+          </div>
+
+          <h1 className="md:text-4xl sm:text-xl font-bold text-terminal-blue text-center mt-2">
             {post.title}
           </h1>
           <div className="flex items-center justify-center space-x-2 m-4">
@@ -175,20 +180,6 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
               />
             </a>
             <a
-              href={`sms:?&body=${encodeURIComponent(
-                shareText + ' ' + shareUrl,
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={messageIcon}
-                alt="Text Message Icon"
-                width={28}
-                height={28}
-              />
-            </a>
-            <a
               href={`https://www.reddit.com/submit?url=${encodeURIComponent(
                 shareUrl,
               )}&title=${encodeURIComponent(shareText)}`}
@@ -216,6 +207,20 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 height={28}
               />
             </a>
+            <a
+              href={`sms:?&body=${encodeURIComponent(
+                shareText + ' ' + shareUrl,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={messageIcon}
+                alt="Text Message Icon"
+                width={28}
+                height={28}
+              />
+            </a>
 
             <button onClick={handleCopyLink}>
               <Image src={copyIcon} alt="Copy Icon" width={28} height={28} />
@@ -234,7 +239,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 loading="lazy"
               />
               {post.photoCredit && (
-                <p className="text-sm text-gray-500 italic mt-2">
+                <p className="text-sm text-gray italic mt-2">
                   Photo source: {post.photoCredit}
                 </p>
               )}

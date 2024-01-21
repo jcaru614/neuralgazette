@@ -5,7 +5,6 @@ import useSWR from 'swr';
 import { useState } from 'react';
 import { fetcher } from '@/utils';
 import Head from 'next/head';
-import { ca } from 'date-fns/locale';
 
 const CategoryPage: React.FC = () => {
   const router = useRouter();
@@ -107,7 +106,7 @@ const CategoryPage: React.FC = () => {
                 {category as string}
                 <span className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12" />
               </h1>
-              <h2 className="text-xl text-gray-700 font-bold mt-2 mb-2 text-center max-w-screen-md mx-auto">
+              <h2 className="text-xl text-gray font-bold mt-2 mb-2 text-center max-w-screen-md mx-auto">
                 {subtext}
               </h2>
             </div>
