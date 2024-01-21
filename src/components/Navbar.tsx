@@ -13,7 +13,6 @@ const Navbar = () => {
   };
 
   const windowDimensions = useWindowDimensions();
-  console.log('window dimensions ', windowDimensions);
 
   const navLinks = [
     { href: '/category/politics', text: 'Politics' },

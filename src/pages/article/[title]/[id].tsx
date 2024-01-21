@@ -40,10 +40,15 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
 
   useEffect(() => {
     const fetchImageUrl = async () => {
-      if (post.photoPath) {
-        const filepath = post.photoPath;
-        const url = await getPublicImageUrl(filepath);
-        setImageUrl(url);
+      try {
+        if (post.photoPath) {
+          const filepath = post.photoPath;
+          const url = await getPublicImageUrl(filepath);
+          setImageUrl(url);
+          console.log('ImageUrl:', url); // Log imageUrl for debugging
+        }
+      } catch (error) {
+        console.error('Error fetching image URL:', error);
       }
     };
 
@@ -51,7 +56,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
   }, [post.photoPath]);
 
   const titleSlug = slugify(post.title);
-  const shareUrl = `https://neuralgazette.com//article/${titleSlug}/${post.id}`;
+  const shareUrl = `https://neuralgazette.com/article/${titleSlug}/${post.id}`;
   const shareText = `Check out this article on the neural gazette: ${post.title}`;
 
   const handleCopyLink = () => {
@@ -85,8 +90,9 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
         <meta
           property="og:image"
           content={
-            imageUrl ||
-            'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75'
+            imageUrl
+              ? imageUrl
+              : 'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75'
           }
         />
         <meta
@@ -97,8 +103,9 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
         <meta
           name="twitter:card"
           content={
-            imageUrl ||
-            'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75'
+            imageUrl
+              ? imageUrl
+              : 'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75'
           }
         />
         <meta name="twitter:title" content={post.title} />

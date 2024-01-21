@@ -10,7 +10,7 @@ const SEO = {
   description: `An Unbiased AI news platform that's decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
   image:
     'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
-  url: 'https://neuralgazette.com',
+  url: 'https://neuralgazette.com/',
 };
 
 export default function Home() {

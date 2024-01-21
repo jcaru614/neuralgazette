@@ -5,9 +5,7 @@ const ServerErrorPage = () => {
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center h-screen bg-gray">
-        <h1 className="text-4xl font-semibold text-red-500 mb-4">
-          Server Error
-        </h1>
+        <p className="text-4xl font-semibold text-red-500 mb-4">Server Error</p>
         <p className="text-xl text-gray mb-8">
           Sorry, something went wrong on our end. Please try again later.
         </p>
