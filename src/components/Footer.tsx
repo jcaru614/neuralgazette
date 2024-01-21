@@ -16,20 +16,20 @@ const Footer = () => {
             <Image
               src={logo}
               width={250}
-              alt="Your Name"
+              alt="Neural Gazette Logo"
               className="hover:scale-110 transform transition-transform cursor-pointer mx-auto xs:mx-0"
             />
-            <p className="mt-2 p-2 text-off-white">
+            <h1 className="mt-2 p-2 text-off-white">
               Decoding Truth, Disentangling Misinformation, Empowering Minds.
-            </p>
+            </h1>
             <p className="mt-2 p-2 text-off-white">
               © {new Date().getFullYear()} The Neural Gazette
             </p>
           </div>
           <div className="md:w-1/3 text-center mb-4 md:mb-0">
-            <h4 className="text-lg font-semibold text-off-white">
+            <h2 className="text-lg font-semibold text-off-white">
               Quick Links
-            </h4>
+            </h2>
             <ul className="mt-2">
               <li>
                 <Link
@@ -70,7 +70,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="md:w-1/3 text-center md:text-right">
-            <h4 className="text-off-white text-lg font-semibold">Follow Us</h4>
+            <h2 className="text-off-white text-lg font-semibold">Follow Us</h2>
             <div className="mt-2 flex justify-center md:justify-end">
               <div>
                 <a

@@ -106,6 +106,9 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
         <meta name="twitter:image:alt" content={post.title} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
+        <a href="#main-content" className="sr-only sr-only-focusable">
+          Skip to main content
+        </a>
         <div className="flex items-center justify-center py-2 m-5">
           <section>
             <h2 className="text-4xl font-bold text-neural-teal relative">
@@ -256,7 +259,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
               )}
             </div>
           )}
-          <article>
+          <article id="main-content" tabIndex={-1}>
             {paragraphs.map((paragraph, index) => (
               <p
                 key={index}

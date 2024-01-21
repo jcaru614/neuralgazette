@@ -53,6 +53,7 @@ const Navbar = () => {
           type="button"
         >
           <svg
+            role="presentation"
             className="w-6 h-6"
             fill="none"
             stroke="currentColor"

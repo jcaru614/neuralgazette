@@ -61,12 +61,14 @@ const SearchBar = () => {
       <form
         onSubmit={handleSearchSubmit}
         className="w-full lg:w-auto lg:ml-4 mt-4 lg:mt-0"
+        role="search"
       >
         <div className="flex items-center">
           <label htmlFor="searchInput" className="sr-only">
             Search
           </label>
           <input
+            id="searchInput"
             type="text"
             placeholder="Search"
             value={searchTerm}

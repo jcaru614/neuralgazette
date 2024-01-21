@@ -32,9 +32,9 @@ const TermsAndConditions = () => {
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <div className="max-w-3xl">
-          <h2 className="text-4xl font-bold text-neural-teal mb-4">
+          <h1 className="text-4xl font-bold text-neural-teal mb-4">
             Terms and Conditions
-          </h2>
+          </h1>
           <p className="text-lg text-gray">Last Updated: 09/08/2023</p>
 
           <h2 className="text-2xl font-semibold mt-6">

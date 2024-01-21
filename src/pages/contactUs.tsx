@@ -83,7 +83,7 @@ const ContactUs: React.FC = () => {
         <meta name="twitter:image:alt" content={SEO.title} />
       </Head>
       <div className="container mx-auto p-8 max-w-3xl">
-        <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
+        <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
         {status.type === 'success' && (
           <div className="bg-gradient-to-r from-neural-teal to-neural-teal-lighter text-white px-4 py-3 mb-4 rounded">
             {status.message}
@@ -94,7 +94,7 @@ const ContactUs: React.FC = () => {
             {status.message}
           </div>
         )}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} role="form">
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray font-bold">
               Name:
