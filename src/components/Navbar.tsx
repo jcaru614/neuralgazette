@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { logo } from '@/public/images';
 import { SearchBar } from '@/components';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
@@ -10,6 +11,9 @@ const Navbar = () => {
   const handleClick = () => {
     setActive(!active);
   };
+
+  const windowDimensions = useWindowDimensions();
+  console.log('window dimensions ', windowDimensions);
 
   const navLinks = [
     { href: '/category/politics', text: 'Politics' },
@@ -20,7 +24,7 @@ const Navbar = () => {
     { href: '/category/technology', text: 'Technology' },
     { href: '/category/health', text: 'Health' },
     { href: '/category/science', text: 'Science' },
-    { href: '/about', text: 'About Us' },
+    { href: '/about', text: 'About' },
   ];
 
   return (
@@ -68,17 +72,35 @@ const Navbar = () => {
           }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
           <div className="lg:inline-flex lg:flex-row lg:m-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                title={link.text}
-                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
-              >
-                <p className="text-off-white">{link.text}</p>
-              </Link>
-            ))}
-            <SearchBar />
+            {windowDimensions.width < 1024 ? (
+              <>
+                <SearchBar />
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    title={link.text}
+                    className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
+                  >
+                    <p className="text-off-white">{link.text}</p>
+                  </Link>
+                ))}
+              </>
+            ) : (
+              <>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    title={link.text}
+                    className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
+                  >
+                    <p className="text-off-white">{link.text}</p>
+                  </Link>
+                ))}
+                <SearchBar />
+              </>
+            )}
           </div>
         </div>
       </nav>
