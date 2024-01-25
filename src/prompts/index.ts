@@ -27,7 +27,7 @@ AI, I want you to create an unbiased news summary based on this article provided
 ${articleMessage}
 \`\`\`
 
-Return only a single summary without quotation marks with no more than 450 characters in your response.
+Return only a single summary without quotation marks, asterisks or any thing else, I just want the summary nothing else with no more than 450 characters in your response.
 `;
 
 

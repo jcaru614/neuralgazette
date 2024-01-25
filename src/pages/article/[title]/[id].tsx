@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Layout, Loading, SmallNewsCard } from '@/components';
 import { neuralGazetteBot } from '@/public/images';
 import Head from 'next/head';
+import Link from 'next/link';
 import {
   facebookIcon,
   twitterIcon,
@@ -70,6 +71,32 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
 
   const paragraphs = post.article.split('\n').map((para) => para.trim());
 
+  const formatNumberedList = (text: string) => {
+    const lines = text.split('\n');
+    let isNumberedList = false;
+
+    const formattedLines = lines.map((line) => {
+      const trimmedLine = line.trim();
+
+      // Check if the line starts with a number and a period
+      if (/^\d+\./.test(trimmedLine)) {
+        isNumberedList = true;
+        return `<strong>${trimmedLine}</strong>`;
+      }
+
+      // If it's not a numbered list item, check if it's an empty line
+      if (!trimmedLine) {
+        isNumberedList = false;
+        return '';
+      }
+
+      // If it's part of a numbered list, wrap it in a <p> tag
+      return isNumberedList ? `<p>${trimmedLine}</p>` : trimmedLine;
+    });
+
+    return formattedLines.join('\n');
+  };
+
   if (!post) {
     return <Loading isFullScreen={true} />;
   }
@@ -113,9 +140,9 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
         <meta name="twitter:image:alt" content={post.title} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
-        <a href="#main-content" className="sr-only sr-only-focusable">
+        <Link href="#main-content" className="sr-only sr-only-focusable">
           Skip to main content
-        </a>
+        </Link>
         <div className="flex items-center justify-center py-2 m-5">
           <section>
             <p className="text-4xl font-bold text-neural-teal relative">
@@ -157,7 +184,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
             </p>
           </div>
           <div className="flex justify-center space-x-4 mt-4 mb-4">
-            <a
+            <Link
               href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                 shareUrl,
               )}&quote=${encodeURIComponent(shareText)}`}
@@ -170,9 +197,9 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 width={28}
                 height={28}
               />
-            </a>
+            </Link>
 
-            <a
+            <Link
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                 shareText,
               )}&url=${encodeURIComponent(shareUrl)}&hashtags=yourHashtagsHere`}
@@ -185,8 +212,8 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 width={28}
                 height={28}
               />
-            </a>
-            <a
+            </Link>
+            <Link
               href={`https://www.instagram.com/?url=${encodeURIComponent(
                 shareUrl,
               )}`}
@@ -199,8 +226,8 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 width={28}
                 height={28}
               />
-            </a>
-            <a
+            </Link>
+            <Link
               href={`https://www.reddit.com/submit?url=${encodeURIComponent(
                 shareUrl,
               )}&title=${encodeURIComponent(shareText)}`}
@@ -213,8 +240,8 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 width={28}
                 height={28}
               />
-            </a>
-            <a
+            </Link>
+            <Link
               href={`whatsapp://send?text=${encodeURIComponent(
                 shareText + ' ' + shareUrl,
               )}`}
@@ -227,8 +254,8 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 width={28}
                 height={28}
               />
-            </a>
-            <a
+            </Link>
+            <Link
               href={`sms:?&body=${encodeURIComponent(
                 shareText + ' ' + shareUrl,
               )}`}
@@ -241,7 +268,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
                 width={28}
                 height={28}
               />
-            </a>
+            </Link>
 
             <button type="button" onClick={handleCopyLink}>
               <Image src={copyIcon} alt="Copy Icon" width={28} height={28} />
@@ -268,12 +295,13 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
           )}
           <article id="main-content" tabIndex={-1}>
             {paragraphs.map((paragraph, index) => (
-              <p
+              <div
                 key={index}
                 className="md:text-lg sm:text-md mb-4 font-medium text-terminal-blue leading-relaxed"
-              >
-                {paragraph}
-              </p>
+                dangerouslySetInnerHTML={{
+                  __html: formatNumberedList(paragraph),
+                }}
+              />
             ))}
           </article>
         </div>

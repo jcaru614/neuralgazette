@@ -73,6 +73,7 @@ const Navbar = () => {
           }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
           <div className="lg:inline-flex lg:flex-row lg:m-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto">
+            {/* TODO: HYDRATION ERROR IS REGARDING THIS */}
             {windowDimensions.width < 1024 ? (
               <>
                 <SearchBar />
