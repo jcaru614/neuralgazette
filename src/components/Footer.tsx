@@ -73,7 +73,7 @@ const Footer = () => {
             <h2 className="text-off-white text-lg font-semibold">Follow Us</h2>
             <div className="mt-2 flex justify-center md:justify-end">
               <div>
-                <a
+                <Link
                   href="https://www.instagram.com/neuralgazette"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -86,10 +86,10 @@ const Footer = () => {
                     width={24}
                     height={24}
                   />
-                </a>
+                </Link>
               </div>
               <div className="mr-4">
-                <a
+                <Link
                   href="https://twitter.com/neuralgazette"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -102,7 +102,7 @@ const Footer = () => {
                     width={24}
                     height={24}
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
