@@ -28,6 +28,7 @@ const CategoryPage: React.FC = () => {
       'Stay informed about the intricacies of health, from breakthrough medical discoveries to public health policies, and the ongoing debates shaping healthcare.',
     science:
       'Embark on a scientific exploration, delving into groundbreaking discoveries, ongoing research, and the debates shaping our understanding of the natural world.',
+    life: 'Explore the myriad facets of life, from wellness and lifestyle choices to cultural phenomena and human experiences, uncovering the rich tapestry that defines our existence.',
   };
 
   const subtext = categoryDetails[category as string];

@@ -49,6 +49,7 @@ Categories:
 6. ECONOMY
 7. HEALTH
 8. SCIENCE
+9. LIFE
 
 In your response, provide the name of your chosen category exactly as it appears in the list above. Do not include any additional text or explanations.
 

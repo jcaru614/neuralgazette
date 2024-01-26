@@ -31,4 +31,5 @@ enum Category {
   ECONOMY
   HEALTH
   SCIENCE
+  LIFE
 }

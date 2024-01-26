@@ -23,6 +23,7 @@ const Navbar = () => {
     { href: '/category/technology', text: 'Technology' },
     { href: '/category/health', text: 'Health' },
     { href: '/category/science', text: 'Science' },
+    { href: '/category/life', text: 'Life' },
     { href: '/about', text: 'About' },
   ];
 

@@ -4,7 +4,7 @@
   <url>
     <loc>https://neuralgazette.com/</loc>
     <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
@@ -87,6 +87,13 @@
 
   <url>
     <loc>https://neuralgazette.com/category/science</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+    <url>
+    <loc>https://neuralgazette.com/category/life</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

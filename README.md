@@ -14,9 +14,9 @@ vercel dev
 
 ```
 
-## Commands for PRISMA AND SUPPABASE
+## Commands for PRISMA AND SUPABASE
 
-### Generatig a brand new Database Schema
+### Generating a brand new Database Schema
 
 npx prisma generate
 
@@ -32,7 +32,7 @@ npx prisma migrate reset
 
 npx prisma migrate dev
 
-### Update the Database for dev envirment only do not use in production
+### Update the Database for dev environment only do not use in production
 
 <!-- This command will delete all entries provided you rename any field or do not use the optional ? and is only used for speed testing dev-->
 
@@ -42,7 +42,7 @@ npx prisma db push
 
 this is a Guide from official documentation but you must do two things first
 1- You must Drop or delete the \_migration_prisma table
-from your database before persuing the baseline migration.
+from your database before pursuing the baseline migration.
 2- In some scenarios it is reported by some developers
 some commands are not working on their system. if you are stuck in some prisma command then Must! try the CodeSandBox or Codespaces from github.
 
@@ -80,14 +80,13 @@ some commands are not working on their system. if you are stuck in some prisma c
 
         npx prisma migrate dev
 
-
-
-
-## Guide for ADDING AND EDITING A FIELD FOR TABLE HAVING EXISTING DATA ##
+## Guide for ADDING AND EDITING A FIELD FOR TABLE HAVING EXISTING DATA
 
 ### adding a FIELD
 
-    content   String?  : new field showd be added as optional or with default value
+    content   String?  : new field should be added as optional or with default value
+
+    then run: prisma migrate dev --name add field --create-only
 
     #SQL :  ALTER TABLE "News" ADD COLUMN     "phone" TEXT NOT NULL DEFAULT 'some_default_value';
 
@@ -103,7 +102,7 @@ some commands are not working on their system. if you are stuck in some prisma c
 
 ### Renaming a field
 
-                    edit  fieldname from title to titles
+                    edit  field name from title to titles
 
                     then run: npx prisma migrate dev --name rename-title --create-only
 
@@ -111,8 +110,7 @@ some commands are not working on their system. if you are stuck in some prisma c
 
                    #SQL : ALTER TABLE "News" RENAME COLUMN "title" TO "titles";
 
-
-**run this command after any change to Database after baseline**
+**run this command after any change to Database in Dev env to see if it works then uncomment out prod env and run again if no problems**
 
     npx prisma migrate dev
 
