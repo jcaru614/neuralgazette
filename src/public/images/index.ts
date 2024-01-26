@@ -11,3 +11,5 @@ export { default as instagramIcon } from './instagram-icon.png';
 export { default as instagramOutlineIcon } from './instagram-outline-icon.png';
 export { default as logo } from './logo.png';
 export { default as searchIcon } from './search-icon.png';
+export { default as shareIcon } from './share-icon.png';
+export { default as closeIcon } from './close-icon.png';

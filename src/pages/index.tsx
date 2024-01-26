@@ -124,7 +124,7 @@ export default function Home() {
             </section>
             <div
               role="presentation"
-              className="w-full h-1 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"
+              className="w-full h-1 bg-neural-teal to-neural-teal rounded"
             ></div>
           </div>
           <section>
@@ -133,7 +133,7 @@ export default function Home() {
                 news.map((item) => <NewsCard key={item.id} news={item} />)
               ) : (
                 <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
-                  <h2 className="text-2xl font-bold text-terminal-blue text-center">
+                  <h2 className="text-2xl font-bold text-black text-center">
                     Sorry there is news right now, please try again later.
                   </h2>
                 </div>

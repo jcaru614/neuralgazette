@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout } from '@/components';
+import { Button, Layout } from '@/components';
 import Head from 'next/head';
 
 const SEO = {
@@ -86,12 +86,12 @@ const ContactUs: React.FC = () => {
         <div className="container mx-auto p-8 max-w-3xl">
           <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
           {status.type === 'success' && (
-            <div className="bg-gradient-to-r from-neural-teal to-neural-teal-lighter text-white px-4 py-3 mb-4 rounded">
+            <div className="bg-neural-teal text-white px-4 py-3 mb-4 rounded">
               {status.message}
             </div>
           )}
           {status.type === 'error' && (
-            <div className="bg-gradient-to-r from-network-error to-network-error-lighter text-white px-4 py-3 mb-4 rounded">
+            <div className="bg-network-error text-white px-4 py-3 mb-4 rounded">
               {status.message}
             </div>
           )}
@@ -157,12 +157,7 @@ const ContactUs: React.FC = () => {
               />
             </div>
             <div className="mb-6">
-              <button
-                type="submit"
-                className="bg-neural-teal hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Submit
-              </button>
+              <Button text="Submit" type="submit" styles="py-2 px-4" />
             </div>
           </form>
         </div>

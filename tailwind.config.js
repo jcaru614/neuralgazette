@@ -15,15 +15,13 @@ module.exports = {
       colors: {
         'terminal-blue': '#110E28',
         'terminal-green': '#121D23',
-        'neural-teal': '#0DA1A1',
-        'neural-teal-lighter': '#4FD1C5',
-        'neural-purple': '#7B478F',
-        'neural-purple-lighter': '#9956A2',
-        'network-error': '#CE3240',
-        'network-error-lighter': '#DD4C59',
-        gray: '#898989',
-        'off-white': '#F7F3EE',
+        'neural-teal': '#24C3C3',
+        'neural-purple': '#6E4DF0',
+        'network-error': '#FF3636',
+        gray: '#B0B0B0',
+        'off-white': '#F9F9F9',
         white: '#FFFFFF',
+        black: '#000000'
       },
       screens: {
         sm: '250px',

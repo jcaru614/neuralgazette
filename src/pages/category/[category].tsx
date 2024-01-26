@@ -28,6 +28,7 @@ const CategoryPage: React.FC = () => {
       'Stay informed about the intricacies of health, from breakthrough medical discoveries to public health policies, and the ongoing debates shaping healthcare.',
     science:
       'Embark on a scientific exploration, delving into groundbreaking discoveries, ongoing research, and the debates shaping our understanding of the natural world.',
+    life: 'Explore the myriad facets of life, from wellness and lifestyle choices to cultural phenomena and human experiences, uncovering the rich tapestry that defines our existence.',
   };
 
   const subtext = categoryDetails[category as string];
@@ -120,7 +121,7 @@ const CategoryPage: React.FC = () => {
             </section>
             <div
               role="presentation"
-              className="w-full h-1 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"
+              className="w-full h-1 bg-neural-teal rounded"
             ></div>
           </div>
           <section>
@@ -129,7 +130,7 @@ const CategoryPage: React.FC = () => {
                 news.map((item) => <NewsCard key={item.id} news={item} />)
               ) : (
                 <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
-                  <h2 className="text-2xl font-bold text-terminal-blue text-center">
+                  <h2 className="text-2xl font-bold text-black text-center">
                     Sorry there is no news for {category as string} right now,
                     please try again later.
                   </h2>

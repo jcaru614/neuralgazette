@@ -1,18 +1,9 @@
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { Layout, Loading, SmallNewsCard } from '@/components';
+import { Chip, Layout, Loading, ShareLinks, SmallNewsCard } from '@/components';
 import { neuralGazetteBot } from '@/public/images';
 import Head from 'next/head';
 import Link from 'next/link';
-import {
-  facebookIcon,
-  twitterIcon,
-  messageIcon,
-  redditIcon,
-  copyIcon,
-  whatsappIcon,
-  instagramIcon,
-} from '@/public/images';
 import { getPublicImageUrl, slugify } from '@/utils';
 import { format, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
@@ -30,23 +21,21 @@ interface NewsPost {
 }
 
 interface PostPageProps {
-  post: NewsPost | null;
+  news: NewsPost | null;
   nextPost: NewsPost | null;
   prevPost: NewsPost | null;
 }
 
-const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
-  const [copySuccess, setCopySuccess] = useState(false);
+const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchImageUrl = async () => {
       try {
-        if (post.photoPath) {
-          const filepath = post.photoPath;
+        if (news.photoPath) {
+          const filepath = news.photoPath;
           const url = await getPublicImageUrl(filepath);
           setImageUrl(url);
-          console.log('ImageUrl:', url); // Log imageUrl for debugging
         }
       } catch (error) {
         console.error('Error fetching image URL:', error);
@@ -54,22 +43,13 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
     };
 
     fetchImageUrl();
-  }, [post.photoPath]);
+  }, [news.photoPath]);
 
-  const titleSlug = slugify(post.title);
-  const shareUrl = `https://neuralgazette.com/article/${titleSlug}/${post.id}`;
-  const shareText = `Check out this article on the neural gazette: ${post.title}`;
+  const titleSlug = slugify(news.title);
+  const shareUrl = `https://neuralgazette.com/article/${titleSlug}/${news.id}`;
+  const shareText = `Check out this article on the neural gazette: ${news.title}`;
 
-  const handleCopyLink = () => {
-    const copyText = `${shareText}: ${shareUrl}`;
-    navigator.clipboard.writeText(copyText);
-    setCopySuccess(true);
-    setTimeout(() => {
-      setCopySuccess(false);
-    }, 3000);
-  };
-
-  const paragraphs = post.article.split('\n').map((para) => para.trim());
+  const paragraphs = news.article.split('\n').map((para) => para.trim());
 
   const formatNumberedList = (text: string) => {
     const lines = text.split('\n');
@@ -78,42 +58,38 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
     const formattedLines = lines.map((line) => {
       const trimmedLine = line.trim();
 
-      // Check if the line starts with a number and a period
       if (/^\d+\./.test(trimmedLine)) {
         isNumberedList = true;
         return `<strong>${trimmedLine}</strong>`;
       }
 
-      // If it's not a numbered list item, check if it's an empty line
       if (!trimmedLine) {
         isNumberedList = false;
         return '';
       }
-
-      // If it's part of a numbered list, wrap it in a <p> tag
       return isNumberedList ? `<p>${trimmedLine}</p>` : trimmedLine;
     });
 
     return formattedLines.join('\n');
   };
 
-  if (!post) {
+  if (!news) {
     return <Loading isFullScreen={true} />;
   }
   return (
     <Layout>
       <Head>
-        <title>{post.title} | The Neural Gazette</title>
+        <title>{news.title} | The Neural Gazette</title>
         <link
           rel="canonical"
-          href={`https://neuralgazette.com/article/${titleSlug}/${post.id}`}
+          href={`https://neuralgazette.com/article/${titleSlug}/${news.id}`}
         />
 
-        <meta name="description" content={post.summary} />
+        <meta name="description" content={news.summary} />
 
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.summary} />
+        <meta property="og:title" content={news.title} />
+        <meta property="og:description" content={news.summary} />
         <meta
           property="og:image"
           content={
@@ -124,7 +100,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
         />
         <meta
           property="og:url"
-          content={`https://neuralgazette.com/article/${titleSlug}/${post.id}`}
+          content={`https://neuralgazette.com/article/${titleSlug}/${news.id}`}
         />
 
         <meta
@@ -135,9 +111,9 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
               : 'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75'
           }
         />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.summary} />
-        <meta name="twitter:image:alt" content={post.title} />
+        <meta name="twitter:title" content={news.title} />
+        <meta name="twitter:description" content={news.summary} />
+        <meta name="twitter:image:alt" content={news.title} />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen md:p-4 lg:p-8">
         <Link href="#main-content" className="sr-only sr-only-focusable">
@@ -161,12 +137,10 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
 
         <div className="max-w-3xl w-full bg-off-white rounded-lg shadow-md p-2">
           <section>
-            <div className="bg-neural-purple text-white p-1 m-2 rounded-md shadow-md inline-block">
-              {post.category}
-            </div>
+            <Chip text={news.category} />
 
-            <h1 className="md:text-4xl sm:text-xl font-bold text-terminal-blue text-center mt-2">
-              {post.title}
+            <h1 className="md:text-4xl sm:text-xl font-bold text-black text-center mt-2">
+              {news.title}
             </h1>
           </section>
           <div className="flex items-center justify-center space-x-2 m-4">
@@ -176,119 +150,30 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
               width={20}
               height={20}
             />
-            <p className="text-md text-neural-teal">
+            <p className="text-lg text-neural-teal">
               {`The Neural Gazette | ${format(
-                parseISO(post.createdAt),
+                parseISO(news.createdAt),
                 'MMMM d, yyyy',
               )}`}
             </p>
           </div>
-          <div className="flex justify-center space-x-4 mt-4 mb-4">
-            <Link
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                shareUrl,
-              )}&quote=${encodeURIComponent(shareText)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={facebookIcon}
-                alt="Facebook Icon"
-                width={28}
-                height={28}
-              />
-            </Link>
-
-            <Link
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                shareText,
-              )}&url=${encodeURIComponent(shareUrl)}&hashtags=yourHashtagsHere`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={twitterIcon}
-                alt="Twitter Icon"
-                width={28}
-                height={28}
-              />
-            </Link>
-            <Link
-              href={`https://www.instagram.com/?url=${encodeURIComponent(
-                shareUrl,
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={instagramIcon}
-                alt="Instagram Icon"
-                width={28}
-                height={28}
-              />
-            </Link>
-            <Link
-              href={`https://www.reddit.com/submit?url=${encodeURIComponent(
-                shareUrl,
-              )}&title=${encodeURIComponent(shareText)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={redditIcon}
-                alt="Reddit Icon"
-                width={28}
-                height={28}
-              />
-            </Link>
-            <Link
-              href={`whatsapp://send?text=${encodeURIComponent(
-                shareText + ' ' + shareUrl,
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={whatsappIcon}
-                alt="WhatsApp Icon"
-                width={28}
-                height={28}
-              />
-            </Link>
-            <Link
-              href={`sms:?&body=${encodeURIComponent(
-                shareText + ' ' + shareUrl,
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={messageIcon}
-                alt="Text Message Icon"
-                width={28}
-                height={28}
-              />
-            </Link>
-
-            <button type="button" onClick={handleCopyLink}>
-              <Image src={copyIcon} alt="Copy Icon" width={28} height={28} />
-            </button>
-            {copySuccess && <p className="text-sm">Link copied</p>}
+          <div className="flex justify-center space-x-4 mb-4">
+            <ShareLinks shareUrl={shareUrl} shareText={shareText} />
           </div>
           {imageUrl && (
             <div className="relative mb-4 mt-4">
               <Image
                 src={imageUrl}
-                alt={post.title}
+                alt={news.title}
                 className="w-full"
                 width={360}
                 height={240}
                 unoptimized
                 loading="lazy"
               />
-              {post.photoCredit && (
-                <p className="text-sm text-gray italic mt-2">
-                  Photo source: {post.photoCredit}
+              {news.photoCredit && (
+                <p className="text-md text-gray italic mt-2">
+                  Photo source: {news.photoCredit}
                 </p>
               )}
             </div>
@@ -297,7 +182,7 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
             {paragraphs.map((paragraph, index) => (
               <div
                 key={index}
-                className="md:text-lg sm:text-md mb-4 font-medium text-terminal-blue leading-relaxed"
+                className="md:text-lg sm:text-md mb-4 font-medium text-black leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: formatNumberedList(paragraph),
                 }}
@@ -305,10 +190,10 @@ const PostPage: React.FC<PostPageProps> = ({ post, nextPost, prevPost }) => {
             ))}
           </article>
         </div>
-        <div className="w-full max-w-4xl h-1 mt-10 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
+        <div className="w-full max-w-4xl h-1 mt-10 bg-neural-teal rounded"></div>
 
         <div className="m-4">
-          <h2 className="text-2xl font-bold text-center mb-4 text-terminal-blue">
+          <h2 className="text-2xl font-bold text-center mb-4 text-black">
             More Articles
           </h2>
 
@@ -326,12 +211,11 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
   params,
 }) => {
   const { id }: any = params;
-  let post = null;
+  let news = null;
   let nextPost = null;
   let prevPost = null;
 
   try {
-    // Fetch the current, before, and after articles
     const response = await fetch(
       `${process.env.NEXT_PRIVATE_BASE_URL}/api/newsArticlesAround/${id}`,
     );
@@ -340,7 +224,7 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
       const { currentArticle, beforeArticles, afterArticles } =
         await response.json();
 
-      post = currentArticle;
+      news = currentArticle;
       prevPost = beforeArticles.length > 0 ? beforeArticles[0] : null;
       nextPost = afterArticles.length > 0 ? afterArticles[0] : null;
     } else {
@@ -352,7 +236,7 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async ({
 
   return {
     props: {
-      post,
+      news,
       nextPost,
       prevPost,
     },

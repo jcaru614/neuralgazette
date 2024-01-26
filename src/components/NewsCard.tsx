@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Button } from '@/components';
+import { Button, Chip, ShareLinks } from '@/components';
 import Link from 'next/link';
-import { slugify } from '@/utils';
-import { getPublicImageUrl } from '@/utils';
+import { getPublicImageUrl, slugify, timeAgo } from '@/utils';
+import { shareIcon } from '@/public/images';
 
 interface NewsCardProps {
   news: {
@@ -15,6 +15,7 @@ interface NewsCardProps {
     photoPath: string | null;
     category: any;
     originalBias?: any;
+    createdAt?: any;
   };
 }
 
@@ -35,6 +36,9 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   }, [news.photoPath]);
 
   const titleSlug = slugify(news.title);
+  const shareUrl = `https://neuralgazette.com/article/${titleSlug}/${news.id}`;
+  const shareText = `Check out this article on the neural gazette: ${news.title}`;
+
   const handleReadMoreClick = (e: any) => {
     e.preventDefault();
     router.push(`/article/${titleSlug}/${news.id}`);
@@ -45,43 +49,54 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   };
 
   return (
-    <article className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-lg active:shadow-lg md:flex relative p-1 bg-off-white">
-      <Link href={`/article/${titleSlug}/${news.id}`} passHref>
+    <>
+      <article className="mb-2 text-neural-teal shadow-md block md:col-span-3 transition-shadow hover:shadow-lg active:shadow-lg md:flex relative p-1 bg-off-white rounded-md">
         <div className="md:flex md:flex-row md:space-x-2">
-          {imageUrl && (
-            <div className="md:w-1/3 relative">
-              <div className="w-full mx-auto md:mx-0">
-                <Image
-                  src={imageUrl}
-                  alt={`Image for ${news.title}`}
-                  width={360}
-                  height={240}
-                  className="w-full"
-                  unoptimized
-                  loading="lazy"
+          {imageUrl ? (
+            <div className="w-full mx-auto md:mx-0 md:w-1/3 relative sm:mb-4">
+              <Image
+                src={imageUrl}
+                alt={`Image for ${news.title}`}
+                width={360}
+                height={240}
+                className="w-full rounded-md"
+                unoptimized
+                loading="lazy"
+              />
+            </div>
+          ) : (
+            <div className="w-full mx-auto md:mx-0 md:w-1/3 relative sm:mb-4"></div>
+          )}
+          <div className="md:w-2/3 flex flex-col justify-between">
+            <div>
+              <h2 className="md:text-xl sm:text-lg text-black font-semibold block mb-4">
+                {sanitizeString(news.headline)}
+              </h2>
+              <p className="md:text-lg sm:text-md text-black rounded block mb-2">
+                {news.summary}
+              </p>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex gap-2 mb-2 items-center">
+                <Chip text={news.category} styles="bg-neural-purple" />
+                <Chip
+                  text={timeAgo(news.createdAt)}
+                  styles="bg-transparent text-neural-purple"
+                />
+              </div>
+              <div className="flex gap-2 items-center">
+                <ShareLinks shareUrl={shareUrl} shareText={shareText} modal />
+                <Button
+                  text="Read More"
+                  onClick={handleReadMoreClick}
+                  styles="rounded-full border border-neural-teal bg-transparent text-black hover:bg-neural-teal hover:text-white"
                 />
               </div>
             </div>
-          )}
-          <div className="md:w-2/3 mb-8 p-2">
-            <h2 className="md:text-xl sm:text-lg text-terminal-blue font-semibold block mb-4">
-              {sanitizeString(news.headline)}
-            </h2>
-            <p className="md:text-lg sm:text-md text-terminal-blue rounded block">
-              {news.summary}
-            </p>
-            {/* <h2 className="md:text-lg sm:text-md text-neural-teal font-semibold block">
-              {news.originalBias}
-            </h2> */}
           </div>
         </div>
-        <Button
-          text="Read More"
-          onClick={handleReadMoreClick}
-          className="absolute bottom-0 right-0 text-neural-teal rounded-tl hover:text-neural-purple font-semibold py-2 px-4"
-        />
-      </Link>
-    </article>
+      </article>
+    </>
   );
 };
 

@@ -23,6 +23,7 @@ const Navbar = () => {
     { href: '/category/technology', text: 'Technology' },
     { href: '/category/health', text: 'Health' },
     { href: '/category/science', text: 'Science' },
+    { href: '/category/life', text: 'Life' },
     { href: '/about', text: 'About' },
   ];
 
@@ -41,7 +42,7 @@ const Navbar = () => {
               alt="The Neural Gazette"
               className="hover:scale-110 transform transition-transform cursor-pointer"
             />
-            <h1 className="text-center mt-2 text-neural-teal-lighter text-xs">
+            <h1 className="text-center mt-2 text-neural-teal text-sm">
               Decoding Truth, Disentangling Misinformation, Empowering Minds.
             </h1>
           </Link>
@@ -73,36 +74,24 @@ const Navbar = () => {
           }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
           <div className="lg:inline-flex lg:flex-row lg:m-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto">
-            {/* TODO: HYDRATION ERROR IS REGARDING THIS */}
-            {windowDimensions.width < 1024 ? (
-              <>
-                <SearchBar />
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    title={link.text}
-                    className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
-                  >
-                    <p className="text-off-white">{link.text}</p>
-                  </Link>
-                ))}
-              </>
-            ) : (
-              <>
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    title={link.text}
-                    className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
-                  >
-                    <p className="text-off-white">{link.text}</p>
-                  </Link>
-                ))}
-                <SearchBar />
-              </>
-            )}
+            {/* TODO: HYDRATION ERROR SOLVE KEEPING NOTE IN CASE IT COMES BACK */}
+            <SearchBar
+              className={`${windowDimensions.width < 1024 ? 'block' : 'hidden'}`}
+            />
+
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                title={link.text}
+                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white text-sm font-bold items-center justify-center hover:bg-neural-purple hover:text-white "
+              >
+                <p className="text-off-white">{link.text}</p>
+              </Link>
+            ))}
+            <SearchBar
+              className={`${windowDimensions.width >= 1024 ? 'block' : 'hidden'}`}
+            />
           </div>
         </div>
       </nav>

@@ -11,7 +11,7 @@ const ServerErrorPage = () => {
         </p>
         <Link
           href="/"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 ease-in-out"
+          className="bg-terminal-blue text-white px-4 py-2 rounded-md hover:bg-neural-purple transition duration-300 ease-in-out"
         >
           Go Back to Home
         </Link>

@@ -1,12 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import debounce from 'lodash.debounce';
 import fetcher from '@/utils/fetcher';
 import { searchIcon } from '@/public/images';
 import Image from 'next/image';
 import SmallNewsCard from './SmallNewsCard';
+interface SearchBarProps {
+  className?: string;
+}
 
-const SearchBar = () => {
+const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debounceComplete, setDebounceComplete] = useState(false);
   const searchContainerRef = useRef(null);
@@ -57,7 +60,7 @@ const SearchBar = () => {
   }, []);
 
   return (
-    <div ref={searchContainerRef} className="px-3 py-2">
+    <div ref={searchContainerRef} className={`px-3 py-2 ${className}`}>
       <form
         onSubmit={handleSearchSubmit}
         className="w-full lg:w-auto lg:ml-4 mt-4 lg:mt-0"

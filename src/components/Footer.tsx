@@ -77,7 +77,7 @@ const Footer = () => {
                   href="https://www.instagram.com/neuralgazette"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-neural-teal-lighter"
+                  className="hover:text-neural-teal"
                   title="@neuralgazette"
                 >
                   <Image
@@ -93,7 +93,7 @@ const Footer = () => {
                   href="https://twitter.com/neuralgazette"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-neural-teal-lighter"
+                  className="hover:text-neural-teal"
                   title="@neuralgazette"
                 >
                   <Image

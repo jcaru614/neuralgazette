@@ -7,3 +7,5 @@ export { default as Footer } from './Footer';
 export { default as ServerError } from './ServerError';
 export { default as SmallNewsCard } from './SmallNewsCard';
 export { default as SearchBar } from './SearchBar';
+export { default as Chip } from './Chip';
+export { default as ShareLinks } from './ShareLinks';
