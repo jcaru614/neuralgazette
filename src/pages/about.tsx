@@ -31,54 +31,97 @@ const About = () => {
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <div className="max-w-3xl">
-          <h1 className="text-4xl font-bold text-neural-teal">
+          <h1 className="text-6xl font-bold text-neural-teal mb-6">
             About The Neural Gazette
           </h1>
-          <p className="text-lg text-gray mt-4">
-            Welcome to The Neural Gazette, your trusted source for fast,
-            concise, and unbiased news, all powered by Artificial Intelligence
-            (AI). We are an AI news network committed to providing you with
-            accurate and engaging news content.
-          </p>
-          <p className="text-lg text-gray mt-4">
-            At The Neural Gazette, we leverage the cutting-edge technology of AI
-            to revolutionize the way you consume news. Our AI algorithms collect
-            and analyzes a vast amount of news articles across the political
-            spectrum to generate new unbiased and factual news articles with out
-            an agenda.
-          </p>
-          <p className="text-lg text-gray mt-4">
-            In today's fast-paced world, we understand the need for quick and
-            reliable information. That's why we present news so that each post
-            is a short summary and title, and if you desire more in-depth
-            coverage, you can easily access the full article by clicking the
-            post.
-          </p>
-          <p className="text-lg text-gray mt-4">
-            Relying solely on ideologically biased sources poses inherent risks.
-            While such sources may convey accurate information in many
-            instances, the issue arises from the selective omission or complete
-            absence of certain details. This information gap is where challenges
-            emerge. Herein lies the value of AI as a solution. Neural Gazette
-            harnesses AI technology to provide genuinely unbiased and
-            comprehensive information, mitigating the risks associated with
-            misinformation and biased reporting.
-          </p>
-          <p className="text-lg text-gray mt-4">
-            Neural Gazette displays news stories with out reinforcing biases by
-            showing all current events regardless of which side so that you can
-            over come your blind side.
-          </p>
-          <p className="text-lg text-gray mt-4">
-            Join us on this transformative journey to access news that is not
-            only fast but also reliable and unbiased. The Neural Gazette is your
-            trusted companion for staying informed in today's dynamic world.
-          </p>
-          <p className="text-lg text-gray mt-4">
-            Thank you for being a part of The Neural Gazette community.
-            Together, we can navigate the complex world of news and emerge
-            better informed, empowered, and inspired.
-          </p>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-neural-teal mb-2">
+              Our Mission
+            </h2>
+            <p className="text-lg text-gray">
+              Welcome to The Neural Gazette, your trusted source for fast,
+              concise, and unbiased news, all powered by Artificial Intelligence
+              (AI). We are an AI news network committed to providing you with
+              accurate and engaging news content.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-neural-teal mb-2">
+              AI at the Core
+            </h2>
+            <p className="text-lg text-gray">
+              At The Neural Gazette, we leverage the cutting-edge technology of
+              AI to revolutionize the way you consume news. Our AI algorithms
+              collect and analyze a vast amount of news articles across the
+              political spectrum to generate new unbiased and factual news
+              articles without an agenda.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-neural-teal mb-2">
+              Quick and Reliable Information
+            </h2>
+            <p className="text-lg text-gray">
+              In today's fast-paced world, we understand the need for quick and
+              reliable information. That's why we present news so that each post
+              is a short summary and title, and if you desire more in-depth
+              coverage, you can easily access the full article by clicking the
+              post.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-neural-teal mb-2">
+              Mitigating Biases and Risks
+            </h2>
+            <p className="text-lg text-gray">
+              Relying solely on ideologically biased sources poses inherent
+              risks. While such sources may convey accurate information in many
+              instances, the issue arises from the selective omission or complete
+              absence of certain details. This information gap is where
+              challenges emerge. Herein lies the value of AI as a solution.
+              Neural Gazette harnesses AI technology to provide genuinely
+              unbiased and comprehensive information, mitigating the risks
+              associated with misinformation and biased reporting.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-neural-teal mb-2">
+              Displaying Diverse Perspectives
+            </h2>
+            <p className="text-lg text-gray">
+              Neural Gazette displays news stories without reinforcing biases by
+              showing all current events regardless of which side so that you can
+              overcome your blind side.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-neural-teal mb-2">
+              Join Us on the Journey
+            </h2>
+            <p className="text-lg text-gray">
+              Join us on this transformative journey to access news that is not
+              only fast but also reliable and unbiased. The Neural Gazette is
+              your trusted companion for staying informed in today's dynamic
+              world.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-neural-teal mb-2">
+              Thank You for Being a Part of Our Community
+            </h2>
+            <p className="text-lg text-gray">
+              Thank you for being a part of The Neural Gazette community.
+              Together, we can navigate the complex world of news and emerge
+              better informed, empowered, and inspired.
+            </p>
+          </section>
         </div>
       </main>
     </Layout>

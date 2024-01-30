@@ -16,8 +16,6 @@ const CategoryPage: React.FC = () => {
       "Unravel the complexities of political landscapes, analyzing government actions, societal impact, and the ongoing debates shaping our nation's course.",
     world:
       'Embark on a global journey, exploring diverse cultures, geopolitical events, and understanding the interconnectedness of our world.',
-    policy:
-      'Navigate the intricacies of policies that mold our society. From identifying challenges to proposing solutions, delve into the ideas that shape our collective future.',
     business:
       'Decode the language of commerce, examining market dynamics, corporate strategies, and the economic forces influencing businesses worldwide.',
     economy:

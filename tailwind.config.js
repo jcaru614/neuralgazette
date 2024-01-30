@@ -16,9 +16,9 @@ module.exports = {
         'terminal-blue': '#110E28',
         'terminal-green': '#121D23',
         'neural-teal': '#24C3C3',
-        'neural-purple': '#6E4DF0',
+        'neural-purple': '#8932A6',
         'network-error': '#FF3636',
-        gray: '#B0B0B0',
+        gray: '#6E6E6E',
         'off-white': '#F9F9F9',
         white: '#FFFFFF',
         black: '#000000'

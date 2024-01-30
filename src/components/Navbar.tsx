@@ -17,7 +17,6 @@ const Navbar = () => {
   const navLinks = [
     { href: '/category/politics', text: 'Politics' },
     { href: '/category/world', text: 'World' },
-    { href: '/category/policy', text: 'Policy' },
     { href: '/category/business', text: 'Business' },
     { href: '/category/economy', text: 'Economy' },
     { href: '/category/technology', text: 'Technology' },
