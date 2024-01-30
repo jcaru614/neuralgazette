@@ -41,10 +41,8 @@ npx prisma db push
 ## Baseline migration Guide
 
 this is a Guide from official documentation but you must do two things first
-1- You must Drop or delete the \_migration_prisma table
+1- You must Drop or delete the migration_prisma table
 from your database before pursuing the baseline migration.
-2- In some scenarios it is reported by some developers
-some commands are not working on their system. if you are stuck in some prisma command then Must! try the CodeSandBox or Codespaces from github.
 
 ### Step: 1
 

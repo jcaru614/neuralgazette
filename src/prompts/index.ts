@@ -43,13 +43,12 @@ Instructions: Based on the article you just read, choose one and only one catego
 Categories:
 1. POLITICS
 2. WORLD
-3. POLICY
-4. BUSINESS
+3. BUSINESS
+4. ECONOMY
 5. TECHNOLOGY
-6. ECONOMY
+6. SCIENCE
 7. HEALTH
-8. SCIENCE
-9. LIFE
+8. LIFE
 
 In your response, provide the name of your chosen category exactly as it appears in the list above. Do not include any additional text or explanations.
 

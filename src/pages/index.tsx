@@ -92,12 +92,6 @@ export default function Home() {
                   name: 'World',
                   item: `${SEO.url}/world`,
                 },
-                {
-                  '@type': 'ListItem',
-                  position: 4,
-                  name: 'Policy',
-                  item: `${SEO.url}/policy`,
-                },
               ],
             }),
           }}
