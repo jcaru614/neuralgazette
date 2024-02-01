@@ -9,17 +9,18 @@ datasource db {
 }
 
 model News {
-  approved    Boolean   @default(false)
-  id          String    @id @default(cuid())
-  title       String
-  headline    String
-  summary     String
-  article     String
-  photoPath   String?
-  photoCredit String?
-  category    Category? @default(POLITICS)
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  approved      Boolean   @default(false)
+  id            String    @id @default(cuid())
+  title         String
+  headline      String
+  summary       String
+  article       String
+  photoPath     String?
+  photoCredit   String?
+  category      Category? @default(POLITICS)
+  // outboundLinks String[]  @default([])
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
 }
 
 enum Category {

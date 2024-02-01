@@ -42,7 +42,7 @@ export default async function handler(
       });
     });
 
-    const { title, photoCredit, article } = fields;
+    const { title, photoCredit, article, outboundLinks } = fields;
 
     const unbiasedArticle = article.slice(0, 3000);
 
@@ -81,15 +81,38 @@ export default async function handler(
       }
     }
 
+    // function renderArticleWithLinks(article, outboundLinks) {
+    //   let renderedArticle = article;
+
+    //   // Iterate through outbound links
+    //   outboundLinks.forEach((link) => {
+    //     // Replace placeholders like [read here], [check this out], etc.
+    //     const placeholder = `[${link}]`; // Placeholder is directly the link string
+    //     renderedArticle = renderedArticle.replace(new RegExp(placeholder, 'g'), `<a href="${link}" target="_blank">${placeholder}</a>`);
+    //   });
+
+    //   return renderedArticle;
+    // }
+
+    // // Example usage
+    // const articleContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. [read here] for more details. [check this out] for another link.";
+    // const outboundLinks = ["https://example.com/link1", "https://example.com/link2"];
+
+    // const renderedArticle = renderArticleWithLinks(articleContent, outboundLinks);
+
+    // // Output
+    // console.log(renderedArticle);
+
     await prisma.news.create({
       data: {
         approved: true,
         title,
         headline: headline.message,
         summary: summary.message,
-        article,
+        article, //   "article": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. [read here] for more details.",
         photoPath: files && files.photo ? slugWithUuid : null,
         photoCredit,
+        // outboundLinks: outboundLinks || [],   "outboundLinks": ["https://example.com/read-here", "https://example.com/read-here-pt-2"]
         category: category.message,
       },
     });
