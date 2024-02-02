@@ -26,21 +26,6 @@ interface PostPageProps {
   prevPost: NewsPost | null;
 }
 
-// Function to render article with outbound links
-const renderArticleWithLinks = (article, outboundLinks) => {
-  let renderedArticle = article;
-
-  outboundLinks.forEach((link) => {
-    const placeholder = `[${link}]`;
-    renderedArticle = renderedArticle.replace(
-      new RegExp(placeholder, 'g'),
-      `<a href="${link}" target="_blank">${link}</a>`,
-    );
-  });
-
-  return renderedArticle;
-};
-
 const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -66,7 +51,6 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
 
   const formatArticle = (text: string) => {
     const paragraphs = text.split('\n').map((para) => para.trim());
-
     const formattedText = paragraphs
       .map((paragraph, index) => {
         if (/^\s*"/.test(paragraph)) {
@@ -92,16 +76,12 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
 
     return formattedText;
   };
-
-  const renderedArticle = renderArticleWithLinks(news.article, [
-    'https://example.com/link1',
-    'https://example.com/link2',
-  ]);
-
+  
+  
+  
   if (!news) {
     return <Loading isFullScreen={true} />;
   }
-
   return (
     <Layout>
       <Head>
@@ -210,7 +190,6 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
             />
           </article>
         </div>
-
         <div className="w-full max-w-4xl h-1 mt-10 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
 
         <div className="m-4">

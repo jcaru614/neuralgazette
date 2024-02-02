@@ -112,7 +112,7 @@ export default async function handler(
         article, //   "article": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. [read here] for more details.",
         photoPath: files && files.photo ? slugWithUuid : null,
         photoCredit,
-        // outboundLinks: outboundLinks || [],   "outboundLinks": ["https://example.com/read-here", "https://example.com/read-here-pt-2"]
+        outboundLinks: outboundLinks || [], // "outboundLinks": ["https://example.com/read-here", "https://example.com/read-here-pt-2"]
         category: category.message,
       },
     });

@@ -18,7 +18,7 @@ model News {
   photoPath     String?
   photoCredit   String?
   category      Category? @default(POLITICS)
-  // outboundLinks String[]  @default([])
+  outboundLinks String[]  @default([])
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
 }
