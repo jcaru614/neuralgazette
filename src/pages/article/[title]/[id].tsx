@@ -18,6 +18,7 @@ interface NewsPost {
   photoCredit?: string;
   createdAt: string;
   category: string;
+  outboundLinks: any;
 }
 
 interface PostPageProps {
@@ -49,8 +50,9 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
   const shareUrl = `https://neuralgazette.com/article/${titleSlug}/${news.id}`;
   const shareText = `Check out this article on the neural gazette: ${news.title}`;
 
-  const formatArticle = (text: string) => {
+  const formatArticle = (text: string, outboundLinks: string[]) => {
     const paragraphs = text.split('\n').map((para) => para.trim());
+  
     const formattedText = paragraphs
       .map((paragraph, index) => {
         if (/^\s*"/.test(paragraph)) {
@@ -65,18 +67,31 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
               </p>
             </div>`;
         }
-
+  
         if (/^\d+\./.test(paragraph)) {
           return `<strong key=${index}>${paragraph}</strong>`;
         }
-
-        return `<p key=${index} style="margin-bottom: 1em;">${paragraph}</p>`;
+  
+        const linkMatches = paragraph.match(/\[(.*?)\]/g);
+        if (linkMatches) {
+          let linkedParagraph = paragraph;
+          linkMatches.forEach((match, linkIndex) => {
+            const linkUrl = outboundLinks[linkIndex];
+            const linkText = match.substring(1, match.length - 1);
+            linkedParagraph = linkedParagraph.replace(
+              match,
+              `<a href="${linkUrl}" target="_blank" class="text-neural-teal underline">${linkText}</a>`
+            );
+          });
+          return `<p key=${index} class="mb-4">${linkedParagraph}</p>`;
+        }
+  
+        return `<p key=${index} class="mb-4">${paragraph}</p>`;
       })
       .join('\n');
-
+  
     return formattedText;
   };
-  
   
   
   if (!news) {
@@ -185,7 +200,7 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
             <div
               className="md:text-lg sm:text-md mb-4 font-medium text-black leading-relaxed"
               dangerouslySetInnerHTML={{
-                __html: formatArticle(news.article),
+                __html: formatArticle(news.article, news.outboundLinks),
               }}
             />
           </article>
