@@ -37,12 +37,19 @@ export default async function handler(
               value && value[0],
             ]),
           );
+
+          transformedFields.outboundLinks = transformedFields.outboundLinks
+            ? transformedFields.outboundLinks
+                .split(',')
+                .map((link) => link.trim())
+            : [];
+
           resolve({ fields: transformedFields, files });
         }
       });
     });
 
-    const { title, photoCredit, article } = fields;
+    const { title, photoCredit, article, outboundLinks } = fields;
 
     const unbiasedArticle = article.slice(0, 3000);
 
@@ -90,6 +97,7 @@ export default async function handler(
         article,
         photoPath: files && files.photo ? slugWithUuid : null,
         photoCredit,
+        outboundLinks: outboundLinks || [],
         category: category.message,
       },
     });
