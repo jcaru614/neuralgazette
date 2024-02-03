@@ -18,6 +18,7 @@ interface NewsPost {
   photoCredit?: string;
   createdAt: string;
   category: string;
+  outboundLinks: any;
 }
 
 interface PostPageProps {
@@ -49,30 +50,50 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
   const shareUrl = `https://neuralgazette.com/article/${titleSlug}/${news.id}`;
   const shareText = `Check out this article on the neural gazette: ${news.title}`;
 
-  const paragraphs = news.article.split('\n').map((para) => para.trim());
-
-  const formatNumberedList = (text: string) => {
-    const lines = text.split('\n');
-    let isNumberedList = false;
-
-    const formattedLines = lines.map((line) => {
-      const trimmedLine = line.trim();
-
-      if (/^\d+\./.test(trimmedLine)) {
-        isNumberedList = true;
-        return `<strong>${trimmedLine}</strong>`;
-      }
-
-      if (!trimmedLine) {
-        isNumberedList = false;
-        return '';
-      }
-      return isNumberedList ? `<p>${trimmedLine}</p>` : trimmedLine;
-    });
-
-    return formattedLines.join('\n');
+  const formatArticle = (text: string, outboundLinks: string[]) => {
+    const paragraphs = text.split('\n').map((para) => para.trim());
+  
+    const formattedText = paragraphs
+      .map((paragraph, index) => {
+        if (/^\s*"/.test(paragraph)) {
+          return `
+            <div class="flex items-start ml-8">
+              <p class="text-sm text-gray font-italic relative">
+                ${paragraph}
+                <span
+                  role="presentation"
+                  class="after:h-full after:w-1 after:bg-neural-purple after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-4"
+                />
+              </p>
+            </div>`;
+        }
+  
+        if (/^\d+\./.test(paragraph)) {
+          return `<strong key=${index}>${paragraph}</strong>`;
+        }
+  
+        const linkMatches = paragraph.match(/\[(.*?)\]/g);
+        if (linkMatches) {
+          let linkedParagraph = paragraph;
+          linkMatches.forEach((match, linkIndex) => {
+            const linkUrl = outboundLinks[linkIndex];
+            const linkText = match.substring(1, match.length - 1);
+            linkedParagraph = linkedParagraph.replace(
+              match,
+              `<a href="${linkUrl}" target="_blank" class="text-neural-teal underline">${linkText}</a>`
+            );
+          });
+          return `<p key=${index} class="mb-4">${linkedParagraph}</p>`;
+        }
+  
+        return `<p key=${index} class="mb-4">${paragraph}</p>`;
+      })
+      .join('\n');
+  
+    return formattedText;
   };
-
+  
+  
   if (!news) {
     return <Loading isFullScreen={true} />;
   }
@@ -84,9 +105,7 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
           rel="canonical"
           href={`https://neuralgazette.com/article/${titleSlug}/${news.id}`}
         />
-
         <meta name="description" content={news.summary} />
-
         <meta property="og:type" content="article" />
         <meta property="og:title" content={news.title} />
         <meta property="og:description" content={news.summary} />
@@ -102,7 +121,6 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
           property="og:url"
           content={`https://neuralgazette.com/article/${titleSlug}/${news.id}`}
         />
-
         <meta
           name="twitter:card"
           content={
@@ -139,7 +157,7 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
           <section>
             <Chip text={news.category} />
 
-            <h1 className="md:text-4xl sm:text-xl font-bold text-black text-center mt-2">
+            <h1 className="md:text-4xl sm:text-xl font-bold text-terminal-blue text-center mt-2">
               {news.title}
             </h1>
           </section>
@@ -171,7 +189,7 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
                 unoptimized
                 loading="lazy"
               />
-              {news.photoCredit && (
+              {news?.photoCredit && (
                 <p className="text-md text-gray italic mt-2">
                   Photo source: {news.photoCredit}
                 </p>
@@ -179,21 +197,18 @@ const PostPage: React.FC<PostPageProps> = ({ news, nextPost, prevPost }) => {
             </div>
           )}
           <article id="main-content" tabIndex={-1}>
-            {paragraphs.map((paragraph, index) => (
-              <div
-                key={index}
-                className="md:text-lg sm:text-md mb-4 font-medium text-black leading-relaxed"
-                dangerouslySetInnerHTML={{
-                  __html: formatNumberedList(paragraph),
-                }}
-              />
-            ))}
+            <div
+              className="md:text-lg sm:text-md mb-4 font-medium text-black leading-relaxed"
+              dangerouslySetInnerHTML={{
+                __html: formatArticle(news.article, news.outboundLinks),
+              }}
+            />
           </article>
         </div>
-        <div className="w-full max-w-4xl h-1 mt-10 bg-neural-teal rounded"></div>
+        <div className="w-full max-w-4xl h-1 mt-10 bg-gradient-to-r from-neural-teal to-neural-teal-lighter rounded"></div>
 
         <div className="m-4">
-          <h2 className="text-2xl font-bold text-center mb-4 text-black">
+          <h2 className="text-2xl font-bold text-center mb-4 text-terminal-blue">
             More Articles
           </h2>
 
