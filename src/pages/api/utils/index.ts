@@ -1,2 +1,2 @@
 export { default as fetchFromAI } from './fetchFromAI';
-export { default as extractPhotoCredit } from './fetchPhotoCredit';
+export { default as sanitizeString } from './sanitizeString';

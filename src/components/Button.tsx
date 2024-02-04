@@ -13,6 +13,7 @@ interface ButtonProps {
   alt?: string;
   iconSize?: number;
   styles?: string;
+  imageStyles?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -23,6 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   type,
   iconSize = 20,
   styles,
+  imageStyles,
 }) => {
   return (
     <button
@@ -40,7 +42,7 @@ const Button: React.FC<ButtonProps> = ({
           alt={text || 'icon'}
           width={iconSize}
           height={iconSize}
-          className="mr-2"
+          className={twMerge('mr-2', imageStyles)}
         />
       )}
       {text}

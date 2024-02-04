@@ -12,7 +12,7 @@ export default async function handler(
     }
 
     const { q }: any = req.query;
-    console.log('query  ', q);
+
     if (!q) {
       res.status(400).json({ error: 'Search query parameter (q) is required' });
       return;
@@ -33,10 +33,10 @@ export default async function handler(
       },
     });
 
-    // Dynamically set the take parameter based on the number of articles found
-    const takeCount = Math.min(news.length, 5); // Take at most 5 articles
+
+    const takeCount = Math.min(news.length, 5); 
     const limitedNews = news.slice(0, takeCount);
-    console.log('results.length ', limitedNews.length);
+
     res.status(200).json(limitedNews);
   } catch (error) {
     console.error('Error fetching news:', error);

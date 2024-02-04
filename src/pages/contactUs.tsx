@@ -32,7 +32,7 @@ const ContactUs: React.FC = () => {
       [name]: value,
     });
   };
-  console.log(process.env.NG_API_KEY);
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -46,7 +46,6 @@ const ContactUs: React.FC = () => {
       });
 
       if (response.ok) {
-        // Handle a successful submission
         setStatus({ message: 'Email sent successfully', type: 'success' });
         setFormData({
           name: '',
@@ -55,7 +54,6 @@ const ContactUs: React.FC = () => {
           text: '',
         });
       } else {
-        // Handle the case when the email sending fails.
         setStatus({ message: 'Failed to send email', type: 'error' });
       }
     } catch (error) {

@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import Image from 'next/image';
-import { logo } from '@/public/images';
-import { SearchBar } from '@/components';
-import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { hamburgerIcon, logo } from '@/public/images';
+import { Button, SearchBar } from '@/components';
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
@@ -11,8 +10,6 @@ const Navbar = () => {
   const handleClick = () => {
     setActive(!active);
   };
-
-  const windowDimensions = useWindowDimensions();
 
   const navLinks = [
     { href: '/category/politics', text: 'Politics' },
@@ -41,42 +38,26 @@ const Navbar = () => {
               alt="The Neural Gazette"
               className="hover:scale-110 transform transition-transform cursor-pointer"
             />
-            <h1 className="text-center mt-2 text-neural-teal text-sm">
+            <p className="text-center mt-2 text-neural-teal text-sm">
               Decoding Truth, Disentangling Misinformation, Empowering Minds.
-            </h1>
+            </p>
           </Link>
         </div>
-        <button
-          className="inline-flex p-3 hover:bg-neural-teal rounded lg:hidden text-white mr-auto hover:text-white outline-none"
+        <Button
+          styles="inline-flex p-3 hover:bg-neural-teal rounded lg:hidden text-white mr-auto hover:text-white outline-none"
+          imageStyles="mr-0"
           onClick={handleClick}
           type="button"
-        >
-          <svg
-            role="presentation"
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
+          icon={hamburgerIcon}
+          alt="hamburger menu"
+        />
         <div
           className={`${
             active ? '' : 'hidden'
           }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
           <div className="lg:inline-flex lg:flex-row lg:m-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto">
-            {/* TODO: HYDRATION ERROR SOLVE KEEPING NOTE IN CASE IT COMES BACK */}
-            <SearchBar
-              className={`${windowDimensions.width < 1024 ? 'block' : 'hidden'}`}
-            />
+            <SearchBar className="lg:hidden" />
 
             {navLinks.map((link) => (
               <Link
@@ -88,9 +69,8 @@ const Navbar = () => {
                 <p className="text-off-white">{link.text}</p>
               </Link>
             ))}
-            <SearchBar
-              className={`${windowDimensions.width >= 1024 ? 'block' : 'hidden'}`}
-            />
+
+            <SearchBar className="lg:inline-flex lg:flex lg:w-auto sm:hidden" />
           </div>
         </div>
       </nav>

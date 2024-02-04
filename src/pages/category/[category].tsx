@@ -9,7 +9,6 @@ import Head from 'next/head';
 const CategoryPage: React.FC = () => {
   const router = useRouter();
   const { category } = router.query;
-  console.log('router ', category);
 
   const categoryDetails = {
     politics:
@@ -45,7 +44,7 @@ const CategoryPage: React.FC = () => {
     error,
     mutate,
   } = useSWR(
-    `/api/newsArticles/readNewsByCategory?category=${category}`,
+    `/api/newsArticles/readNewsByCategory?category=${category}&take=${10}`,
     fetcher,
   );
 

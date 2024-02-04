@@ -5,10 +5,11 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as gtag from '@/lib/gtag';
 import Head from 'next/head';
-import Script from 'next/script';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  
   useEffect(() => {
     const handleRouteChange = (url) => {
       gtag.pageview(url);
@@ -18,6 +19,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
+
+  useEffect(() => {
+    var ads = document.getElementsByClassName('adsbygoogle').length;
+    for (var i = 0; i < ads; i++) {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.error('Error pushing Google Ads:', e);
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -34,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
 
       <GoogleAnalytics GA_TRACKING_ID={gtag.GA_TRACKING_ID} />
-
+      <SpeedInsights />
       <Component {...pageProps} />
     </>
   );

@@ -10,6 +10,8 @@ export default async function handler(
       res.status(405).end();
       return;
     }
+
+    const { take }: any = req.query;
     const news = await prisma.news.findMany({
       where: {
         approved: true,
@@ -17,7 +19,7 @@ export default async function handler(
       orderBy: {
         createdAt: 'desc',
       },
-      take: 10,
+      take: take ? parseInt(take, 10) : undefined,
     });
     res.status(200).json(news);
   } catch (error) {

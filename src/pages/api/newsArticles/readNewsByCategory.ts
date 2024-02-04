@@ -11,8 +11,8 @@ export default async function handler(
       return;
     }
 
-    const { category }: any = req.query;
-    
+    const { category, take }: any = req.query;
+
     const news = await prisma.news.findMany({
       where: {
         approved: true,
@@ -23,7 +23,7 @@ export default async function handler(
       orderBy: {
         createdAt: 'desc',
       },
-      take: 10,
+      take: take ? parseInt(take, 10) : undefined,
     });
 
     res.status(200).json(news);

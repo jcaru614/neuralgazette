@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import Head from 'next/head';
 
 const SEO = {
-  title: `Neural Gazette | Unbiased News Articles written with AI from sources compiled across the political spectrum`,
+  title: `Neural Gazette | Unbiased News written with AI from sources compiled across the political spectrum`,
   description: `An Unbiased AI news platform that's decoding truth and empowering minds. Stay informed with Neural Gazette's accurate AI written news.`,
   image:
     'https://neuralgazette.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.56ecb661.png&w=640&q=75',
@@ -19,7 +19,7 @@ export default function Home() {
     data: news,
     error,
     mutate,
-  } = useSWR(`/api/newsArticles/readNews`, fetcher);
+  } = useSWR(`/api/newsArticles/readNews?take=${10}`, fetcher);
 
   const loadMore = async () => {
     if (!news) return;
@@ -103,7 +103,7 @@ export default function Home() {
           <div className="mb-8 relative">
             <section>
               <div className="flex items-center justify-center py-2">
-                <h1 className="text-4xl font-bold text-neural-teal relative">
+                <p className="text-4xl font-bold text-neural-teal relative">
                   <span
                     role="presentation"
                     className="before:h-1 before:w-10 before:bg-neural-teal before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-12"
@@ -113,7 +113,7 @@ export default function Home() {
                     role="presentation"
                     className="after:h-1 after:w-10 after:bg-neural-teal after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-12"
                   />
-                </h1>
+                </p>
               </div>
             </section>
             <div
@@ -124,7 +124,9 @@ export default function Home() {
           <section>
             <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4">
               {news.length > 0 ? (
-                news.map((item) => <NewsCard key={item.id} news={item} />)
+                news.map((item, index) => (
+                  <NewsCard key={item.id} news={item} index={index} />
+                ))
               ) : (
                 <div className="mb-2 block md:col-span-3 md:flex relative p-1 items-center justify-center">
                   <h2 className="text-2xl font-bold text-black text-center">
@@ -143,6 +145,14 @@ export default function Home() {
               </div>
             ) : null}
           </section>
+          <ins
+            className="adsbygoogle"
+            style={{ display: 'block' }}
+            data-ad-client="ca-pub-1503512220337546"
+            data-ad-slot="6507407839"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          ></ins>
         </div>
       </main>
     </Layout>

@@ -1,4 +1,3 @@
-// ShareButtons.tsx
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -55,6 +54,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({
           text="Share"
           icon={shareIcon}
           onClick={handleOpenShareLinks}
+          alt="share article"
           styles="rounded-full border border-neural-teal bg-transparent text-black hover:bg-neural-teal hover:text-white"
         />
         {showModal ? (
@@ -147,6 +147,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({
                   <Button
                     iconSize={38}
                     icon={copyIcon}
+                    alt="copy article"
                     onClick={handleCopyLink}
                     styles={`bg-transparent hover:bg-transparent py-0 px-0 transition-all duration-300 ease-in-out
                     ${copySuccess && 'animate-pulse'}
@@ -159,7 +160,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({
                   text="Close"
                   onClick={handleCloseShareLinks}
                   icon={closeIcon}
-                  alt="Exit"
+                  alt="Close Share Links"
                   styles="rounded-full border border-neural-teal bg-transparent text-black hover:bg-neural-teal hover:text-white"
                 />
               </div>

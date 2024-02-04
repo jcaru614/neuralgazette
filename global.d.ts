@@ -5,6 +5,7 @@ declare global {
   var prisma: PrismaClient;
   interface Window {
     gtag: any;
+    adsbygoogle: any;
   }
 }
 

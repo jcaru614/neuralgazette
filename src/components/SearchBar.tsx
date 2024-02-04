@@ -34,7 +34,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
   };
 
   const handleClickOutside = (e) => {
-    console.log('e ', e);
     if (
       searchContainerRef.current &&
       !searchContainerRef.current.contains(e.target)
@@ -78,7 +77,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
             onChange={(e) => {
               handleSearchChange(e);
             }}
-            className="bg-off-white text-gray p-2 pl-10 pr-8 rounded border-none w-full lg:w-80 sm:w-64"
+            className="bg-off-white text-gray p-2 pl-10 pr-8 rounded-full border-none w-full lg:w-70 sm:w-64"
           />
           <button type="submit" className="absolute pl-2">
             <Image
@@ -94,7 +93,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
         </div>
 
         {searchResults && debounceComplete && (
-          <div className="absolute mt-2 lg:w-80 sm:w-64 max-h-60 overflow-y-auto border rounded shadow-md bg-off-white">
+          <div className="absolute mt-2 lg:w-70 sm:w-64 max-h-60 overflow-y-auto border rounded shadow-md bg-off-white">
             <ul>
               {searchResults.map((result) => (
                 <li key={result.id}>

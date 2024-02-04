@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import multiparty from 'multiparty';
 import prisma from '@/lib/prisma';
 import supabase from '@/lib/supabase';
-import { fetchFromAI } from '../utils';
+import { fetchFromAI, sanitizeString } from '../utils';
 import { categoryPrompt, headlinePrompt, summaryPrompt } from '@/prompts';
 import { slugify } from '@/utils';
 import fs from 'fs/promises';
@@ -31,24 +31,21 @@ export default async function handler(
         if (err) {
           reject(err);
         } else {
-          const transformedFields = Object.fromEntries(
-            Object.entries(fields).map(([key, value]) => [
-              key,
-              value && value[0],
-            ]),
-          );
+          for (const key in fields) {
+            if (fields[key] && fields[key][0]) {
+              fields[key] = fields[key][0];
+            }
+          }
 
-          transformedFields.outboundLinks = transformedFields.outboundLinks
-            ? transformedFields.outboundLinks
-                .split(',')
-                .map((link) => link.trim())
+          fields.outboundLinks = fields.outboundLinks
+            ? fields.outboundLinks.split(',').map((link) => link.trim())
             : [];
 
-          resolve({ fields: transformedFields, files });
+          resolve({ fields, files });
         }
       });
     });
-
+    console.log('fields and files', fields, files);
     const { title, photoCredit, article, outboundLinks } = fields;
 
     const unbiasedArticle = article.slice(0, 3000);
@@ -58,6 +55,7 @@ export default async function handler(
       fetchFromAI(summaryPrompt(unbiasedArticle)),
       fetchFromAI(categoryPrompt(unbiasedArticle)),
     ]);
+
     let slugWithUuid;
 
     if (files && files.photo) {
@@ -73,27 +71,27 @@ export default async function handler(
 
       slugWithUuid = `${slugify(title)}-${uuid}`;
 
-      const { data: photoData, error: photoError } = await supabase.storage
+      const { error: photoError } = await supabase.storage
         .from('photos')
         .upload(slugWithUuid, photo, {
           contentType: `image/${fileExtension}`,
         });
 
       if (photoError) {
-        console.error('Error uploading photo:', photoError.message);
         res.status(500).json({ error: 'Error uploading photo' });
         return;
-      } else {
-        console.log('photodata', photoData);
       }
     }
 
+    const sanitizedHeadline = sanitizeString(headline.message);
+    const sanitizedSummary = sanitizeString(summary.message);
+    
     await prisma.news.create({
       data: {
         approved: true,
         title,
-        headline: headline.message,
-        summary: summary.message,
+        headline: sanitizedHeadline,
+        summary: sanitizedSummary,
         article,
         photoPath: files && files.photo ? slugWithUuid : null,
         photoCredit,
@@ -104,7 +102,6 @@ export default async function handler(
 
     res.status(201).json({ message: 'Posts created successfully' });
   } catch (error) {
-    console.error('Error creating news posts:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }

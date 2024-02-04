@@ -15,14 +15,12 @@ const fetchFromAI = async (prompt: string) => {
         input_text: prompt,
       }),
     };
-    console.log('Working on your AI request sir!', prompt);
     const response = await fetch(
       'https://api.writesonic.com/v2/business/content/chatsonic?engine=premium&language=en',
       options,
     );
 
     const data = response.json();
-    console.log('fetchFromAI', data);
     return data;
   } catch (error) {
     console.error('Error fetching response from AI:', error);

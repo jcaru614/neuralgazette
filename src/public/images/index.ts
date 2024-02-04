@@ -1,5 +1,6 @@
 export { default as neuralGazetteBot } from './neural-gazette-bot-icon.png';
 export { default as facebookIcon } from './facebook-icon.png';
+export { default as facebookOutlineIcon } from './facebook-outline-icon.png';
 export { default as emailIcon } from './email-icon.png';
 export { default as messageIcon } from './message-icon.png';
 export { default as twitterIcon } from './twitter-icon.png';
@@ -13,3 +14,5 @@ export { default as logo } from './logo.png';
 export { default as searchIcon } from './search-icon.png';
 export { default as shareIcon } from './share-icon.png';
 export { default as closeIcon } from './close-icon.png';
+export { default as hamburgerIcon } from './hamburger-icon.png';
+export { default as synthesisPhoto } from './synthesis-photo.png';

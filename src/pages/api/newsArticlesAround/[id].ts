@@ -1,4 +1,3 @@
-// Import necessary dependencies...
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
 
@@ -14,7 +13,6 @@ export default async function handler(
   const { id } = req.query;
 
   try {
-    // Fetch the current article
     const currentArticle = await prisma.news.findUnique({
       where: {
         id: String(id),
@@ -26,7 +24,6 @@ export default async function handler(
       return;
     }
 
-    // Fetch articles before and after the current article
     const beforeArticles = await prisma.news.findMany({
       where: {
         createdAt: {
@@ -50,14 +47,6 @@ export default async function handler(
       },
       take: 1,
     });
-    console.log(
-      '***current*****',
-      currentArticle,
-      '***before*****',
-      beforeArticles,
-      '***after*****',
-      afterArticles,
-    );
     res.status(200).json({
       currentArticle,
       beforeArticles,

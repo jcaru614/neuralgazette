@@ -1,6 +1,8 @@
 import React from 'react';
 import { Layout } from '@/components';
 import Head from 'next/head';
+import { synthesisPhoto } from '@/public/images';
+import Image from 'next/image';
 
 const SEO = {
   title: `Neural Gazette | About Us`,
@@ -29,7 +31,7 @@ const About = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image:alt" content={SEO.title} />
       </Head>
-      <main className="flex flex-col items-center justify-center min-h-screen p-24">
+      <main className="flex flex-col items-center justify-center min-h-screen sm:p-2 md:p-4 lg:p-8">
         <div className="max-w-3xl">
           <h1 className="text-6xl font-bold text-neural-teal mb-6">
             About The Neural Gazette
@@ -60,6 +62,16 @@ const About = () => {
             </p>
           </section>
 
+          <div className="flex justify-center">
+            <Image
+              src={synthesisPhoto}
+              width={900} // Adjust the width to your desired size
+              height={900} // Adjust the height to your desired size
+              alt="The Neural Gazette"
+              className=" mb-8"
+            />
+          </div>
+
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-neural-teal mb-2">
               Quick and Reliable Information
@@ -80,8 +92,8 @@ const About = () => {
             <p className="text-lg text-gray">
               Relying solely on ideologically biased sources poses inherent
               risks. While such sources may convey accurate information in many
-              instances, the issue arises from the selective omission or complete
-              absence of certain details. This information gap is where
+              instances, the issue arises from the selective omission or
+              complete absence of certain details. This information gap is where
               challenges emerge. Herein lies the value of AI as a solution.
               Neural Gazette harnesses AI technology to provide genuinely
               unbiased and comprehensive information, mitigating the risks
@@ -95,8 +107,8 @@ const About = () => {
             </h2>
             <p className="text-lg text-gray">
               Neural Gazette displays news stories without reinforcing biases by
-              showing all current events regardless of which side so that you can
-              overcome your blind side.
+              showing all current events regardless of which side so that you
+              can overcome your blind side.
             </p>
           </section>
 

@@ -17,9 +17,10 @@ interface NewsCardProps {
     originalBias?: any;
     createdAt?: any;
   };
+  index?: number;
 }
 
-const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
+const NewsCard: React.FC<NewsCardProps> = ({ news, index }) => {
   const router = useRouter();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -44,8 +45,18 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
     router.push(`/article/${titleSlug}/${news.id}`);
   };
 
-  const sanitizeString = (inputString: string) => {
-    return inputString.replace(/['"]/g, '');
+  const getHeadingElement = (level: number, text: string): React.ReactNode => {
+    level += 1;
+    const cappedLevel = level <= 6 ? level : 7;
+    const Element = cappedLevel <= 6 ? `h${cappedLevel}` : 'p';
+
+    return React.createElement(
+      Element,
+      {
+        className: `md:text-xl sm:text-lg text-black font-semibold block mb-4`,
+      },
+      text,
+    );
   };
 
   return (
@@ -69,9 +80,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
           )}
           <div className="md:w-2/3 flex flex-col justify-between">
             <div>
-              <h2 className="md:text-xl sm:text-lg text-black font-semibold block mb-4">
-                {sanitizeString(news.headline)}
-              </h2>
+              {getHeadingElement(index, news.headline)}
               <p className="md:text-lg sm:text-md text-black rounded block mb-2">
                 {news.summary}
               </p>

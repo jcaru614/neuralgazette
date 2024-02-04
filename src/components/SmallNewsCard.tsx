@@ -41,7 +41,7 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
   return (
     <Link {...linkProps}>
       <div
-        className={`border-b border-gray bg-off-white flex p-2 ${
+        className={`border-b border-gray bg-off-white flex p-1 ${
           search
             ? 'sm:max-w-sm'
             : 'md:max-w-xl border border-gray rounded-md transition'
@@ -56,8 +56,8 @@ const SmallNewsCard: React.FC<SmallNewsCardProps> = ({ news, search }) => {
             <Image
               src={imageUrl}
               alt={search ? 'Search news Thumbnail' : 'Next Article Thumbnail'}
-              width={search ? 64 : 80}
-              height={search ? 64 : 80}
+              width={search ? 75 : 80}
+              height={search ? 75 : 80}
               unoptimized
               loading="lazy"
             />

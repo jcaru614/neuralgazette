@@ -1,5 +1,3 @@
-export * from './unbiasedNewsArticlePrompt';
-
 export const titlePrompt = (articleMessage: string) => `
 AI, I want you to create an unbiased news title based on this article provided here:
 
@@ -7,7 +5,7 @@ AI, I want you to create an unbiased news title based on this article provided h
 ${articleMessage}
 \`\`\`
 
-Return only a single title without quotation marks with no more than 120 characters in your response.
+Return only a single title without quotation marks, asterisks or any thing else, I just want the title with no more than 120 characters in your response.
 `;
 
 export const headlinePrompt = (articleMessage: string) => `
@@ -17,7 +15,7 @@ AI, I want you to create an unbiased news headline based on this article provide
 ${articleMessage}
 \`\`\`
 
-Return only a single headline without quotation marks with no more than 150 characters in your response.
+Return only a single headline without quotation marks, asterisks or any thing else, I just want the headline with no more than 150 characters in your response.
 `;
 
 export const summaryPrompt = (articleMessage: string) => `
@@ -27,7 +25,7 @@ AI, I want you to create an unbiased news summary based on this article provided
 ${articleMessage}
 \`\`\`
 
-Return only a single summary without quotation marks, asterisks or any thing else, I just want the summary nothing else with no more than 450 characters in your response.
+Return only a single summary without quotation marks, asterisks or any thing else, I just want the summary with no more than 450 characters in your response.
 `;
 
 
