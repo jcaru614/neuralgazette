@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { synthesisPhoto } from '@/public/images';
 import Image from 'next/image';
 
+
 const SEO = {
   title: `Neural Gazette | About Us`,
   description: `Discover the story behind Neural Gazette, an unbiased AI news platform. Learn about our mission, values, and the team driving accurate AI-written news.`,
@@ -30,9 +31,11 @@ const About = () => {
         <meta name="twitter:description" content={SEO.description} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image:alt" content={SEO.title} />
+
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen sm:p-2 md:p-4 lg:p-8">
         <div className="max-w-3xl">
+          
           <h1 className="text-6xl font-bold text-neural-teal mb-6">
             About The Neural Gazette
           </h1>
