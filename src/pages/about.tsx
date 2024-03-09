@@ -68,9 +68,9 @@ const About = () => {
           <div className="flex justify-center">
             <Image
               src={synthesisPhoto}
-              width={900} // Adjust the width to your desired size
-              height={900} // Adjust the height to your desired size
-              alt="The Neural Gazette"
+              width={900} 
+              height={900} 
+              alt="The Neural Gazette synthesizing biased news to create unbiased news"
               className=" mb-8"
             />
           </div>
