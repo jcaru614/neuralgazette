@@ -143,3 +143,14 @@ prisma migrate dev --name rename-titleNew-t-title --create-only
                        then replace the sql code below with the code in migration file
 
                    #SQL : ALTER TABLE "News" RENAME COLUMN "titleNew" TO "title";
+
+
+add this to vercel.json if paying for doing to api timeout issue
+
+{
+  "functions": {
+    "src/pages/api/**/*": {
+      "maxDuration": 20
+    }
+  }
+}
