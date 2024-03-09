@@ -18,8 +18,8 @@ module.exports = {
         'neural-teal': '#24C3C3',
         'neural-purple': '#8932A6',
         'network-error': '#D72200',
-        gray: '#6E6E6E',
         blue: '#0624d7',
+        gray: '#6E6E6E',
         'off-white': '#F9F9F9',
         white: '#FFFFFF',
         black: '#000000'
