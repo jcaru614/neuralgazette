@@ -4,23 +4,18 @@ import InMemoryQueue from './inMemoryQueue';
 
 const articleQueue = new InMemoryQueue();
 
-// Function to generate a unique task ID
 function generateUniqueTaskId(): string {
   return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 }
 
-// Function to save the result or error in memory
 function saveResult(taskId: string, result: any): void {
   articleQueue.getStatus(taskId).result = result;
 }
 
-// Function to notify the client (stubbed, could be expanded)
 function notifyCompletion(taskId: string): void {
-  // If you have a mechanism to notify the client, you can implement it here.
   console.log(`Task ${taskId} completed.`);
 }
 
-// API route to start the article generation process
 export default async function startUnbiasedArticleGeneration(
   req: NextApiRequest,
   res: NextApiResponse,
