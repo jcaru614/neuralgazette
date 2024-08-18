@@ -1,56 +1,86 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Queue, Worker, Job } from 'bullmq';
+import IORedis from 'ioredis';
 import { createUnbiasedNewsArticleCore } from './createUnbiasedNewsArticle';
-import InMemoryQueue from './inMemoryQueue';
 
-const articleQueue = new InMemoryQueue();
+// Set up Redis connection options
+const connection = new IORedis({
+  host: process.env.REDIS_HOST,
+  port: Number(process.env.REDIS_PORT),
+  password: process.env.REDIS_PASSWORD,
+  maxRetriesPerRequest: null, // Required by BullMQ to handle retries properly
+});
 
-function generateUniqueTaskId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-}
+// Create a BullMQ queue for article generation jobs
+const articleQueue = new Queue('articleQueue', {
+  connection,
+});
 
-function saveResult(taskId: string, result: any): void {
-  articleQueue.getStatus(taskId).result = result;
-}
+// Create a worker to process jobs in the queue
+const worker = new Worker(
+  'articleQueue',
+  async (job: Job) => {
+    try {
+      console.log(`Processing job ${job.id}`);
+      const result = await createUnbiasedNewsArticleCore();
+      console.log(`Finished processing job ${job.id}`);
+      return result; // The result is returned and stored with the job
+    } catch (error) {
+      console.error(`Error processing job ${job.id}:`, error);
+      throw error; // Rethrow to mark the job as failed
+    }
+  },
+  { connection },
+);
 
-function notifyCompletion(taskId: string): void {
-  console.log(`Task ${taskId} completed.`);
-}
+worker.on('completed', (job: Job, result: any) => {
+  console.log(`Job ${job.id} has completed! Result:`, result);
+});
 
+worker.on('failed', (job: Job, err: Error) => {
+  console.error(`Job ${job.id} failed with error:`, err);
+});
+
+// API route to start the article generation process
 export default async function startUnbiasedArticleGeneration(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
-  const taskId = generateUniqueTaskId();
-
-  articleQueue.add(taskId, async () => {
-    try {
-      const result = await createUnbiasedNewsArticleCore();
-      saveResult(taskId, result);
-      notifyCompletion(taskId);
-    } catch (error) {
-      console.error(`Error processing task ${taskId}:`, error);
-      saveResult(taskId, { error: error.message });
-    }
-  });
-
-  res.status(202).json({
-    message: 'Article generation started',
-    taskId: taskId,
-    statusUrl: `/api/checkStatus?taskId=${taskId}`,
-  });
+  try {
+    const job = await articleQueue.add('generateArticle', {});
+    res
+      .status(202)
+      .json({ message: 'Article generation started', jobId: job.id });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Failed to start article generation',
+      error: error.message,
+    });
+  }
 }
 
-// API route to check the status of a task
-export async function checkStatus(
+// API route to check the status of a job
+export async function checkJobStatus(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
-  const { taskId } = req.query as { taskId: string };
-  const status = articleQueue.getStatus(taskId);
+  const { jobId } = req.query as { jobId: string };
 
-  if (status) {
-    res.status(200).json(status);
-  } else {
-    res.status(404).json({ message: 'Task not found' });
+  try {
+    const job = await articleQueue.getJob(jobId);
+
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+
+    const state = await job.getState(); // returns 'completed', 'failed', 'waiting', 'active', etc.
+    const result = job.returnvalue; // result of the job if completed
+    const failedReason = job.failedReason; // error message if the job failed
+
+    res.status(200).json({ state, result, failedReason });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Failed to check job status', error: error.message });
   }
 }
