@@ -1,83 +1,89 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
 import { createUnbiasedNewsArticleCore } from './createUnbiasedNewsArticle';
 
+console.log('REDIS_PORT:', process.env.REDIS_PORT);
 const port = Number(process.env.REDIS_PORT) || 6379;
+console.log('Parsed Port:', port);
 
 const connection = new IORedis({
   host: process.env.REDIS_HOST,
   port: port,
   password: process.env.REDIS_PASSWORD,
-  maxRetriesPerRequest: null,
+  maxRetriesPerRequest: null, // Required by BullMQ to handle retries properly
 });
 
 // Create a BullMQ queue for article generation jobs
-const articleQueue = new Queue('articleQueue', { connection });
+const articleQueue = new Queue('articleQueue', {
+  connection,
+});
 
-// This will hold a map of job statuses
-const jobStatuses = new Map<string, string>();
+// Create a worker to process jobs in the queue
+const worker = new Worker(
+  'articleQueue',
+  async (job: Job) => {
+    try {
+      console.log(`Processing job ${job.id}`);
+      const result = await createUnbiasedNewsArticleCore();
+      console.log(`Finished processing job ${job.id}`);
+      return result; // The result is returned and stored with the job
+    } catch (error) {
+      console.error(`Error processing job ${job.id}:`, error);
+      throw error; // Rethrow to mark the job as failed
+    }
+  },
+  { connection },
+);
 
-export async function GET(request: Request) {
-  const jobId = `job-${Date.now()}`; // Unique job ID
+worker.on('completed', (job: Job, result: any) => {
+  console.log(`Job ${job.id} has completed! Result:`, result);
+});
 
-  // Set headers for streaming
-  const headers = new Headers({
-    'Content-Type': 'text/plain; charset=utf-8',
-    'Transfer-Encoding': 'chunked',
-  });
+worker.on('failed', (job: Job, err: Error) => {
+  console.error(`Job ${job.id} failed with error:`, err);
+});
 
-  // Create a ReadableStream to stream data
-  const stream = new ReadableStream({
-    start(controller) {
-      // Add a job to the queue
-      articleQueue
-        .add('generateArticle', { jobId }, { jobId })
-        .then(() => {
-          controller.enqueue('Job started. Processing...\n');
+// API route to start the article generation process
+export default async function startUnbiasedArticleGeneration(
+  req: NextApiRequest,
+  res: NextApiResponse,
+): Promise<void> {
+  try {
+    const job = await articleQueue.add('generateArticle', {});
+    res
+      .status(202)
+      .json({ message: 'Article generation started', jobId: job.id });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Failed to start article generation',
+      error: error.message,
+    });
+  }
+}
 
-          // Create a new worker to process jobs in the queue
-          const worker = new Worker(
-            'articleQueue',
-            async (job: Job) => {
-              try {
-                const result = await createUnbiasedNewsArticleCore();
-                jobStatuses.set(job.id, 'completed');
-                return result;
-              } catch (error) {
-                jobStatuses.set(job.id, `failed: ${error.message}`);
-                throw new Error(`Error in job processing: ${error.message}`);
-              }
-            },
-            { connection },
-          );
+// API route to check the status of a job
+export async function checkJobStatus(
+  req: NextApiRequest,
+  res: NextApiResponse,
+): Promise<void> {
+  const { jobId } = req.query as { jobId: string };
 
-          worker.on('completed', (job: Job, result: any) => {
-            console.log(`Job ${job.id} has completed! Result:`, result);
-            controller.enqueue('Job completed. Result: ' + result + '\n');
-            // Optionally, you can send result to a database or perform additional actions here
-          });
+  try {
+    const job = await articleQueue.getJob(jobId);
 
-          worker.on('failed', (job: Job, err: Error) => {
-            console.error(`Job ${job.id} failed with error:`, err);
-            controller.enqueue('Job failed with error: ' + err.message + '\n');
-          });
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
 
-          // Keep the function alive with periodic pings
-          const keepAliveInterval = setInterval(() => {
-            controller.enqueue('ping\n'); // Write a small chunk to keep the process alive
-          }, 5000); // Send a ping every 5 seconds
+    const state = await job.getState(); // returns 'completed', 'failed', 'waiting', 'active', etc.
+    const result = job.returnvalue; // result of the job if completed
+    const failedReason = job.failedReason; // error message if the job failed
 
-          // Clear the keep-alive interval when the response ends or the client disconnects
-          request.signal.addEventListener('abort', () => {
-            clearInterval(keepAliveInterval);
-          });
-        })
-        .catch((error) => {
-          controller.enqueue(`Failed to start job: ${error.message}\n`);
-          controller.close(); // Close the stream if job addition fails
-        });
-    },
-  });
-
-  return new Response(stream, { headers });
+    res.status(200).json({ state, result, failedReason });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Failed to check job status', error: error.message });
+  }
 }
