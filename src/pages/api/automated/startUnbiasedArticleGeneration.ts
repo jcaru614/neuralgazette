@@ -3,18 +3,14 @@ import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
 import { createUnbiasedNewsArticleCore } from './createUnbiasedNewsArticle';
 
-console.log('REDIS_PORT:', process.env.REDIS_PORT);
 const port = Number(process.env.REDIS_PORT) || 6379;
-console.log('Parsed Port:', port);
-
 const connection = new IORedis({
   host: process.env.REDIS_HOST,
   port: port,
   password: process.env.REDIS_PASSWORD,
-  maxRetriesPerRequest: null, // Required by BullMQ to handle retries properly
+  maxRetriesPerRequest: null,
 });
 
-// Create a BullMQ queue for article generation jobs
 const articleQueue = new Queue('articleQueue', {
   connection,
 });
@@ -27,10 +23,10 @@ const worker = new Worker(
       console.log(`Processing job ${job.id}`);
       const result = await createUnbiasedNewsArticleCore();
       console.log(`Finished processing job ${job.id}`);
-      return result; // The result is returned and stored with the job
+      return result;
     } catch (error) {
       console.error(`Error processing job ${job.id}:`, error);
-      throw error; // Rethrow to mark the job as failed
+      throw error;
     }
   },
   { connection },
@@ -44,46 +40,69 @@ worker.on('failed', (job: Job, err: Error) => {
   console.error(`Job ${job.id} failed with error:`, err);
 });
 
-// API route to start the article generation process
-export default async function startUnbiasedArticleGeneration(
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic'; // Always run dynamically
+
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
-): Promise<void> {
-  try {
-    const job = await articleQueue.add('generateArticle', {});
-    res
-      .status(202)
-      .json({ message: 'Article generation started', jobId: job.id });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Failed to start article generation',
-      error: error.message,
-    });
-  }
-}
+) {
+  res.status(202).json({ message: 'Article generation started' });
+  const encoder = new TextEncoder();
 
-// API route to check the status of a job
-export async function checkJobStatus(
-  req: NextApiRequest,
-  res: NextApiResponse,
-): Promise<void> {
-  const { jobId } = req.query as { jobId: string };
+  const customReadable = new ReadableStream({
+    start(controller) {
+      articleQueue
+        .add('generateArticle', {})
+        .then((job) => {
+          const checkJobStatus = async () => {
+            const jobResult = await articleQueue.getJob(job.id);
+            if (!jobResult) {
+              controller.enqueue(encoder.encode(`Job ${job.id} not found.\n`));
+              controller.close();
+              return;
+            }
 
-  try {
-    const job = await articleQueue.getJob(jobId);
+            const state = await jobResult.getState();
+            controller.enqueue(
+              encoder.encode(`Job ${job.id} is currently ${state}\n`),
+            );
 
-    if (!job) {
-      return res.status(404).json({ message: 'Job not found' });
-    }
+            if (state === 'completed') {
+              const result = jobResult.returnvalue;
+              controller.enqueue(
+                encoder.encode(
+                  `Job ${job.id} has completed! Result: ${JSON.stringify(result)}\n`,
+                ),
+              );
+              controller.close();
+            } else if (state === 'failed') {
+              const failedReason = jobResult.failedReason;
+              controller.enqueue(
+                encoder.encode(
+                  `Job ${job.id} failed with error: ${failedReason}\n`,
+                ),
+              );
+              controller.close();
+            } else {
+              setTimeout(checkJobStatus, 5000); // Poll every 5 seconds
+            }
+          };
 
-    const state = await job.getState(); // returns 'completed', 'failed', 'waiting', 'active', etc.
-    const result = job.returnvalue; // result of the job if completed
-    const failedReason = job.failedReason; // error message if the job failed
+          checkJobStatus();
+        })
+        .catch((error) => {
+          controller.enqueue(
+            encoder.encode(
+              `Failed to start article generation: ${error.message}\n`,
+            ),
+          );
+          controller.close();
+        });
+    },
+  });
 
-    res.status(200).json({ state, result, failedReason });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Failed to check job status', error: error.message });
-  }
+  return new Response(customReadable, {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  });
 }
