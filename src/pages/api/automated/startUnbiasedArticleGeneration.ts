@@ -3,15 +3,18 @@ import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
 import { createUnbiasedNewsArticleCore } from './createUnbiasedNewsArticle';
 
-// Set up Redis connection options
+console.log('REDIS_PORT:', process.env.REDIS_PORT);
+const port = Number(process.env.REDIS_PORT) || 6379;
+console.log('Parsed Port:', port);
+
 const connection = new IORedis({
   host: process.env.REDIS_HOST,
-  port: Number(process.env.REDIS_PORT),
+  port: port,
   password: process.env.REDIS_PASSWORD,
   maxRetriesPerRequest: null, // Required by BullMQ to handle retries properly
 });
 
-// Create a BullMQ queue for article generation jobs
+
 const articleQueue = new Queue('articleQueue', {
   connection,
 });

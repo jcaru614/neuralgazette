@@ -29,15 +29,46 @@ const generateWithPrompt = async (prompt: string, maxTokens: number) => {
   return response.choices[0].message.content.trim();
 };
 
+const approximateTokens = (text: string): number => {
+  // Rough estimate: 1 token ≈ 4 characters
+  return Math.ceil(text.length / 4);
+};
+
+const truncateToTokenLimit = (text: string, maxTokens: number): string => {
+  const maxChars = maxTokens * 4; // Estimate characters from tokens
+  if (text.length > maxChars) {
+    return text.slice(0, maxChars);
+  }
+  return text;
+};
+
 const combineArticles = async (
   article1Content: string,
   article2Content: string,
 ) => {
+  const reservedTokensForCompletion = 4000; // Reserve tokens for the completion
+  const maxPromptTokens = 8000 - reservedTokensForCompletion; // Max tokens for the prompt
+
+  // Truncate articles based on character count approximation
+  article1Content = truncateToTokenLimit(article1Content, maxPromptTokens / 2);
+  article2Content = truncateToTokenLimit(article2Content, maxPromptTokens / 2);
+
   const combinePrompt = combineArticlesPrompt(article1Content, article2Content);
-  const combinedArticle = await generateWithPrompt(combinePrompt, 4000);
+  const promptTokens = approximateTokens(combinePrompt);
+
+  // If promptTokens + reservedTokensForCompletion exceed 8000, adjust further
+  if (promptTokens + reservedTokensForCompletion > 8000) {
+    const allowedPromptTokens = 8000 - reservedTokensForCompletion;
+    const excessTokens = promptTokens - allowedPromptTokens;
+
+    // Adjust by further truncating the articles based on the excess
+    article1Content = truncateToTokenLimit(article1Content, maxPromptTokens / 2 - excessTokens / 2);
+    article2Content = truncateToTokenLimit(article2Content, maxPromptTokens / 2 - excessTokens / 2);
+  }
+
+  const combinedArticle = await generateWithPrompt(combinePrompt, reservedTokensForCompletion);
   return combinedArticle;
 };
-
 // Core function that can be reused
 export const createUnbiasedNewsArticleCore = async () => {
   const similarStories = await findSimilarStoriesCore();
