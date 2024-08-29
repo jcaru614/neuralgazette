@@ -29,6 +29,8 @@ const generateWithPrompt = async (prompt: string, maxTokens: number) => {
   return response.choices[0].message.content.trim();
 };
 
+// test
+
 const approximateTokens = (text: string): number => {
   // Rough estimate: 1 token ≈ 4 characters
   return Math.ceil(text.length / 4);
