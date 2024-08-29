@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import cheerio from 'cheerio';
 import OpenAI from 'openai';
-import { cleanUpContent } from '../utils';
+import { cleanUpContent } from '../../pages/api/utils';
 
 const sources = {
   foxnews: ['https://feeds.foxnews.com/foxnews/latest'],
@@ -14,11 +14,12 @@ const openai = new OpenAI({
 
 const pullLatestHeadlines = async () => {
   const headlines = { foxnews: [], msnbc: [] };
-
   const fetchAndParseXML = async (url: string, side: string) => {
     try {
       const response = await fetch(url);
+
       const data = await response.text();
+      console.log('headlines data ', data);
       const $ = cheerio.load(data, { xmlMode: true });
 
       $('item').each((i, el) => {

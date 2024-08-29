@@ -14,7 +14,6 @@ const connection = new IORedis({
   maxRetriesPerRequest: null, // Required by BullMQ to handle retries properly
 });
 
-
 const articleQueue = new Queue('articleQueue', {
   connection,
 });
@@ -44,21 +43,19 @@ worker.on('failed', (job: Job, err: Error) => {
   console.error(`Job ${job.id} failed with error:`, err);
 });
 
-// API route to start the article generation process
-export default async function startUnbiasedArticleGeneration(
-  req: NextApiRequest,
-  res: NextApiResponse,
-): Promise<void> {
+export async function startUnbiasedArticleGeneration(): Promise<{
+  message: string;
+  jobId?: string;
+  error?: string;
+}> {
   try {
     const job = await articleQueue.add('generateArticle', {});
-    res
-      .status(202)
-      .json({ message: 'Article generation started', jobId: job.id });
+    return { message: 'Article generation started', jobId: job.id };
   } catch (error) {
-    res.status(500).json({
+    return {
       message: 'Failed to start article generation',
       error: error.message,
-    });
+    };
   }
 }
 

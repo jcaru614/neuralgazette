@@ -11,7 +11,7 @@ import {
 import OpenAI from 'openai';
 import prisma from '@/lib/prisma';
 import supabase from '@/lib/supabase';
-import { sanitizeString } from '../utils';
+import { sanitizeString } from '../../pages/api/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { slugify } from '@/utils';
 
@@ -62,15 +62,25 @@ const combineArticles = async (
     const excessTokens = promptTokens - allowedPromptTokens;
 
     // Adjust by further truncating the articles based on the excess
-    article1Content = truncateToTokenLimit(article1Content, maxPromptTokens / 2 - excessTokens / 2);
-    article2Content = truncateToTokenLimit(article2Content, maxPromptTokens / 2 - excessTokens / 2);
+    article1Content = truncateToTokenLimit(
+      article1Content,
+      maxPromptTokens / 2 - excessTokens / 2,
+    );
+    article2Content = truncateToTokenLimit(
+      article2Content,
+      maxPromptTokens / 2 - excessTokens / 2,
+    );
   }
 
-  const combinedArticle = await generateWithPrompt(combinePrompt, reservedTokensForCompletion);
+  const combinedArticle = await generateWithPrompt(
+    combinePrompt,
+    reservedTokensForCompletion,
+  );
   return combinedArticle;
 };
 // Core function that can be reused
 export const createUnbiasedNewsArticleCore = async () => {
+  console.log('create unbiased news article started 123');
   const similarStories = await findSimilarStoriesCore();
 
   if (!similarStories || similarStories.length < 1) {
