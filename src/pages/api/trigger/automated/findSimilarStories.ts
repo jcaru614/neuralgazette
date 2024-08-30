@@ -14,7 +14,6 @@ const openai = new OpenAI({
 
 const pullLatestHeadlines = async () => {
   const headlines = { foxnews: [], msnbc: [] };
-
   const fetchAndParseXML = async (url: string, side: string) => {
     try {
       const response = await fetch(url);
@@ -68,7 +67,9 @@ const fetchArticleContent = async (url: string): Promise<string | null> => {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Failed to fetch from ${url}, status: ${response.status}`);
+      throw new Error(
+        `Failed to fetch from ${url}, status: ${response.status}`,
+      );
     }
     const html = await response.text();
     const dom = new JSDOM(html);
@@ -103,7 +104,6 @@ export const findSimilarStoriesCore = async () => {
         msnbcEmbeddings[j],
       );
       if (similarity > threshold) {
-        console.log('link ', foxnews[i].link);
         const foxnewsContent = await fetchArticleContent(foxnews[i].link);
         const msnbcContent = await fetchArticleContent(msnbc[j].link);
 
