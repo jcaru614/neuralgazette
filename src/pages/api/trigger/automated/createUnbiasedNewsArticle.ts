@@ -11,7 +11,7 @@ import {
 import OpenAI from 'openai';
 import prisma from '@/lib/prisma';
 import supabase from '@/lib/supabase';
-import { sanitizeString } from '../../pages/api/utils';
+import { sanitizeString } from '../../utils';
 import { v4 as uuidv4 } from 'uuid';
 import { slugify } from '@/utils';
 
@@ -103,9 +103,10 @@ export const createUnbiasedNewsArticleCore = async () => {
   const sanitizedHeadline = sanitizeString(headline);
   const sanitizedSummary = sanitizeString(summary);
 
-  const imageUrl = await getImageFromHeadlineCore(sanitizedHeadline);
-  // const imageUrl =
-  //   'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kamala_Harris_Vice_Presidential_Portrait.jpg/500px-Kamala_Harris_Vice_Presidential_Portrait.jpg';
+  // this branch works
+  // const imageUrl = await getImageFromHeadlineCore(sanitizedHeadline);
+  const imageUrl =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kamala_Harris_Vice_Presidential_Portrait.jpg/500px-Kamala_Harris_Vice_Presidential_Portrait.jpg';
 
   if (!imageUrl) {
     throw new Error('Failed to generate or fetch image');

@@ -1,6 +1,7 @@
 import { task, logger, wait } from '@trigger.dev/sdk/v3';
-// import { startUnbiasedArticleGeneration } from './automated/startUnbiasedArticleGeneration';
-import { createUnbiasedNewsArticleCore } from './automated/createUnbiasedNewsArticle';
+// import { startUnbiasedArticleGeneration } from '../automated/startUnbiasedArticleGeneration';
+// import { createUnbiasedNewsArticleCore } from '../automated/createUnbiasedNewsArticle';
+import { findSimilarStoriesCore } from './automated/findSimilarStories';
 
 export const startUnbiasedArticleGenerationTask = task({
   id: 'start-unbiased-article-generation',
@@ -9,7 +10,8 @@ export const startUnbiasedArticleGenerationTask = task({
 
     try {
       // const result = await startUnbiasedArticleGeneration();
-      const result = await createUnbiasedNewsArticleCore();
+      const result = await findSimilarStoriesCore();
+      // const result = await createUnbiasedNewsArticleCore();
 
       return {
         message: 'Unbiased news article generation started successfully 123',

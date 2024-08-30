@@ -1,9 +1,7 @@
-/* eslint-disable no-useless-escape */
 import cheerio from 'cheerio';
 
 const cleanUpContent = (html: string): string => {
   const $ = cheerio.load(html);
-
   // Remove unwanted tags like scripts, styles, iframes, noscripts, and ads
   $(
     'script, style, iframe, noscript, [class*="ad"], .newsletter, .promo',
@@ -21,8 +19,8 @@ const cleanUpContent = (html: string): string => {
     .replace(/\\/g, '') // Remove any remaining backslashes
     .replace(/\s\s+/g, ' ') // Replace multiple spaces with a single space
     .replace(/^\s+|\s+$/g, '') // Trim leading and trailing whitespace
-    .replace(/(\s+\"|\")/g, '"') // Correct misplaced quotation marks
-    .replace(/\"\s+/g, '"'); // Correct misplaced quotation marks
+    .replace(/(\s+")/g, '"') // Correct misplaced quotation marks
+    .replace(/"\s+/g, '"'); // Correct misplaced quotation marks
 
   return content;
 };

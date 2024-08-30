@@ -14,6 +14,7 @@ const connection = new IORedis({
   maxRetriesPerRequest: null, // Required by BullMQ to handle retries properly
 });
 
+// Create a BullMQ queue for article generation jobs
 const articleQueue = new Queue('articleQueue', {
   connection,
 });

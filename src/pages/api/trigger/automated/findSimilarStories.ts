@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import cheerio from 'cheerio';
+import { parseStringPromise } from 'xml2js';
 import OpenAI from 'openai';
-import { cleanUpContent } from '../../pages/api/utils';
+import { JSDOM } from 'jsdom';
 
 const sources = {
   foxnews: ['https://feeds.foxnews.com/foxnews/latest'],
@@ -17,14 +17,18 @@ const pullLatestHeadlines = async () => {
   const fetchAndParseXML = async (url: string, side: string) => {
     try {
       const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch from ${url}, status: ${response.status}`,
+        );
+      }
 
       const data = await response.text();
-      console.log('headlines data ', data);
-      const $ = cheerio.load(data, { xmlMode: true });
+      const result = await parseStringPromise(data);
 
-      $('item').each((i, el) => {
-        const title = $(el).find('title').text();
-        const link = $(el).find('link').text();
+      result.rss.channel[0].item.forEach((item: any) => {
+        const title = item.title[0];
+        const link = item.link[0];
         headlines[side].push({ title, link });
       });
     } catch (error) {
@@ -62,11 +66,14 @@ const cosineSimilarity = (vecA: number[], vecB: number[]) => {
 const fetchArticleContent = async (url: string): Promise<string | null> => {
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch from ${url}, status: ${response.status}`,
+      );
+    }
     const html = await response.text();
-
-    // Use the helper function to clean up the content
-    const content = cleanUpContent(html);
-
+    const dom = new JSDOM(html);
+    const content = dom.window.document.querySelector('article')?.textContent;
     return content || null;
   } catch (error) {
     console.error(`Error fetching article content from ${url}:`, error.message);
@@ -76,6 +83,7 @@ const fetchArticleContent = async (url: string): Promise<string | null> => {
 
 export const findSimilarStoriesCore = async () => {
   const headlines = await pullLatestHeadlines();
+  console.log('headlines ', headlines);
   const { foxnews, msnbc } = headlines;
   const groups = [];
   let highestSimilarityGroup = null;
