@@ -73,8 +73,24 @@ const fetchArticleContent = async (url: string): Promise<string | null> => {
     }
     const html = await response.text();
     const dom = new JSDOM(html);
-    const content = dom.window.document.querySelector('article')?.textContent;
-    return content || null;
+
+    // Try to get content from various possible elements
+    let content =
+      dom.window.document.querySelector('article')?.textContent ||
+      dom.window.document.querySelector('div.content')?.textContent ||
+      dom.window.document.querySelector('div.entry-content')?.textContent ||
+      dom.window.document.querySelector('main')?.textContent;
+
+    // Check for paywall notices and handle accordingly
+    const paywallIndicator =
+      dom.window.document.querySelector('.paywall') ||
+      dom.window.document.querySelector('.paywall-notice');
+
+    if (paywallIndicator) {
+      return `Content behind paywall: ${url}`;
+    }
+
+    return content?.trim() || `No content available for ${url}`;
   } catch (error) {
     console.error(`Error fetching article content from ${url}:`, error.message);
     return null;
@@ -82,8 +98,11 @@ const fetchArticleContent = async (url: string): Promise<string | null> => {
 };
 
 export const findSimilarStoriesCore = async () => {
+  console.log(
+    `[INFO] ${new Date().toISOString()} - findSimilarStories started`,
+  );
   const headlines = await pullLatestHeadlines();
-  console.log('headlines ', headlines);
+
   const { foxnews, msnbc } = headlines;
   const groups = [];
   let highestSimilarityGroup = null;

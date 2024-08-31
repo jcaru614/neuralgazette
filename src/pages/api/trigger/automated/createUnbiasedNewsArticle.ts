@@ -8,26 +8,11 @@ import {
   combineArticlesPrompt,
   categoryPrompt,
 } from '@/prompts';
-import OpenAI from 'openai';
 import prisma from '@/lib/prisma';
 import supabase from '@/lib/supabase';
-import { sanitizeString } from '../../utils';
+import { sanitizeString, generateWithPrompt } from '../../utils';
 import { v4 as uuidv4 } from 'uuid';
 import { slugify } from '@/utils';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const generateWithPrompt = async (prompt: string, maxTokens: number) => {
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages: [{ role: 'user', content: prompt }],
-    max_tokens: maxTokens,
-    temperature: 0.7,
-  });
-  return response.choices[0].message.content.trim();
-};
 
 const approximateTokens = (text: string): number => {
   // Rough estimate: 1 token ≈ 4 characters
@@ -80,7 +65,9 @@ const combineArticles = async (
 };
 // Core function that can be reused
 export const createUnbiasedNewsArticleCore = async () => {
-  console.log('create unbiased news article started 123');
+  console.log(
+    `[INFO] ${new Date().toISOString()} - createUnbiasedArticle started`,
+  );
   const similarStories = await findSimilarStoriesCore();
 
   if (!similarStories || similarStories.length < 1) {
@@ -103,7 +90,6 @@ export const createUnbiasedNewsArticleCore = async () => {
   const sanitizedHeadline = sanitizeString(headline);
   const sanitizedSummary = sanitizeString(summary);
 
-  // this branch works
   const imageUrl = await getImageFromHeadlineCore(sanitizedHeadline);
   // const imageUrl =
   //   'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kamala_Harris_Vice_Presidential_Portrait.jpg/500px-Kamala_Harris_Vice_Presidential_Portrait.jpg';
@@ -140,7 +126,9 @@ export const createUnbiasedNewsArticleCore = async () => {
       category: category as any,
     },
   });
-
+  console.log(
+    `[INFO] ${new Date().toISOString()} - createUnbiasedArticle Completed`,
+  );
   return { message: 'Article created successfully' };
 };
 

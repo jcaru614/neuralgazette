@@ -81,3 +81,12 @@ export const combineArticlesPrompt = (
   Please combine the articles into one that maintains neutrality and accuracy, and ensure the final output is ready for publication.
 `;
 
+export const imagePrompt = (headline: string) => `
+Create an image that represents the following headline: "${headline}". 
+The image should capture the central theme or concept of the headline, focusing on abstract representation rather than literal depiction. 
+It should convey the tone and mood suggested by the headline, using a style and color palette that enhances the thematic elements.
+Emphasize artistic elements such as composition, contrast, and texture to create a visually compelling image.
+`;
+
+export const extractNamePrompt = (headline: string) =>
+  `Extract the name of the person from the following headline. If there is no name, return "None": "${headline}"`;
