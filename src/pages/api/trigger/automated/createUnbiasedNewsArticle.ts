@@ -104,9 +104,9 @@ export const createUnbiasedNewsArticleCore = async () => {
   const sanitizedSummary = sanitizeString(summary);
 
   // this branch works
-  // const imageUrl = await getImageFromHeadlineCore(sanitizedHeadline);
-  const imageUrl =
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kamala_Harris_Vice_Presidential_Portrait.jpg/500px-Kamala_Harris_Vice_Presidential_Portrait.jpg';
+  const imageUrl = await getImageFromHeadlineCore(sanitizedHeadline);
+  // const imageUrl =
+  //   'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kamala_Harris_Vice_Presidential_Portrait.jpg/500px-Kamala_Harris_Vice_Presidential_Portrait.jpg';
 
   if (!imageUrl) {
     throw new Error('Failed to generate or fetch image');
