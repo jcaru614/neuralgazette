@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
+import { generateWithPrompt } from '../../utils';
+import { extractNamePrompt, imagePrompt } from '@/prompts';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -24,20 +26,13 @@ const getImageFromWikimedia = async (query: string): Promise<string | null> => {
   return null;
 };
 
-const extractNameFromHeadline = async (
-  headline: string,
-): Promise<string | null> => {
-  const prompt = `Extract the name of the person from the following headline. If there is no name, return "None": "${headline}"`;
-
+const extractNameFromHeadline = async (headline: string): Promise<any> => {
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 20,
-      temperature: 0.5,
-    });
-
-    const extractedName = response.choices[0]?.message?.content.trim();
+    const extractedName = await generateWithPrompt(
+      extractNamePrompt(headline),
+      20,
+      0.5,
+    );
     return extractedName === 'None' ? null : extractedName;
   } catch (error) {
     console.error('Error extracting name from headline:', error.message);
@@ -46,20 +41,8 @@ const extractNameFromHeadline = async (
 };
 
 const createImagePrompt = async (headline: string): Promise<string> => {
-  const promptTemplate = `
-  Create an image that represents the following headline: "${headline}". 
-  The image should capture the central theme or concept of the headline, focusing on abstract representation rather than literal depiction. 
-  It should convey the tone and mood suggested by the headline, using a style and color palette that enhances the thematic elements.
-  Emphasize artistic elements such as composition, contrast, and texture to create a visually compelling image.
-`;
-
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [{ role: 'user', content: promptTemplate }],
-    });
-
-    let prompt = response.choices[0]?.message?.content.trim();
+    let prompt = await generateWithPrompt(imagePrompt(headline), 1000);
 
     if (prompt.length > 1000) {
       prompt = `${prompt.substring(0, 997)}...`;
@@ -77,6 +60,9 @@ const createImagePrompt = async (headline: string): Promise<string> => {
 
 export const getImageFromHeadlineCore = async (headline: string) => {
   try {
+    console.log(
+      `[INFO] ${new Date().toISOString()} - getImageForHeadline started`,
+    );
     const name = await extractNameFromHeadline(headline);
 
     if (name) {

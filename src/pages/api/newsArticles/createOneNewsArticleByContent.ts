@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import multiparty from 'multiparty';
 import prisma from '@/lib/prisma';
 import supabase from '@/lib/supabase';
-import { fetchFromAI, sanitizeString } from '../utils';
+import { generateWithPrompt, sanitizeString } from '../utils';
 import { categoryPrompt, headlinePrompt, summaryPrompt } from '@/prompts';
 import { slugify } from '@/utils';
 import fs from 'fs/promises';
@@ -51,9 +51,9 @@ export default async function handler(
     const unbiasedArticle = article.slice(0, 3000);
 
     const [headline, summary, category] = await Promise.all([
-      fetchFromAI(headlinePrompt(unbiasedArticle)),
-      fetchFromAI(summaryPrompt(unbiasedArticle)),
-      fetchFromAI(categoryPrompt(unbiasedArticle)),
+      generateWithPrompt(headlinePrompt(unbiasedArticle), 38),
+      generateWithPrompt(summaryPrompt(unbiasedArticle), 113),
+      generateWithPrompt(categoryPrompt(unbiasedArticle), 10),
     ]);
 
     let slugWithUuid;
@@ -83,9 +83,9 @@ export default async function handler(
       }
     }
 
-    const sanitizedHeadline = sanitizeString(headline.message);
-    const sanitizedSummary = sanitizeString(summary.message);
-    
+    const sanitizedHeadline = sanitizeString(headline);
+    const sanitizedSummary = sanitizeString(summary);
+
     await prisma.news.create({
       data: {
         approved: true,
@@ -96,7 +96,7 @@ export default async function handler(
         photoPath: files && files.photo ? slugWithUuid : null,
         photoCredit,
         outboundLinks: outboundLinks || [],
-        category: category.message,
+        category: category as any,
       },
     });
 
