@@ -1,11 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { parseStringPromise } from 'xml2js';
 import OpenAI from 'openai';
-import { JSDOM } from 'jsdom';
+import axios from 'axios';
 
 const sources = {
-  foxnews: ['https://feeds.foxnews.com/foxnews/latest'],
-  msnbc: ['https://www.msnbc.com/feeds/latest'],
+  // rightNews: ['https://feeds.foxnews.com/foxnews/latest'],
+  rightNews: ['https://www.washingtonexaminer.com/section/news/feed/'],
+  // rightNews: ['https://thedispatch.com/feed/'],
+  // rightNews: ['https://nypost.com/feed/'],
+  // leftNews: ['https://www.msnbc.com/feeds/latest'],
+  leftNews: ['https://feeds.npr.org/1001/rss.xml'],
+  // leftNews: ['https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'],
 };
 
 const openai = new OpenAI({
@@ -13,17 +18,13 @@ const openai = new OpenAI({
 });
 
 const pullLatestHeadlines = async () => {
-  const headlines = { foxnews: [], msnbc: [] };
+  const headlines = { rightNews: [], leftNews: [] };
+
   const fetchAndParseXML = async (url: string, side: string) => {
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch from ${url}, status: ${response.status}`,
-        );
-      }
+      const response = await axios.get(url);
 
-      const data = await response.text();
+      const data = await response.data;
       const result = await parseStringPromise(data);
 
       result.rss.channel[0].item.forEach((item: any) => {
@@ -42,8 +43,8 @@ const pullLatestHeadlines = async () => {
     }
   };
 
-  await fetchAllHeadlines(sources.foxnews, 'foxnews');
-  await fetchAllHeadlines(sources.msnbc, 'msnbc');
+  await fetchAllHeadlines(sources.rightNews, 'rightNews');
+  await fetchAllHeadlines(sources.leftNews, 'leftNews');
 
   return headlines;
 };
@@ -63,36 +64,24 @@ const cosineSimilarity = (vecA: number[], vecB: number[]) => {
   return dotProduct / (normA * normB);
 };
 
-const fetchArticleContent = async (url: string): Promise<string | null> => {
+const fetchArticleContent = async (url: string) => {
+  const apiUrl = 'https://api.worldnewsapi.com/extract-news';
+  const apiKey = process.env.WORLD_NEWS_API_KEY;
+
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch from ${url}, status: ${response.status}`,
-      );
-    }
-    const html = await response.text();
-    const dom = new JSDOM(html);
+    const response = await axios.get(apiUrl, {
+      params: { url },
+      headers: {
+        'x-api-key': apiKey,
+      },
+    });
 
-    // Try to get content from various possible elements
-    let content =
-      dom.window.document.querySelector('article')?.textContent ||
-      dom.window.document.querySelector('div.content')?.textContent ||
-      dom.window.document.querySelector('div.entry-content')?.textContent ||
-      dom.window.document.querySelector('main')?.textContent;
+    // Assuming the API response structure, you can access the relevant data here
+    console.log(response.data.text);
 
-    // Check for paywall notices and handle accordingly
-    const paywallIndicator =
-      dom.window.document.querySelector('.paywall') ||
-      dom.window.document.querySelector('.paywall-notice');
-
-    if (paywallIndicator) {
-      return `Content behind paywall: ${url}`;
-    }
-
-    return content?.trim() || `No content available for ${url}`;
+    return response.data.text; // Adjust based on the actual response structure
   } catch (error) {
-    console.error(`Error fetching article content from ${url}:`, error.message);
+    console.error('There was a problem with the axios request:', error.message);
     return null;
   }
 };
@@ -103,48 +92,40 @@ export const findSimilarStoriesCore = async () => {
   );
   const headlines = await pullLatestHeadlines();
 
-  const { foxnews, msnbc } = headlines;
-  const groups = [];
+  const { rightNews, leftNews } = headlines;
   let highestSimilarityGroup = null;
   let highestSimilarity = 0;
   const threshold = 0.8;
 
-  const foxnewsEmbeddings = await Promise.all(
-    foxnews.map(({ title }) => getEmbedding(title)),
+  const rightNewsEmbeddings = await Promise.all(
+    rightNews.map(({ title }) => getEmbedding(title)),
   );
-  const msnbcEmbeddings = await Promise.all(
-    msnbc.map(({ title }) => getEmbedding(title)),
+  const leftNewsEmbeddings = await Promise.all(
+    leftNews.map(({ title }) => getEmbedding(title)),
   );
 
-  for (let i = 0; i < foxnewsEmbeddings.length; i++) {
-    for (let j = 0; j < msnbcEmbeddings.length; j++) {
+  for (let i = 0; i < rightNewsEmbeddings.length; i++) {
+    for (let j = 0; j < leftNewsEmbeddings.length; j++) {
       const similarity = cosineSimilarity(
-        foxnewsEmbeddings[i],
-        msnbcEmbeddings[j],
+        rightNewsEmbeddings[i],
+        leftNewsEmbeddings[j],
       );
-      if (similarity > threshold) {
-        const foxnewsContent = await fetchArticleContent(foxnews[i].link);
-        const msnbcContent = await fetchArticleContent(msnbc[j].link);
 
-        const group = {
-          foxnews: {
-            title: foxnews[i].title,
-            link: foxnews[i].link,
-            content: foxnewsContent,
+      if (similarity > threshold && similarity > highestSimilarity) {
+        highestSimilarity = similarity;
+        highestSimilarityGroup = {
+          rightNews: {
+            title: rightNews[i].title,
+            link: rightNews[i].link,
+            content: await fetchArticleContent(rightNews[i].link),
           },
-          msnbc: {
-            title: msnbc[j].title,
-            link: msnbc[j].link,
-            content: msnbcContent,
+          leftNews: {
+            title: leftNews[j].title,
+            link: leftNews[j].link,
+            content: await fetchArticleContent(leftNews[j].link),
           },
           similarity,
         };
-        groups.push(group);
-
-        if (similarity > highestSimilarity) {
-          highestSimilarity = similarity;
-          highestSimilarityGroup = group;
-        }
       }
     }
   }
@@ -155,7 +136,6 @@ export const findSimilarStoriesCore = async () => {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const similarStories = await findSimilarStoriesCore();
-
     res.status(200).json({ success: true, similarStories });
   } catch (error) {
     res.status(500).json({ success: false, error: (error as Error).message });
