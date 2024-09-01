@@ -4,8 +4,8 @@ import OpenAI from 'openai';
 import { JSDOM } from 'jsdom';
 
 const sources = {
-  foxnews: ['https://feeds.foxnews.com/foxnews/latest'],
-  msnbc: ['https://www.msnbc.com/feeds/latest'],
+  rightNews: ['https://thedispatch.com/feed/'],
+  leftNews: ['https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'],
 };
 
 const openai = new OpenAI({
@@ -13,7 +13,8 @@ const openai = new OpenAI({
 });
 
 const pullLatestHeadlines = async () => {
-  const headlines = { foxnews: [], msnbc: [] };
+  const headlines = { rightNews: [], leftNews: [] };
+
   const fetchAndParseXML = async (url: string, side: string) => {
     try {
       const response = await fetch(url);
@@ -42,8 +43,8 @@ const pullLatestHeadlines = async () => {
     }
   };
 
-  await fetchAllHeadlines(sources.foxnews, 'foxnews');
-  await fetchAllHeadlines(sources.msnbc, 'msnbc');
+  await fetchAllHeadlines(sources.rightNews, 'rightNews');
+  await fetchAllHeadlines(sources.leftNews, 'leftNews');
 
   return headlines;
 };
@@ -74,20 +75,38 @@ const fetchArticleContent = async (url: string): Promise<string | null> => {
     const html = await response.text();
     const dom = new JSDOM(html);
 
-    // Try to get content from various possible elements
-    let content =
-      dom.window.document.querySelector('article')?.textContent ||
-      dom.window.document.querySelector('div.content')?.textContent ||
-      dom.window.document.querySelector('div.entry-content')?.textContent ||
-      dom.window.document.querySelector('main')?.textContent;
+    // Common selectors for article content
+    const selectors = [
+      'article',
+      'div.content',
+      'div.entry-content',
+      'main',
+      'div.article-body',
+      'div.post-content',
+      'div.news-body',
+      'section',
+    ];
 
-    // Check for paywall notices and handle accordingly
+    // Try to find content using common selectors
+    let content: string | null = null;
+    for (const selector of selectors) {
+      content =
+        dom.window.document.querySelector(selector)?.textContent || null;
+      if (content) break;
+    }
+
+    // Handle paywall indicators
     const paywallIndicator =
       dom.window.document.querySelector('.paywall') ||
       dom.window.document.querySelector('.paywall-notice');
 
     if (paywallIndicator) {
       return `Content behind paywall: ${url}`;
+    }
+
+    // Fallback: get text from the body if specific selectors fail
+    if (!content) {
+      content = dom.window.document.body.textContent;
     }
 
     return content?.trim() || `No content available for ${url}`;
@@ -103,48 +122,40 @@ export const findSimilarStoriesCore = async () => {
   );
   const headlines = await pullLatestHeadlines();
 
-  const { foxnews, msnbc } = headlines;
-  const groups = [];
+  const { rightNews, leftNews } = headlines;
   let highestSimilarityGroup = null;
   let highestSimilarity = 0;
   const threshold = 0.8;
 
-  const foxnewsEmbeddings = await Promise.all(
-    foxnews.map(({ title }) => getEmbedding(title)),
+  const rightNewsEmbeddings = await Promise.all(
+    rightNews.map(({ title }) => getEmbedding(title)),
   );
-  const msnbcEmbeddings = await Promise.all(
-    msnbc.map(({ title }) => getEmbedding(title)),
+  const leftNewsEmbeddings = await Promise.all(
+    leftNews.map(({ title }) => getEmbedding(title)),
   );
 
-  for (let i = 0; i < foxnewsEmbeddings.length; i++) {
-    for (let j = 0; j < msnbcEmbeddings.length; j++) {
+  for (let i = 0; i < rightNewsEmbeddings.length; i++) {
+    for (let j = 0; j < leftNewsEmbeddings.length; j++) {
       const similarity = cosineSimilarity(
-        foxnewsEmbeddings[i],
-        msnbcEmbeddings[j],
+        rightNewsEmbeddings[i],
+        leftNewsEmbeddings[j],
       );
-      if (similarity > threshold) {
-        const foxnewsContent = await fetchArticleContent(foxnews[i].link);
-        const msnbcContent = await fetchArticleContent(msnbc[j].link);
 
-        const group = {
-          foxnews: {
-            title: foxnews[i].title,
-            link: foxnews[i].link,
-            content: foxnewsContent,
+      if (similarity > threshold && similarity > highestSimilarity) {
+        highestSimilarity = similarity;
+        highestSimilarityGroup = {
+          rightNews: {
+            title: rightNews[i].title,
+            link: rightNews[i].link,
+            content: await fetchArticleContent(rightNews[i].link),
           },
-          msnbc: {
-            title: msnbc[j].title,
-            link: msnbc[j].link,
-            content: msnbcContent,
+          leftNews: {
+            title: leftNews[j].title,
+            link: leftNews[j].link,
+            content: await fetchArticleContent(leftNews[j].link),
           },
           similarity,
         };
-        groups.push(group);
-
-        if (similarity > highestSimilarity) {
-          highestSimilarity = similarity;
-          highestSimilarityGroup = group;
-        }
       }
     }
   }
@@ -155,7 +166,6 @@ export const findSimilarStoriesCore = async () => {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const similarStories = await findSimilarStoriesCore();
-
     res.status(200).json({ success: true, similarStories });
   } catch (error) {
     res.status(500).json({ success: false, error: (error as Error).message });

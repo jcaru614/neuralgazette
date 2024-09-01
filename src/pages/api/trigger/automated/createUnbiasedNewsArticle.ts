@@ -74,8 +74,8 @@ export const createUnbiasedNewsArticleCore = async () => {
     throw new Error('No similar stories found.');
   }
 
-  const article1Content = sanitizeString(similarStories[0].foxnews.content);
-  const article2Content = sanitizeString(similarStories[0].msnbc.content);
+  const article1Content = sanitizeString(similarStories[0].rightNews.content);
+  const article2Content = sanitizeString(similarStories[0].leftNews.content);
 
   let combinedContent = await combineArticles(article1Content, article2Content);
 
