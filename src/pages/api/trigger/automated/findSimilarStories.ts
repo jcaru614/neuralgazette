@@ -1,11 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { parseStringPromise } from 'xml2js';
 import OpenAI from 'openai';
-import { JSDOM } from 'jsdom';
+import axios from 'axios';
 
 const sources = {
-  rightNews: ['https://thedispatch.com/feed/'],
-  leftNews: ['https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'],
+  // rightNews: ['https://feeds.foxnews.com/foxnews/latest'],
+  rightNews: ['https://www.washingtonexaminer.com/section/news/feed/'],
+  // rightNews: ['https://thedispatch.com/feed/'],
+  // rightNews: ['https://nypost.com/feed/'],
+  // leftNews: ['https://www.msnbc.com/feeds/latest'],
+  leftNews: ['https://feeds.npr.org/1001/rss.xml'],
+  // leftNews: ['https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'],
 };
 
 const openai = new OpenAI({
@@ -17,14 +22,9 @@ const pullLatestHeadlines = async () => {
 
   const fetchAndParseXML = async (url: string, side: string) => {
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch from ${url}, status: ${response.status}`,
-        );
-      }
+      const response = await axios.get(url);
 
-      const data = await response.text();
+      const data = await response.data;
       const result = await parseStringPromise(data);
 
       result.rss.channel[0].item.forEach((item: any) => {
@@ -64,54 +64,24 @@ const cosineSimilarity = (vecA: number[], vecB: number[]) => {
   return dotProduct / (normA * normB);
 };
 
-const fetchArticleContent = async (url: string): Promise<string | null> => {
+const fetchArticleContent = async (url: string) => {
+  const apiUrl = 'https://api.worldnewsapi.com/extract-news';
+  const apiKey = process.env.WORLD_NEWS_API_KEY;
+
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch from ${url}, status: ${response.status}`,
-      );
-    }
-    const html = await response.text();
-    const dom = new JSDOM(html);
+    const response = await axios.get(apiUrl, {
+      params: { url },
+      headers: {
+        'x-api-key': apiKey,
+      },
+    });
 
-    // Common selectors for article content
-    const selectors = [
-      'article',
-      'div.content',
-      'div.entry-content',
-      'main',
-      'div.article-body',
-      'div.post-content',
-      'div.news-body',
-      'section',
-    ];
+    // Assuming the API response structure, you can access the relevant data here
+    console.log(response.data.text);
 
-    // Try to find content using common selectors
-    let content: string | null = null;
-    for (const selector of selectors) {
-      content =
-        dom.window.document.querySelector(selector)?.textContent || null;
-      if (content) break;
-    }
-
-    // Handle paywall indicators
-    const paywallIndicator =
-      dom.window.document.querySelector('.paywall') ||
-      dom.window.document.querySelector('.paywall-notice');
-
-    if (paywallIndicator) {
-      return `Content behind paywall: ${url}`;
-    }
-
-    // Fallback: get text from the body if specific selectors fail
-    if (!content) {
-      content = dom.window.document.body.textContent;
-    }
-
-    return content?.trim() || `No content available for ${url}`;
+    return response.data.text; // Adjust based on the actual response structure
   } catch (error) {
-    console.error(`Error fetching article content from ${url}:`, error.message);
+    console.error('There was a problem with the axios request:', error.message);
     return null;
   }
 };
