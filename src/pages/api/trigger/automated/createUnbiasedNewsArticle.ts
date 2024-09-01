@@ -8,26 +8,11 @@ import {
   combineArticlesPrompt,
   categoryPrompt,
 } from '@/prompts';
-import OpenAI from 'openai';
 import prisma from '@/lib/prisma';
 import supabase from '@/lib/supabase';
-import { sanitizeString } from '../utils';
+import { sanitizeString, generateWithPrompt } from '../../utils';
 import { v4 as uuidv4 } from 'uuid';
 import { slugify } from '@/utils';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const generateWithPrompt = async (prompt: string, maxTokens: number) => {
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages: [{ role: 'user', content: prompt }],
-    max_tokens: maxTokens,
-    temperature: 0.7,
-  });
-  return response.choices[0].message.content.trim();
-};
 
 const approximateTokens = (text: string): number => {
   // Rough estimate: 1 token ≈ 4 characters
@@ -62,23 +47,35 @@ const combineArticles = async (
     const excessTokens = promptTokens - allowedPromptTokens;
 
     // Adjust by further truncating the articles based on the excess
-    article1Content = truncateToTokenLimit(article1Content, maxPromptTokens / 2 - excessTokens / 2);
-    article2Content = truncateToTokenLimit(article2Content, maxPromptTokens / 2 - excessTokens / 2);
+    article1Content = truncateToTokenLimit(
+      article1Content,
+      maxPromptTokens / 2 - excessTokens / 2,
+    );
+    article2Content = truncateToTokenLimit(
+      article2Content,
+      maxPromptTokens / 2 - excessTokens / 2,
+    );
   }
 
-  const combinedArticle = await generateWithPrompt(combinePrompt, reservedTokensForCompletion);
+  const combinedArticle = await generateWithPrompt(
+    combinePrompt,
+    reservedTokensForCompletion,
+  );
   return combinedArticle;
 };
 // Core function that can be reused
 export const createUnbiasedNewsArticleCore = async () => {
+  console.log(
+    `[INFO] ${new Date().toISOString()} - createUnbiasedArticle started`,
+  );
   const similarStories = await findSimilarStoriesCore();
 
   if (!similarStories || similarStories.length < 1) {
     throw new Error('No similar stories found.');
   }
 
-  const article1Content = sanitizeString(similarStories[0].foxnews.content);
-  const article2Content = sanitizeString(similarStories[0].msnbc.content);
+  const article1Content = sanitizeString(similarStories[0].rightNews.content);
+  const article2Content = sanitizeString(similarStories[0].leftNews.content);
 
   let combinedContent = await combineArticles(article1Content, article2Content);
 
@@ -129,7 +126,9 @@ export const createUnbiasedNewsArticleCore = async () => {
       category: category as any,
     },
   });
-
+  console.log(
+    `[INFO] ${new Date().toISOString()} - createUnbiasedArticle Completed`,
+  );
   return { message: 'Article created successfully' };
 };
 

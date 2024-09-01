@@ -20,7 +20,10 @@ export default function Home() {
     error,
     mutate,
   } = useSWR(`/api/newsArticles/readNews?take=${10}`, fetcher);
-
+  console.log(
+    'process.env.WORLD_NEWS_API_KEY ',
+    process.env.WORLD_NEWS_API_KEY,
+  );
   const loadMore = async () => {
     if (!news) return;
     setLoading(true);

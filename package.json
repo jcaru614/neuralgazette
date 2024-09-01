@@ -10,16 +10,17 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^5.2.0",
+    "@prisma/client": "^5.19.0",
     "@supabase/supabase-js": "^2.39.0",
+    "@trigger.dev/sdk": "3.0.0-beta.56",
     "@types/node": "20.4.0",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "@vercel/speed-insights": "^1.0.9",
     "autoprefixer": "10.4.14",
+    "axios": "^1.7.7",
     "bard-ai": "^1.5.4",
     "bullmq": "^5.12.9",
-    "cheerio": "^1.0.0-rc.12",
     "date-fns": "^2.30.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
@@ -43,7 +44,7 @@
   },
   "devDependencies": {
     "prettier": "^3.0.0",
-    "prisma": "^5.2.0"
+    "prisma": "^5.19.0"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
