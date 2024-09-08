@@ -14,12 +14,9 @@ const Navbar = () => {
   const navLinks = [
     { href: '/category/politics', text: 'Politics' },
     { href: '/category/world', text: 'World' },
-    { href: '/category/business', text: 'Business' },
-    { href: '/category/economy', text: 'Economy' },
-    { href: '/category/technology', text: 'Technology' },
-    { href: '/category/health', text: 'Health' },
-    { href: '/category/science', text: 'Science' },
-    { href: '/category/life', text: 'Life' },
+    { href: '/category/business_economy', text: 'Business & Economy' },
+    { href: '/category/technology_science', text: 'Technology & Science' },
+    { href: '/category/health_life', text: 'Health & Life' },
     { href: '/about', text: 'About' },
   ];
 

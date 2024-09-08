@@ -11,22 +11,18 @@ const CategoryPage: React.FC = () => {
   const { category } = router.query;
 
   const categoryDetails = {
-    politics:
+    politics: 
       "Unravel the complexities of political landscapes, analyzing government actions, societal impact, and the ongoing debates shaping our nation's course.",
-    world:
+    world: 
       'Embark on a global journey, exploring diverse cultures, geopolitical events, and understanding the interconnectedness of our world.',
-    business:
+    business_economy: 
       'Decode the language of commerce, examining market dynamics, corporate strategies, and the economic forces influencing businesses worldwide.',
-    economy:
-      'Explore the intricate web of economic forces, from fiscal policies to market trends, and gain insights into the dynamics that drive financial ecosystems.',
-    technology:
+    technology_science: 
       'Journey through the ever-evolving tech realm, exploring innovations, societal impacts, and the ethical debates surrounding technological advancements.',
-    health:
-      'Stay informed about the intricacies of health, from breakthrough medical discoveries to public health policies, and the ongoing debates shaping healthcare.',
-    science:
-      'Embark on a scientific exploration, delving into groundbreaking discoveries, ongoing research, and the debates shaping our understanding of the natural world.',
-    life: 'Explore the myriad facets of life, from wellness and lifestyle choices to cultural phenomena and human experiences, uncovering the rich tapestry that defines our existence.',
+    health_life: 
+      'Stay informed about the intricacies of health and wellness, from breakthrough medical discoveries to public health policies, and the ongoing debates shaping healthcare and lifestyle choices.',
   };
+  
 
   const subtext = categoryDetails[category as string];
 

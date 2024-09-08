@@ -38,14 +38,11 @@ ${articleMessage}
 Instructions: Based on the article you just read, choose one and only one category from the list below. Do not use any other category names.
 
 Categories:
-1. POLITICS
-2. WORLD
-3. BUSINESS
-4. ECONOMY
-5. TECHNOLOGY
-6. SCIENCE
-7. HEALTH
-8. LIFE
+ 1. POLITICS
+ 2. WORLD
+ 3. BUSINESS_ECONOMY
+ 4. TECHNOLOGY_SCIENCE
+ 5. HEALTH_LIFE
 
 In your response, provide the name of your chosen category exactly as it appears in the list above. Do not include any additional text or explanations.
 

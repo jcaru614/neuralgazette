@@ -39,58 +39,37 @@ function generateSiteMap(news) {
     <priority>0.5</priority>
   </url>
 
-  <url>
+    <url>
     <loc>https://neuralgazette.com/category/politics</loc>
-    <lastmod>2024-02-15</lastmod>
+    <lastmod>2024-09-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://neuralgazette.com/category/world</loc>
-    <lastmod>2024-02-15</lastmod>
+    <lastmod>2024-09-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://neuralgazette.com/category/business</loc>
-    <lastmod>2024-02-15</lastmod>
+    <loc>https://neuralgazette.com/category/business_economy</loc>
+    <lastmod>2024-09-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://neuralgazette.com/category/economy</loc>
-    <lastmod>2024-02-15</lastmod>
+    <loc>https://neuralgazette.com/category/technology_science</loc>
+    <lastmod>2024-09-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://neuralgazette.com/category/technology</loc>
-    <lastmod>2024-02-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://neuralgazette.com/category/health</loc>
-    <lastmod>2024-02-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://neuralgazette.com/category/science</loc>
-    <lastmod>2024-02-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-    <url>
-    <loc>https://neuralgazette.com/category/life</loc>
-    <lastmod>2024-02-15</lastmod>
+    <loc>https://neuralgazette.com/category/health_life</loc>
+    <lastmod>2024-09-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
