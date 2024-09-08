@@ -7,6 +7,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Function to fetch image URL from Wikimedia
 const getImageFromWikimedia = async (query: string): Promise<string | null> => {
   const url = `https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&pithumbsize=500&titles=${encodeURIComponent(query)}`;
   try {
@@ -26,6 +27,7 @@ const getImageFromWikimedia = async (query: string): Promise<string | null> => {
   return null;
 };
 
+// Function to extract name from headline
 const extractNameFromHeadline = async (headline: string): Promise<any> => {
   try {
     const extractedName = await generateWithPrompt(
@@ -40,39 +42,35 @@ const extractNameFromHeadline = async (headline: string): Promise<any> => {
   }
 };
 
-const createImagePrompt = async (headline: string): Promise<string> => {
+// Function to generate a detailed prompt from the headline
+const createDetailedPrompt = async (headline: string): Promise<string> => {
   try {
-    let prompt = await generateWithPrompt(imagePrompt(headline), 1000);
+    const detailedPrompt = await generateWithPrompt(
+      imagePrompt(headline),
+      1000,
+    );
 
-    if (prompt.length > 1000) {
-      prompt = `${prompt.substring(0, 997)}...`;
+    if (detailedPrompt.length > 1000) {
+      return `${detailedPrompt.substring(0, 997)}...`;
     }
 
     return (
-      prompt ||
-      `A professional and high-quality image representing the headline: "${headline}".`
+      detailedPrompt ||
+      `Generate an image based on the following headline: "${headline}".`
     );
   } catch (error) {
-    console.error('Error creating image prompt:', error.message);
-    return `A professional and high-quality image representing the headline: "${headline}".`;
+    console.error('Error creating detailed prompt:', error.message);
+    return `Generate an image based on the following headline: "${headline}".`;
   }
 };
 
-export const getImageFromHeadlineCore = async (headline: string) => {
+// Function to generate an image based on the detailed prompt
+const generateImageFromPrompt = async (
+  detailedPrompt: string,
+): Promise<string | null> => {
   try {
-    console.log(
-      `[INFO] ${new Date().toISOString()} - getImageForHeadline started`,
-    );
-    const name = await extractNameFromHeadline(headline);
-
-    if (name) {
-      const imageUrl = await getImageFromWikimedia(name);
-      if (imageUrl) return imageUrl;
-    }
-
-    const imagePrompt = await createImagePrompt(headline);
     const aiImageResponse = await openai.images.generate({
-      prompt: imagePrompt,
+      prompt: detailedPrompt,
       n: 1,
       size: '1024x1024',
       response_format: 'url',
@@ -80,11 +78,40 @@ export const getImageFromHeadlineCore = async (headline: string) => {
 
     return aiImageResponse.data[0]?.url || null;
   } catch (error) {
+    console.error('Error generating image from prompt:', error.message);
+    return null;
+  }
+};
+
+// Main function to handle image generation based on headline
+export const getImageFromHeadlineCore = async (headline: string) => {
+  try {
+    console.log(
+      `[INFO] ${new Date().toISOString()} - getImageFromHeadlineCore started`,
+    );
+
+    // Extract name from the headline
+    const name = await extractNameFromHeadline(headline);
+
+    if (name) {
+      const imageUrl = await getImageFromWikimedia(name);
+      if (imageUrl) return imageUrl;
+    }
+
+    // Generate a detailed prompt from the headline
+    const detailedPrompt = await createDetailedPrompt(headline);
+
+    // Generate the image based on the detailed prompt
+    const imageUrl = await generateImageFromPrompt(detailedPrompt);
+
+    return imageUrl;
+  } catch (error) {
     console.error('Error in image generation process:', error.message);
     return null;
   }
 };
 
+// API handler
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { headline } = req.query;
@@ -103,10 +130,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       res
         .status(500)
-        .json({ success: false, error: 'Failed to fetch or generate image.' });
+        .json({ success: false, error: 'Failed to generate image.' });
     }
   } catch (error) {
-    console.error('Error in getImageForHeadlineHandler:', error.message);
+    console.error('Error in handler:', error.message);
     res.status(500).json({ success: false, error: 'Internal server error.' });
   }
 };
