@@ -4,7 +4,6 @@ import { Loading, NewsCard, Button, ServerError } from '@/components';
 import { fetcher } from '@/utils';
 import useSWR from 'swr';
 import Head from 'next/head';
-import useMailchimpScript from '@/components/MailChimpScript';
 
 const SEO = {
   title: `Neural Gazette | Unbiased News written with AI from sources compiled across the political spectrum`,
@@ -15,7 +14,6 @@ const SEO = {
 };
 
 export default function Home() {
-  useMailchimpScript();
   const [loading, setLoading] = useState(false);
   const {
     data: news,
