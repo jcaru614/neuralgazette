@@ -9,3 +9,4 @@ export { default as SmallNewsCard } from './SmallNewsCard';
 export { default as SearchBar } from './SearchBar';
 export { default as Chip } from './Chip';
 export { default as ShareLinks } from './ShareLinks';
+export { default as EmailCollector } from './EmailCollector';

@@ -23,6 +23,13 @@ model News {
   updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
 }
 
+model Contacts {
+  id            String    @id @default(cuid())   
+  name          String?
+  email         String    @unique
+  timestamp     DateTime  @default(now())
+}
+
 enum Category {
   POLITICS
   WORLD
