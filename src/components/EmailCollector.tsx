@@ -5,10 +5,9 @@ const EmailCollector: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('Collected Email:', email);
-    // Add logic to send the email to your backend or Supabase
+    console.log('Collecting Email:', email);
 
-    const response = await fetch('/api/newsletter/subscribe', {
+    const response = await fetch('api/newsletter/subscribe', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,6 +20,7 @@ const EmailCollector: React.FC = () => {
     if (!response.ok) {
       throw new Error(data.error);
     }
+    //    NewsletterSender();
   };
 
   return (

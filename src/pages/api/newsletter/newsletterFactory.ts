@@ -43,7 +43,7 @@ export default async function handler(
       }));
 
       sendSmtpEmail.sender = {
-        email: 'your-sender@domain.com',
+        email: 'neuralgazette@gmail.com',
         name: 'Your Name',
       };
 

@@ -1,7 +1,6 @@
-// components/NewsletterSender.tsx
 import { useState } from 'react';
 
-export default function NewsletterSender() {
+export default function sendNewsletter() {
   const [sending, setSending] = useState(false);
   const [result, setResult] = useState<any>(null);
 
@@ -23,6 +22,4 @@ export default function NewsletterSender() {
       setSending(false);
     }
   };
-
-  //add automated trigger to call sendNewsletter every week or so
 }
