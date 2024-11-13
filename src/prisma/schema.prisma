@@ -18,16 +18,17 @@ model News {
   photoPath     String?
   photoCredit   String?
   category      Category? @default(POLITICS)
-  outboundLinks String[]  @default([])
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+  outboundLinks String[]  @default([])
 }
 
 model Contacts {
-  id            String    @id @default(cuid())   
-  name          String?
-  email         String    @unique
-  timestamp     DateTime  @default(now())
+  id           String   @id @default(cuid())
+  name         String?
+  email        String   @unique
+  isSubscribed Boolean  @default(true)
+  timestamp    DateTime @default(now())
 }
 
 enum Category {

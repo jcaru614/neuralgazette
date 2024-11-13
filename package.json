@@ -28,6 +28,7 @@
     "gray-matter": "^4.0.3",
     "ioredis": "^5.4.1",
     "jsdom": "^25.0.0",
+    "jsonwebtoken": "^9.0.2",
     "lodash.debounce": "^4.0.8",
     "multiparty": "^4.2.3",
     "next": "13.4.9",

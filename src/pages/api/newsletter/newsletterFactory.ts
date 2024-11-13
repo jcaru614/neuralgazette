@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import SibApiV3Sdk from 'sib-api-v3-sdk';
+import { sign } from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
@@ -19,60 +20,70 @@ export default async function handler(
   }
 
   try {
-    // Get all contacts from database
     const contacts = await prisma.contacts.findMany({
+      where: {
+        isSubscribed: true  // Only get subscribed contacts
+      },
       select: {
         email: true,
         name: true,
       },
     });
 
-    // Send emails in batches
     const BATCH_SIZE = 50;
     const results = [];
 
     for (let i = 0; i < contacts.length; i += BATCH_SIZE) {
       const batch = contacts.slice(i, i + BATCH_SIZE);
 
-      const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+      // Send individual emails to each contact in the batch
+      for (const contact of batch) {
+        const token = sign({ email: contact.email }, process.env.JWT_SECRET, { expiresIn: '30d' });
+        const unsubscribeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/newsletter/unsubscribe?token=${token}`;
 
-      // Configure email for batch
-      sendSmtpEmail.to = batch.map((contact) => ({
-        email: contact.email,
-        name: contact.name || undefined,
-      }));
+        const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+        
+        sendSmtpEmail.to = [{
+          email: contact.email,
+          name: contact.name || undefined,
+        }];
 
-      sendSmtpEmail.sender = {
-        email: 'neuralgazette@gmail.com',
-        name: 'Your Name',
-      };
+        sendSmtpEmail.sender = {
+          email: 'neuralgazette@gmail.com',
+          name: 'Your Name',
+        };
 
-      sendSmtpEmail.subject = 'Your Newsletter Subject';
-      sendSmtpEmail.htmlContent = `
-        <html>
-          <body>
-            <h1>Hello!</h1>
-            <p>Your newsletter content here</p>
-          </body>
-        </html>
-      `;
+        sendSmtpEmail.subject = 'Your Newsletter Subject';
+        sendSmtpEmail.htmlContent = `
+          <html>
+            <body>
+              <h1>Hello ${contact.name || 'there'}!</h1>
+              <p>Your newsletter content here</p>
+              <p style="margin-top: 20px; font-size: 12px;">
+                To unsubscribe from our newsletter, 
+                <a href="${unsubscribeUrl}">click here</a>
+              </p>
+            </body>
+          </html>
+        `;
 
-      try {
-        const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
-        results.push(result);
-
-        // Add delay between batches
-        if (i + BATCH_SIZE < contacts.length) {
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+        try {
+          const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
+          results.push(result);
+        } catch (error) {
+          console.error(`Failed to send email to ${contact.email}:`, error);
         }
-      } catch (error) {
-        console.error(`Failed to send batch ${i / BATCH_SIZE + 1}:`, error);
+      }
+
+      // Add delay between batches
+      if (i + BATCH_SIZE < contacts.length) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
 
     return res.status(200).json({
       success: true,
-      totalSent: results.length * BATCH_SIZE,
+      totalSent: results.length,
       contacts: contacts.length,
     });
   } catch (error) {
