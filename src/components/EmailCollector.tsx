@@ -20,22 +20,25 @@ const EmailCollector: React.FC = () => {
     if (!response.ok) {
       throw new Error(data.error);
     }
-    //    NewsletterSender();
   };
 
   return (
-    <div className="flex justify-end flex-wrap bg-gradient-to-r from-terminal-blue to-terminal-green p-2 top-0">
-      <div className="m-2">
-        <p className="text-white">Subscribe to our Newsletter</p>
-        <form onSubmit={handleSubmit}>
+    <div className="flex justify-end flex-wrap bg-gradient-to-r from-terminal-blue to-terminal-green p-0 top-0">
+      <div className="flex items-center m-2">
+        <p className="text-neural-teal text-sm mr-2">Subscribe to our Newsletter:</p>
+        <form onSubmit={handleSubmit} className="flex items-center text-sm gap-1">
           <input
             type="email"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="px-2 py-1 rounded-full"
             required
           />
-          <button type="submit" className="text-white">
+          <button
+            type="submit"
+            className="text-sm text-neural-blue bg-neural-teal px-4 py-1 rounded-full hover:bg-blue-700"
+          >
             Submit
           </button>
         </form>
