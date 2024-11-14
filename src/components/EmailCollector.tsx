@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const EmailCollector: React.FC = () => {
   const [email, setEmail] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -20,13 +21,27 @@ const EmailCollector: React.FC = () => {
     if (!response.ok) {
       throw new Error(data.error);
     }
+
+    // After successful submission:
+    setShowSuccess(true);
+    setEmail(''); // Clear the input
+
+    // Hide success message after 5 seconds
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 5000);
   };
 
   return (
     <div className="flex justify-end flex-wrap bg-gradient-to-r from-terminal-blue to-terminal-green p-0 top-0">
       <div className="flex items-center m-2">
-        <p className="text-neural-teal text-sm mr-2">Subscribe to our Newsletter:</p>
-        <form onSubmit={handleSubmit} className="flex items-center text-sm gap-1">
+        <p className="text-neural-teal text-sm mr-2">
+          Subscribe to our Newsletter:
+        </p>
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center text-sm gap-1"
+        >
           <input
             type="email"
             placeholder="Enter your email"
@@ -41,10 +56,14 @@ const EmailCollector: React.FC = () => {
           >
             Submit
           </button>
+          {showSuccess && (
+            <span className="ml-2 text-green-400 text-sm animate-fade-in">
+              ✓ Successfully subscribed!
+            </span>
+          )}
         </form>
       </div>
     </div>
   );
 };
-
 export default EmailCollector;
