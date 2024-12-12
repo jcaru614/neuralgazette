@@ -1,4 +1,4 @@
-import { Layout } from '@/components';
+import { EmailCollector, Layout } from '@/components';
 import { useState } from 'react';
 import { Loading, NewsCard, Button, ServerError } from '@/components';
 import { fetcher } from '@/utils';
@@ -49,6 +49,7 @@ export default function Home() {
   if (!news) {
     return <Loading isFullScreen={true} />;
   }
+
   return (
     <Layout>
       <Head>
@@ -97,6 +98,8 @@ export default function Home() {
           }}
         />
       </Head>
+
+      <EmailCollector></EmailCollector>
 
       <main className="flex flex-col items-center justify-center min-h-screen sm:p-2 md:p-4 lg:p-8">
         <div className="max-w-screen-xl bg-off-white">
