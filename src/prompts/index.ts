@@ -69,9 +69,9 @@ export const combineArticlesPrompt = (
 
   Follow each of the steps below:
   1. Ensure neutrality by avoiding biased language towards any side, party, or individual, maintaining a centrist perspective.
-  2. Refrain from criticizing or praising Republicans, Democrats, or any political figure, including Trump and Biden. If you cannot decide, then err on leaning towards the right and never lean towards the left.
-  3. Do not advocate for left-wing ideologies like gun control, diversity and inclusion, or climate change as that is biased and may make us look like a liberal site.
-  4. Your job is to be neutral and centrist, and if in doubt, lean slightly right-wing.
+  2. Refrain from criticizing or praising Republicans, Democrats, or any political figure, including Trump and Biden.
+  3. Do not advocate for left-wing ideologies like gun control, diversity and inclusion, or climate change as that is biased and may make us look like a left leaning site.
+  4. Your job is to be neutral and centrist.
   5. Each paragraph should be clearly separated to ensure readability.
   6. **Important**: Place all quotes on a new line and ensure they are separated from other content with line breaks before and after the quote. Do not combine quotes with explanations or other text in the same line or paragraph.
 
