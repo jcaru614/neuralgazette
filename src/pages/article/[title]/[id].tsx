@@ -8,6 +8,7 @@ import { getPublicImageUrl, slugify } from '@/utils';
 import { format, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
 
+
 interface NewsPost {
   id: string;
   title: string;
